@@ -27,4 +27,15 @@ describe('<CardFront>', function () {
     expect(createRoomAction).toHaveBeenCalledWith({ gameId: "", roomId: "" });
     expect(createRoomAction).toHaveBeenCalledWith({ gameId: gameId, roomId: roomId });
   });
+
+  it('should render join game options', async () => {
+    const createRoomAction = jest.fn();
+    const joinRoomAction = jest.fn();
+    const wrapper = shallow(<CardFront createRoomAction={createRoomAction} joinRoomAction={joinRoomAction}/>);
+    const joinRoomButton = wrapper.find(Button).at(1);
+    expect(joinRoomButton.text()).toContain("Join Room");
+
+    joinRoomButton.simulate('click');
+    expect(joinRoomAction).toHaveBeenCalled();
+  });
 });

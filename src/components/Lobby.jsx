@@ -15,10 +15,16 @@ class Lobby extends React.Component {
       roomId: ""
     };
     this.createRoomAction = this.createRoomAction.bind(this);
+    this.joinRoomAction = this.joinRoomAction.bind(this);
   }
 
   createRoomAction = ({roomId}) => {
     this.setState({ roomId, isCardFlipped: true });
+  };
+
+  joinRoomAction = (e) => {
+    e.preventDefault();
+    this.setState({ roomId: "", isCardFlipped: true });
   };
 
   render() {
@@ -30,9 +36,9 @@ class Lobby extends React.Component {
             <Navbar.Brand>Collab Games</Navbar.Brand>
           </Navbar>
         </div>
-        <div align="center">
+        <div className="turn-in-card">
           <ReactCardFlip isFlipped={isCardFlipped}>
-            <CardFront createRoomAction={this.createRoomAction}/>
+            <CardFront createRoomAction={this.createRoomAction} joinRoomAction={this.joinRoomAction}/>
             <CardBack roomId={roomId} />
           </ReactCardFlip>
         </div>

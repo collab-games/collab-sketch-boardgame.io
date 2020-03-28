@@ -14,7 +14,7 @@ class CardBack extends React.Component {
   render() {
     const roomId = this.props.roomId;
     return(
-      <Card className="turn-in-card">
+      <Card>
         <Card.Img variant="top" src="/logo192.png"/>
         <Card.Body>
           {isEmpty(roomId) ? this.joinForm() : this.creatorForm(roomId)}

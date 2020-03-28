@@ -13,7 +13,8 @@ class CardFront extends React.Component {
     this.apiBase = (process.env.NODE_ENV === 'production') ? '/api' : `${window.location.protocol}//${window.location.hostname}:${API_PORT}`;
   }
 
-  onCreateRoomClick = async() => {
+  onCreateRoomClick = async(e) => {
+    e.preventDefault();
     this.props.createRoomAction({ gameId: "", roomId: "" });
     const request = new Request(`${this.apiBase}/create`, {
       method: 'POST',
@@ -26,7 +27,7 @@ class CardFront extends React.Component {
 
   render() {
     return(
-      <Card className="turn-in-card">
+      <Card>
         <Card.Img variant="top" src="/logo192.png"/>
         <Card.Body>
           <Row>
@@ -34,7 +35,7 @@ class CardFront extends React.Component {
               <Button variant="primary" size="lg" onClick={this.onCreateRoomClick}>Create Room</Button>
             </Col>
             <Col>
-              <Button variant="warning" size="lg">Join Room</Button>
+              <Button variant="warning" size="lg" onClick={this.props.joinRoomAction}>Join Room</Button>
             </Col>
           </Row>
         </Card.Body>

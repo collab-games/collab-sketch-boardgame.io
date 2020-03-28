@@ -6,7 +6,8 @@ import koaBody from 'koa-body';
 import { getDatabase } from './config';
 import request from 'superagent';
 import { SERVER_PORT, API_PORT, INTERNAL_API_PORT } from './constants';
-import uuidv4 from 'uuid/v4';
+import times from 'lodash/times';
+import random from 'lodash/random';
 
 import CollabSketch from "./game/Game";
 
@@ -40,6 +41,11 @@ router.post('/create', koaBody(), async ctx => {
     };
 });
 
+
+const uniqueId = () => {
+    return times(8, () => random(35).toString(36)).join('');
+};
+
 const serverHandle = server.run({
     port: SERVER_PORT,
     callback: () => {
@@ -47,7 +53,7 @@ const serverHandle = server.run({
     },
     lobbyConfig: {
         apiPort: INTERNAL_API_PORT,
-        uuid: uuidv4,
+        uuid: uniqueId,
         apiCallback: () => {
             console.log(`Internal API serving at: http://localhost:${INTERNAL_API_PORT}/`);
         },

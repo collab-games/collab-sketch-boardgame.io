@@ -29,6 +29,15 @@ describe("<Lobby>", () => {
     expect(wrapper.find(CardBack).props().roomId).toContain(roomId);
   });
 
+  it("should flip the card and provide option to join the room", () => {
+    const wrapper = shallow(<Lobby />);
+    const cardFront = wrapper.find(CardFront);
+
+    cardFront.props().joinRoomAction();
+
+    expect(wrapper.find(CardBack).props().roomId).toContain("");
+  });
+
   it("should render create room and join room options", () => {
     const wrapper = mount(<Lobby />);
     const card = wrapper.find(CardFront).find(Card);
