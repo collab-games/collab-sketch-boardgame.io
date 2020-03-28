@@ -1,0 +1,59 @@
+{
+  "name": "collab-sketch",
+  "version": "1.0.0",
+  "description": "Multiplayer game for guessing the sketch",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "server": "node -r esm src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/collab-games/collab-sketch.git"
+  },
+  "dependencies": {
+    "@koa/cors": "^3.0.0",
+    "boardgame.io": "^0.38.1",
+    "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "koa-router": "^8.0.8",
+    "lodash": "^4.17.15",
+    "node-persist": "^3.0.5",
+    "react-router-dom": "^5.1.2",
+    "superagent": "^5.2.2",
+    "uuid": "^7.0.2",
+    "bootstrap": "^4.4.1",
+    "create-react-class": "^15.6.3",
+    "literallycanvas": "^0.5.2",
+    "node-sass": "^4.13.1",
+    "react": "^16.13.1",
+    "react-bootstrap": "^1.0.0",
+    "react-card-flip": "^1.0.10",
+    "react-create-class": "^1.0.0",
+    "react-dom": "^16.13.1",
+    "react-dom-factories": "^1.0.2",
+    "react-scripts": "3.4.1"
+  },
+  "devDependencies": {
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.11.2",
+    "enzyme-to-json": "^3.3.5",
+    "esm": "^3.2.25"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "author": "",
+  "license": "ISC"
+}
