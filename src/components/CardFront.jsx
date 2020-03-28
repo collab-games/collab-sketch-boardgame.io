@@ -4,7 +4,26 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 
+import { API_PORT } from '../constants';
+
 class CardFront extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onCreateRoomClick = this.onCreateRoomClick.bind(this);
+    this.apiBase = (process.env.NODE_ENV === 'production') ? '/api' : `${window.location.protocol}//${window.location.hostname}:${API_PORT}`;
+  }
+
+  onCreateRoomClick = async() => {
+    this.props.createRoomAction({ gameId: "", roomId: "" });
+    const request = new Request(`${this.apiBase}/create`, {
+      method: 'POST',
+      body: JSON.stringify({})
+    });
+    const response = await fetch(request);
+    const responseBody = await response.json();
+    this.props.createRoomAction(responseBody);
+  };
+
   render() {
     return(
       <Card className="turn-in-card">
@@ -12,7 +31,7 @@ class CardFront extends React.Component {
         <Card.Body>
           <Row>
             <Col>
-              <Button variant="primary" size="lg">Create Room</Button>
+              <Button variant="primary" size="lg" onClick={this.onCreateRoomClick}>Create Room</Button>
             </Col>
             <Col>
               <Button variant="warning" size="lg">Join Room</Button>

@@ -35,7 +35,8 @@ router.post('/create', koaBody(), async ctx => {
     const gameId = r.body.gameID;
 
     ctx.body = {
-        game: gameId,
+        gameId: gameId,
+        roomId: gameId
     };
 });
 

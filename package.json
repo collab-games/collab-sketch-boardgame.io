@@ -40,7 +40,8 @@
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.11.2",
     "enzyme-to-json": "^3.3.5",
-    "esm": "^3.2.25"
+    "esm": "^3.2.25",
+    "jest-fetch-mock": "^3.0.3"
   },
   "browserslist": {
     "production": [

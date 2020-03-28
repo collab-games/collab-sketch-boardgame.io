@@ -6,6 +6,7 @@ import CardFront from './CardFront'
 import Navbar from 'react-bootstrap/Navbar';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import CardBack from "./CardBack";
 
 describe("<Lobby>", () => {
   it("should render Game name", () => {
@@ -17,6 +18,15 @@ describe("<Lobby>", () => {
   it("should render create game block", () => {
     const wrapper = shallow(<Lobby />);
     expect(wrapper.find(CardFront).exists()).toBeTruthy();
+  });
+
+  it("should flip the card and show gameId to join", () => {
+    const wrapper = shallow(<Lobby />);
+    const cardFront = wrapper.find(CardFront);
+    const roomId = "RRRR2222";
+    cardFront.props().createRoomAction({ gameId: "EEEE4444", roomId: roomId });
+
+    expect(wrapper.find(CardBack).props().roomId).toContain(roomId);
   });
 
   it("should render create room and join room options", () => {
