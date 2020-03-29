@@ -2,36 +2,43 @@ import React from "react";
 import { shallow, mount } from "enzyme";
 import CardFront from "./CardFront";
 import Button from "react-bootstrap/Button";
+import FormControl from 'react-bootstrap/FormControl';
 
 
 describe('<CardFront>', function () {
   beforeEach(() => {
     fetch.resetMocks();
   });
+
   it('should create game and pass gameId to parent', async () => {
     const gameId = 'EEEE4444';
-    const roomId = 'RRRR2222';
-    const createRoomAction = jest.fn();
+    const playerId = "1";
+    const playerSecret = 'RRRR2222';
     const joinRoomAction = jest.fn();
-    const wrapper = shallow(<CardFront createRoomAction={createRoomAction} joinRoomAction={joinRoomAction}/>);
+    const history = { push: jest.fn() };
+    const wrapper = shallow(<CardFront joinRoomAction={joinRoomAction} browserHistory={history} />);
     const createRoomButton = wrapper.find(Button).at(0);
+    const playerNameInput = wrapper.find(FormControl);
     expect(createRoomButton.text()).toContain("Create Room");
 
-    fetch.mockResponseOnce(req =>
-      req.url === 'http://localhost:8001/create'
-        ? Promise.resolve(JSON.stringify({ gameId: gameId, roomId: roomId }))
-        : Promise.reject(new Error('bad url'))
+    playerNameInput.simulate('change', { currentTarget: { value: 'Alexander' } });
+
+    wrapper.update();
+    fetch.mockResponseOnce(req => {
+        return ((req.url === 'http://localhost:8001/create') && (JSON.parse(req.body).playerName === 'Alexander'))
+          ? Promise.resolve(JSON.stringify({ gameId: gameId, playerId: playerId, playerSecret: playerSecret}))
+          : Promise.reject(new Error('bad url'));
+    }
+
     );
     createRoomButton.simulate('click');
     await flushPromises();
-    expect(createRoomAction).toHaveBeenCalledWith({ gameId: "", roomId: "" });
-    expect(createRoomAction).toHaveBeenCalledWith({ gameId: gameId, roomId: roomId });
+    expect(history.push).toHaveBeenCalledWith(`/${gameId}/${playerId}`);
   });
 
   it('should render join game options', async () => {
-    const createRoomAction = jest.fn();
     const joinRoomAction = jest.fn();
-    const wrapper = shallow(<CardFront createRoomAction={createRoomAction} joinRoomAction={joinRoomAction}/>);
+    const wrapper = shallow(<CardFront joinRoomAction={joinRoomAction} browserHistory={{}}/>);
     const joinRoomButton = wrapper.find(Button).at(1);
     expect(joinRoomButton.text()).toContain("Join Room");
 

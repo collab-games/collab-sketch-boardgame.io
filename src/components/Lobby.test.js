@@ -16,26 +16,18 @@ describe("<Lobby>", () => {
   });
 
   it("should render create game block", () => {
-    const wrapper = shallow(<Lobby />);
+    const wrapper = shallow(<Lobby history={{}}/>);
     expect(wrapper.find(CardFront).exists()).toBeTruthy();
-  });
-
-  it("should flip the card and show gameId to join", () => {
-    const wrapper = shallow(<Lobby />);
-    const cardFront = wrapper.find(CardFront);
-    const roomId = "RRRR2222";
-    cardFront.props().createRoomAction({ gameId: "EEEE4444", roomId: roomId });
-
-    expect(wrapper.find(CardBack).props().roomId).toContain(roomId);
+    expect(wrapper.find(CardFront).props().browserHistory).toEqual({});
   });
 
   it("should flip the card and provide option to join the room", () => {
     const wrapper = shallow(<Lobby />);
     const cardFront = wrapper.find(CardFront);
 
-    cardFront.props().joinRoomAction();
+    cardFront.props().joinRoomAction({ preventDefault: jest.fn() },{ playerName: "Alexander" });
 
-    expect(wrapper.find(CardBack).props().roomId).toContain("");
+    expect(wrapper.find(CardBack).props().playerName).toContain("Alexander");
   });
 
   it("should render create room and join room options", () => {

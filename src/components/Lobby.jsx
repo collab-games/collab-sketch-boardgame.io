@@ -12,23 +12,18 @@ class Lobby extends React.Component {
     super(props);
     this.state = {
       isCardFlipped: false,
-      roomId: ""
+      playerName: ""
     };
-    this.createRoomAction = this.createRoomAction.bind(this);
     this.joinRoomAction = this.joinRoomAction.bind(this);
   }
 
-  createRoomAction = ({roomId}) => {
-    this.setState({ roomId, isCardFlipped: true });
-  };
-
-  joinRoomAction = (e) => {
+  joinRoomAction = (e, {playerName}) => {
     e.preventDefault();
-    this.setState({ roomId: "", isCardFlipped: true });
+    this.setState({ playerName: playerName, isCardFlipped: true });
   };
 
   render() {
-    const { isCardFlipped, roomId } = this.state;
+    const { isCardFlipped, playerName } = this.state;
     return (
       <div>
         <div>
@@ -38,8 +33,8 @@ class Lobby extends React.Component {
         </div>
         <div className="turn-in-card">
           <ReactCardFlip isFlipped={isCardFlipped}>
-            <CardFront createRoomAction={this.createRoomAction} joinRoomAction={this.joinRoomAction}/>
-            <CardBack roomId={roomId} />
+            <CardFront joinRoomAction={this.joinRoomAction} browserHistory={this.props.history}/>
+            <CardBack playerName={playerName} />
           </ReactCardFlip>
         </div>
       </div>
