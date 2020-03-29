@@ -17,7 +17,7 @@ describe('<CardBack>', function () {
     expect(card.find(InputGroup).find(InputGroup.Text).text()).toContain("Room Code");
     expect(card.find(InputGroup).find(FormControl).exists()).toBeTruthy();
 
-    expect(card.find(Button).text()).toContain("Join");
+    expect(card.find(Button).text()).toContain("Join Room");
   });
 
   it('should render disabled buttons by default', () => {
@@ -32,5 +32,29 @@ describe('<CardBack>', function () {
     roomCodeInput.simulate('change', { currentTarget: { value: '81230123' } });
     const joinRoomButton = wrapper.find(Button).at(0);
     expect(joinRoomButton.props().disabled).toBeFalsy();
+  });
+
+  it('should join game and redirect to game page', async () => {
+    const gameId = 'EEEE4444';
+    const playerId = "1";
+    const playerSecret = 'RRRR2222';
+    const history = { push: jest.fn() };
+    const wrapper = shallow(<CardBack playerName={'Alexander'} browserHistory={history} />);
+    const joinRoomButton = wrapper.find(Button).at(0);
+    const roomCodeInput = wrapper.find(FormControl);
+
+    roomCodeInput.simulate('change', { currentTarget: { value: 'EEEE4444' } });
+
+    wrapper.update();
+    fetch.mockResponseOnce(req => {
+          return ((req.url === 'http://localhost:8001/join/EEEE4444') && (JSON.parse(req.body).playerName === 'Alexander'))
+              ? Promise.resolve(JSON.stringify({ gameId: gameId, playerId: playerId, playerSecret: playerSecret}))
+              : Promise.reject(new Error('bad url'));
+        }
+
+    );
+    joinRoomButton.simulate('click', { preventDefault: jest.fn() });
+    await flushPromises();
+    expect(history.push).toHaveBeenCalledWith(`/${gameId}/${playerId}`);
   });
 });

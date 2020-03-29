@@ -5,6 +5,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
+import { API_PORT } from "../constants";
 
 class CardBack extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class CardBack extends React.Component {
     };
     this.onRoomCodeChange = this.onRoomCodeChange.bind(this);
     this.onJoinRoomClick = this.onJoinRoomClick.bind(this);
+    this.apiBase = (process.env.NODE_ENV === 'production') ? '/api' : `${window.location.protocol}//${window.location.hostname}:${API_PORT}`;
   }
 
   onRoomCodeChange = (target) => {
@@ -26,8 +28,18 @@ class CardBack extends React.Component {
     })
   };
 
-  onJoinRoomClick = () => {
-    console.log(this.state.roomCode);
+  onJoinRoomClick = async(e) => {
+    e.preventDefault();
+    const { roomCode } = this.state;
+    const { playerName } = this.props;
+    const request = new Request(`${this.apiBase}/join/${roomCode}`, {
+      method: 'POST',
+      body: JSON.stringify({ playerName: playerName })
+    });
+    const response = await fetch(request);
+    const responseBody = await response.json();
+    localStorage.setItem('player', JSON.stringify(responseBody));
+    this.props.browserHistory.push(`/${responseBody.gameId}/${responseBody.playerId}`);
   };
 
   render() {

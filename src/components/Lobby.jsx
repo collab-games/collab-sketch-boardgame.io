@@ -33,7 +33,7 @@ class Lobby extends React.Component {
         <div className="turn-in-card">
           <ReactCardFlip isFlipped={isCardFlipped}>
             <CardFront joinRoomAction={this.joinRoomAction} browserHistory={this.props.history}/>
-            <CardBack playerName={playerName} />
+            <CardBack playerName={playerName} browserHistory={this.props.history} />
           </ReactCardFlip>
         </div>
       </div>

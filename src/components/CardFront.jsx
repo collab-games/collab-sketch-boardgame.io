@@ -30,6 +30,7 @@ class CardFront extends React.Component {
     });
     const response = await fetch(request);
     const responseBody = await response.json();
+    localStorage.setItem('player', JSON.stringify(responseBody));
     this.props.browserHistory.push(`/${responseBody.gameId}/${responseBody.playerId}`);
   };
 

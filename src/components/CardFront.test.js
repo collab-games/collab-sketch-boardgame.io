@@ -29,7 +29,7 @@ describe('<CardFront>', function () {
     expect(joinRoomButton.props().disabled).toBeFalsy();
   });
 
-  it('should create game and pass gameId to parent', async () => {
+  it('should create game and redirect to game page', async () => {
     const gameId = 'EEEE4444';
     const playerId = "1";
     const playerSecret = 'RRRR2222';

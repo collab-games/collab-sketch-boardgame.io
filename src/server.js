@@ -30,16 +30,51 @@ router.post('/create', koaBody(), async ctx => {
     const r = await request
         .post(`http://localhost:${INTERNAL_API_PORT}/games/${CollabSketch.name}/create`)
         .send({
-            numPlayers: ctx.request.body.players,
+            numPlayers: 2,
         });
 
     const gameId = r.body.gameID;
+    const playerId = 0;
+    const { playerName } = JSON.parse(ctx.request.body);
+
+    const player = await joinPlayer(gameId, playerId, playerName);
 
     ctx.body = {
         gameId: gameId,
-        roomId: gameId
+        playerId: playerId,
+        credentials: player.body.playerCredentials,
     };
 });
+
+
+router.post('/join/:gameId', koaBody(), async ctx => {
+    const { playerName } = JSON.parse(ctx.request.body);
+    const { gameId } = ctx.params;
+    // const response = await getAllPlayers(gameId);
+
+    let playerId = 1;
+    const player = await joinPlayer(gameId, playerId, playerName);
+
+    ctx.body = {
+        gameId: gameId,
+        playerId: playerId,
+        credentials: player.body.playerCredentials,
+    };
+});
+
+const getAllPlayers = async (gameId) => {
+    return request
+        .get(`http://localhost:${INTERNAL_API_PORT}/games/${CollabSketch.name}/${gameId}`);
+};
+
+const joinPlayer = async (gameId, playerId, playerName) => {
+    return request
+        .post(`http://localhost:${INTERNAL_API_PORT}/games/${CollabSketch.name}/${gameId}/join`)
+        .send({
+            playerID: playerId,
+            playerName,
+        });
+};
 
 
 const uniqueId = () => {
