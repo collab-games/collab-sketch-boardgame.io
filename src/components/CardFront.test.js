@@ -10,6 +10,25 @@ describe('<CardFront>', function () {
     fetch.resetMocks();
   });
 
+  it('should render disabled buttons by default', () => {
+    const wrapper = shallow(<CardFront />);
+    const createRoomButton = wrapper.find(Button).at(0);
+    const joinRoomButton = wrapper.find(Button).at(1);
+
+    expect(createRoomButton.props().disabled).toBeTruthy();
+    expect(joinRoomButton.props().disabled).toBeTruthy();
+  });
+
+  it('should enable buttons on change of name', () => {
+    const wrapper = shallow(<CardFront />);
+    const playerNameInput = wrapper.find(FormControl);
+    playerNameInput.simulate('change', { currentTarget: { value: 'Alexander' } });
+    const createRoomButton = wrapper.find(Button).at(0);
+    const joinRoomButton = wrapper.find(Button).at(1);
+    expect(createRoomButton.props().disabled).toBeFalsy();
+    expect(joinRoomButton.props().disabled).toBeFalsy();
+  });
+
   it('should create game and pass gameId to parent', async () => {
     const gameId = 'EEEE4444';
     const playerId = "1";

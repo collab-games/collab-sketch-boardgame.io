@@ -12,7 +12,8 @@ class CardFront extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      playerName: ""
+      playerName: "",
+      disableSubmit: true,
     };
     this.onCreateRoomClick = this.onCreateRoomClick.bind(this);
     this.onJoinRoomClick = this.onJoinRoomClick.bind(this);
@@ -40,17 +41,21 @@ class CardFront extends React.Component {
 
   onPlayerNameChange = (target) => {
     const value = target.currentTarget.value;
+    const disableSubmit = value.trim().length <= 0;
     this.setState({
-      playerName: value
+      playerName: value,
+      disableSubmit
     })
   };
 
   render() {
+    const { disableSubmit } = this.state;
     return(
       <Card>
-        <Card.Img variant="top" src="/logo192.png"/>
+        <Card.Img variant="top" src="/starry_night.jpg"/>
         <Card.Body>
           <Row>
+            <Col>
             <InputGroup className="mb-3">
               <InputGroup.Prepend>
                 <InputGroup.Text id="basic-addon3">
@@ -59,13 +64,28 @@ class CardFront extends React.Component {
               </InputGroup.Prepend>
               <FormControl id="basic-url" aria-describedby="basic-addon3" onChange={this.onPlayerNameChange} />
             </InputGroup>
+            </Col>
           </Row>
           <Row>
             <Col>
-              <Button variant="primary" size="lg" onClick={this.onCreateRoomClick}>Create Room</Button>
+              <Button
+                  className="create-room-btn"
+                  disabled={disableSubmit}
+                  variant="primary"
+                  size="lg"
+                  onClick={this.onCreateRoomClick}>
+                Create Room
+              </Button>
             </Col>
             <Col>
-              <Button variant="warning" size="lg" onClick={this.onJoinRoomClick}>Join Room</Button>
+              <Button
+                  className="join-room-btn"
+                  disabled={disableSubmit}
+                  variant="warning"
+                  size="lg"
+                  onClick={this.onJoinRoomClick}>
+                Join Room
+              </Button>
             </Col>
           </Row>
         </Card.Body>
