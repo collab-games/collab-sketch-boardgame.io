@@ -17,8 +17,7 @@ class Lobby extends React.Component {
     this.joinRoomAction = this.joinRoomAction.bind(this);
   }
 
-  joinRoomAction = (e, {playerName}) => {
-    e.preventDefault();
+  joinRoomAction = ({playerName}) => {
     this.setState({ playerName: playerName, isCardFlipped: true });
   };
 

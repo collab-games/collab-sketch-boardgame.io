@@ -25,7 +25,7 @@ describe("<Lobby>", () => {
     const wrapper = shallow(<Lobby />);
     const cardFront = wrapper.find(CardFront);
 
-    cardFront.props().joinRoomAction({ preventDefault: jest.fn() },{ playerName: "Alexander" });
+    cardFront.props().joinRoomAction({ playerName: "Alexander" });
 
     expect(wrapper.find(CardBack).props().playerName).toContain("Alexander");
   });

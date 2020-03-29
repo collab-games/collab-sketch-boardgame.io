@@ -15,11 +15,13 @@ class CardFront extends React.Component {
       playerName: ""
     };
     this.onCreateRoomClick = this.onCreateRoomClick.bind(this);
+    this.onJoinRoomClick = this.onJoinRoomClick.bind(this);
     this.onPlayerNameChange = this.onPlayerNameChange.bind(this);
     this.apiBase = (process.env.NODE_ENV === 'production') ? '/api' : `${window.location.protocol}//${window.location.hostname}:${API_PORT}`;
   }
 
-  onCreateRoomClick = async() => {
+  onCreateRoomClick = async(e) => {
+    e.preventDefault();
     const playerName = this.state.playerName;
     const request = new Request(`${this.apiBase}/create`, {
       method: 'POST',
@@ -28,6 +30,12 @@ class CardFront extends React.Component {
     const response = await fetch(request);
     const responseBody = await response.json();
     this.props.browserHistory.push(`/${responseBody.gameId}/${responseBody.playerId}`);
+  };
+
+  onJoinRoomClick = (e) => {
+    e.preventDefault();
+    const playerName = this.state.playerName;
+    this.props.joinRoomAction({ playerName: playerName });
   };
 
   onPlayerNameChange = (target) => {
@@ -57,7 +65,7 @@ class CardFront extends React.Component {
               <Button variant="primary" size="lg" onClick={this.onCreateRoomClick}>Create Room</Button>
             </Col>
             <Col>
-              <Button variant="warning" size="lg" onClick={this.props.joinRoomAction}>Join Room</Button>
+              <Button variant="warning" size="lg" onClick={this.onJoinRoomClick}>Join Room</Button>
             </Col>
           </Row>
         </Card.Body>

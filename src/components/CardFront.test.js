@@ -31,7 +31,7 @@ describe('<CardFront>', function () {
     }
 
     );
-    createRoomButton.simulate('click');
+    createRoomButton.simulate('click', { preventDefault: jest.fn() });
     await flushPromises();
     expect(history.push).toHaveBeenCalledWith(`/${gameId}/${playerId}`);
   });
@@ -42,7 +42,10 @@ describe('<CardFront>', function () {
     const joinRoomButton = wrapper.find(Button).at(1);
     expect(joinRoomButton.text()).toContain("Join Room");
 
-    joinRoomButton.simulate('click');
-    expect(joinRoomAction).toHaveBeenCalled();
+    const playerNameInput = wrapper.find(FormControl);
+    playerNameInput.simulate('change', { currentTarget: { value: 'Alexander' } });
+
+    joinRoomButton.simulate('click', { preventDefault: jest.fn() });
+    expect(joinRoomAction).toHaveBeenCalledWith({playerName: 'Alexander'});
   });
 });
