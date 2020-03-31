@@ -1,8 +1,8 @@
 import { Server } from 'boardgame.io/server';
 import Koa from 'koa';
 import cors from '@koa/cors';
-import { getDatabase } from '../src/config';
-import { SERVER_PORT, API_PORT, INTERNAL_API_PORT } from '../src/constants';
+import { getDatabase } from '../config';
+import { SERVER_PORT, API_PORT, INTERNAL_API_PORT } from '../constants';
 import times from 'lodash/times';
 import random from 'lodash/random';
 

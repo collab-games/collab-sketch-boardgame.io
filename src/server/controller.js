@@ -1,9 +1,9 @@
 import Router from "koa-router";
 import request from "superagent";
-import {INTERNAL_API_PORT} from "../src/constants";
+import {INTERNAL_API_PORT} from "../constants";
 import CollabSketch from "./game/Game";
 import koaBody from "koa-body";
-
+import fetch from 'node-fetch';
 const router = new Router();
 
 
@@ -15,20 +15,16 @@ router.get('/players/:id', async ctx => {
 });
 
 router.post('/create', koaBody(), async ctx => {
-  const r = await request
-    .post(`http://localhost:${INTERNAL_API_PORT}/games/${CollabSketch.name}/create`)
-    .send({
-      numPlayers: 2,
-    });
 
-  const gameId = r.body.gameID;
+  const r = await fetch(`http://localhost:${INTERNAL_API_PORT}/games/${CollabSketch.name}/create`,
+      { method: 'POST', body: JSON.stringify({ numPlayers: 2 } )});
+  const { gameID } = await r.json();
   const playerId = 0;
   const { playerName } = JSON.parse(ctx.request.body);
-
-  const player = await joinPlayer(gameId, playerId, playerName);
-
+  console.log(playerName, 'sss');
+  const player = await joinPlayer(gameID, playerId, playerName);
   ctx.body = {
-    gameId: gameId,
+    gameId: gameID,
     playerId: playerId,
     credentials: player.body.playerCredentials,
   };
