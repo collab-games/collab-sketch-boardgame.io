@@ -7,7 +7,7 @@ import times from 'lodash/times';
 import random from 'lodash/random';
 
 import router from './controller';
-import CollabSketch from "./game/Game";
+import CollabSketch from "../src/game/Game";
 
 const app = new Koa();
 

@@ -38,7 +38,7 @@ class CardBack extends React.Component {
     });
     const response = await fetch(request);
     const responseBody = await response.json();
-    localStorage.setItem('player', JSON.stringify(responseBody));
+    localStorage.setItem(`player-${responseBody.playerId}`, responseBody.credentials);
     this.props.browserHistory.push(`/${responseBody.gameId}/${responseBody.playerId}`);
   };
 

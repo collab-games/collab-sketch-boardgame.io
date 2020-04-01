@@ -1,7 +1,7 @@
 import Router from "koa-router";
 import request from "superagent";
 import {INTERNAL_API_PORT} from "../src/constants";
-import CollabSketch from "./game/Game";
+import CollabSketch from "../src/game/Game";
 import koaBody from "koa-body";
 
 const router = new Router();
