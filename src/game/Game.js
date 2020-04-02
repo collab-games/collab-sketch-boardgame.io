@@ -7,6 +7,7 @@ const CollabSketch = {
   name: 'collab-sketch',
 
   setup: (ctx) => ({
+    canvases: Array(ctx.numPlayers).fill({}),
     cells: Array(ctx.numPlayers).fill(""),
     state: GameState.WAITING
   }),
@@ -18,6 +19,10 @@ const CollabSketch = {
   moves: {
     update(G, ctx, id, value) {
       G.cells[id] = value;
+    },
+
+    updateSnapshot(G, ctx, id, value) {
+      G.canvases[id] = value;
     },
 
     startGame(G, ctx) {

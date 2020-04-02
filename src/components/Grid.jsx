@@ -1,26 +1,27 @@
 import React from 'react';
 import LC from "literallycanvas";
 import 'literallycanvas/scss/literallycanvas.scss';
-
-import Button from 'react-bootstrap/Button';
-
-const click = (lc) => {
-  console.log("click ++++++++++++++", lc);
-};
-
-const change = (lc) => {
-  console.log("change ++++++++++++++", lc);
-};
+import PropTypes from "prop-types";
+import isEmpty from 'lodash/isEmpty'
+import isEqual from 'lodash/isEqual'
 
 class Grid extends React.Component {
+  static propTypes = {
+    snapshot: PropTypes.any.isRequired,
+    updateSnapshot: PropTypes.func.isRequired,
+    playerID: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      canvasRef: {},
-      canvas2Ref: {},
+      canvasRef: null,
     };
 
+    this.initFunc = this.initFunc.bind(this);
     this.saveSnapshot = this.saveSnapshot.bind(this);
+    this.loadSnapshot = this.loadSnapshot.bind(this);
   }
 
   initFunc = (ref) => {
@@ -28,28 +29,29 @@ class Grid extends React.Component {
     this.setState({canvasRef: ref});
   };
 
-  secondFunc = (ref) => {
-    this.setState({canvas2Ref: ref});
-  };
+  loadSnapshot() {
+    if (!isEmpty(this.props.snapshot) ) {
+      this.state.canvasRef.loadSnapshot(this.props.snapshot);
+    }
+  }
 
   saveSnapshot = () => {
-    const canvas1Ref = this.state.canvasRef;
-    const canvas2Ref = this.state.canvas2Ref;
-    canvas2Ref.loadSnapshot(canvas1Ref.getSnapshot());
+      const canvas = this.state.canvasRef;
+      this.props.updateSnapshot(this.props.id.toString(), canvas.getSnapshot());
   };
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (!isEqual(prevProps.snapshot, this.props.snapshot)) {
+      this.loadSnapshot();
+    }
+  }
 
   render() {
     return (
-      <div>
         <LC.LiterallyCanvasReactComponent
           imageURLPrefix="/img"
           onInit={this.initFunc}
         />
-        <Button onClick={this.saveSnapshot}>Save</Button>
-        <LC.LiterallyCanvasReactComponent
-          imageURLPrefix="/img"
-          onInit={this.secondFunc}/>
-      </div>
     );
   }
 }
