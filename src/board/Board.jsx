@@ -8,10 +8,10 @@ class CollabSketchBoard extends React.Component {
         G: PropTypes.any.isRequired,
         ctx: PropTypes.any.isRequired,
         moves: PropTypes.any.isRequired,
-        playerID: PropTypes.string,
-        isActive: PropTypes.bool,
-        isMultiplayer: PropTypes.bool,
-        gameMetaData: PropTypes.any,
+        playerID: PropTypes.string.isRequired,
+        isActive: PropTypes.bool.isRequired,
+        isMultiplayer: PropTypes.bool.isRequired,
+        gameMetadata: PropTypes.array.isRequired,
     };
 
     constructor(props) {
@@ -20,6 +20,11 @@ class CollabSketchBoard extends React.Component {
         this.isAdmin = this.isAdmin.bind(this);
         this.onChange = this.onChange.bind(this);
         this.isActive = this.isActive.bind(this);
+        this.getActivePlayers = this.getActivePlayers.bind(this);
+    }
+
+    getActivePlayers() {
+        return this.props.gameMetadata.filter(player => !!player.name);
     }
 
     onChange = (event, id) => {
@@ -50,7 +55,7 @@ class CollabSketchBoard extends React.Component {
     render() {
         let tbody = [];
         let cells = [];
-        for (let i = 0; i < this.props.ctx.numPlayers; i++) {
+        for (let i = 0; i < this.getActivePlayers().length; i++) {
             cells.push(
                 <td key={i}>
                     <input

@@ -18,7 +18,7 @@ router.post('/create', koaBody(), async ctx => {
   const r = await request
     .post(`http://localhost:${INTERNAL_API_PORT}/games/${CollabSketch.name}/create`)
     .send({
-      numPlayers: 2,
+      numPlayers: 10,
     });
 
   const gameId = r.body.gameID;
@@ -38,9 +38,10 @@ router.post('/create', koaBody(), async ctx => {
 router.post('/join/:gameId', koaBody(), async ctx => {
   const { playerName } = JSON.parse(ctx.request.body);
   const { gameId } = ctx.params;
-  // const response = await getAllPlayers(gameId);
 
-  let playerId = 1;
+  const players = await getAllPlayers(gameId);
+
+  let playerId = getActivePlayers(players.body.players).length;
   const player = await joinPlayer(gameId, playerId, playerName);
 
   ctx.body = {
@@ -49,6 +50,8 @@ router.post('/join/:gameId', koaBody(), async ctx => {
     credentials: player.body.playerCredentials,
   };
 });
+
+const getActivePlayers = (players) => players.filter(player => !!player.name);
 
 const getAllPlayers = async (gameId) => {
   return request
