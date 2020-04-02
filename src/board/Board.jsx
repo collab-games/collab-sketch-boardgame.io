@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Grid from "../components/Grid";
 import { GameState } from '../constants';
 import './Board.css';
 
@@ -58,6 +59,12 @@ class CollabSketchBoard extends React.Component {
         for (let i = 0; i < this.getActivePlayers().length; i++) {
             cells.push(
                 <td key={i}>
+                    <Grid
+                        snapshot={this.props.G.canvases[i]}
+                        updateSnapshot={this.props.moves.updateSnapshot}
+                        playerID={this.props.playerID}
+                        id={i}
+                    />
                     <input
                         key={i}
                         className={this.isActive(i) ? 'active' : ''}
