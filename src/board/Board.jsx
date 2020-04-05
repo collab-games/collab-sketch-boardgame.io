@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import Grid from "../components/Grid";
 import { GameState } from '../constants';
 import './Board.css';
+import ReadOnlyCanvas from "../components/ReadOnlyCanvas";
 
 class CollabSketchBoard extends React.Component {
     static propTypes = {
@@ -19,7 +20,6 @@ class CollabSketchBoard extends React.Component {
         super(props);
         this.startGame = this.startGame.bind(this);
         this.isAdmin = this.isAdmin.bind(this);
-        this.onChange = this.onChange.bind(this);
         this.isActive = this.isActive.bind(this);
         this.getActivePlayers = this.getActivePlayers.bind(this);
     }
@@ -27,14 +27,6 @@ class CollabSketchBoard extends React.Component {
     getActivePlayers() {
         return this.props.gameMetadata.filter(player => !!player.name);
     }
-
-    onChange = (event, id) => {
-        event.preventDefault();
-        const value = event.target.value;
-        if (this.isActive(id)) {
-            this.props.moves.update(id, value);
-        }
-    };
 
     startGame() {
         if (this.props.isActive) {
@@ -54,34 +46,30 @@ class CollabSketchBoard extends React.Component {
     }
 
     render() {
-        let tbody = [];
-        let cells = [];
-        for (let i = 0; i < this.getActivePlayers().length; i++) {
-            cells.push(
-                <td key={i}>
-                    <Grid
-                        snapshot={this.props.G.canvases[i]}
+        let body = [];
+        for (let i = 0; i < 2; i++) {
+            body.push(
+                <div key={i}>
+                    { this.isActive(i) && <Grid
+                        snapshot={this.props.G.canvases[i]['snapshot']}
                         updateSnapshot={this.props.moves.updateSnapshot}
+                        isActive={this.isActive}
                         playerID={this.props.playerID}
                         id={i}
-                    />
-                    <input
-                        key={i}
-                        className={this.isActive(i) ? 'active' : ''}
-                        onChange={(e) => this.onChange(e, i)}
-                        value={this.props.G.cells[i]}
-                    />
-                </td>
-            );
+                    /> }
+                    { !this.isActive(i) && <ReadOnlyCanvas
+                        svgText={this.props.G.canvases[i]['svg']}
+                    /> }
+                </div>
+            )
         }
-        tbody.push(<tr key={0}>{cells}</tr>);
 
         return (
             <div>
                 { this.isAdmin(this.props.playerID) && this.props.G.state === GameState.WAITING ? <button onClick={this.startGame}>Start</button>: null }
-                <table id="board">
-                    <tbody>{tbody}</tbody>
-                </table>
+                <div className='board'>
+                    {body}
+                </div>
             </div>
         );
     }
