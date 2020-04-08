@@ -22,10 +22,15 @@ class CollabSketchBoard extends React.Component {
         this.isAdmin = this.isAdmin.bind(this);
         this.isActive = this.isActive.bind(this);
         this.getActivePlayers = this.getActivePlayers.bind(this);
+        this.guessArt = this.guessArt.bind(this);
     }
 
     getActivePlayers() {
         return this.props.gameMetadata.filter(player => !!player.name);
+    }
+
+    guessArt(id, e) {
+        this.props.moves.guessArt(id, e.target.value)
     }
 
     startGame() {
@@ -60,6 +65,7 @@ class CollabSketchBoard extends React.Component {
                     { !this.isActive(i) && <ReadOnlyCanvas
                         svgText={this.props.G.canvases[i]['svg']}
                     /> }
+                    <input onChange={(e) => this.guessArt(i, e)} value={this.props.G.words[i]}/>
                 </div>
             )
         }
