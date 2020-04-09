@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import isEmpty from 'lodash/isEmpty';
 import Grid from "../components/Grid";
 import { GameState } from '../constants';
 import './Board.css';
@@ -23,6 +24,9 @@ class CollabSketchBoard extends React.Component {
         this.isActive = this.isActive.bind(this);
         this.getActivePlayers = this.getActivePlayers.bind(this);
         this.guessArt = this.guessArt.bind(this);
+        this.isCanvasOneArtist = this.isCanvasOneArtist.bind(this);
+        this.isCanvasTwoArtist = this.isCanvasTwoArtist.bind(this);
+        this.isPlayerGuessing = this.isPlayerGuessing.bind(this);
     }
 
     getActivePlayers() {
@@ -39,11 +43,32 @@ class CollabSketchBoard extends React.Component {
         }
     }
 
-    isActive(id) {
+    isActive() {
         if (!this.props.isActive) return false;
-        if (this.props.G.state !== GameState.STARTED) return false;
-        return id.toString() === this.props.playerID;
+        else if (this.props.G.state !== GameState.STARTED) return false;
+        return true
+    }
 
+    isCanvasOneArtist() {
+      if(this.isActive() && !isEmpty(this.props.ctx.activePlayers)) {
+          const activePlayers = this.props.ctx.activePlayers;
+          const playerId = this.props.playerID;
+          return activePlayers[playerId] === 'drawCanvasOne';
+      }
+      return false;
+    }
+
+    isCanvasTwoArtist() {
+        if(this.isActive() && !isEmpty(this.props.ctx.activePlayers)) {
+            const activePlayers = this.props.ctx.activePlayers;
+            const playerId = this.props.playerID;
+            return activePlayers[playerId] === 'drawCanvasTwo';
+        }
+        return false;
+    }
+
+    isPlayerGuessing() {
+        return !this.isCanvasOneArtist() && !this.isCanvasTwoArtist();
     }
 
     isAdmin(playerID) {
@@ -51,24 +76,34 @@ class CollabSketchBoard extends React.Component {
     }
 
     render() {
-        let body = [];
-        for (let i = 0; i < 2; i++) {
-            body.push(
-                <div key={i}>
-                    { this.isActive(i) && <Grid
-                        snapshot={this.props.G.canvases[i]['snapshot']}
-                        updateSnapshot={this.props.moves.updateSnapshot}
-                        isActive={this.isActive}
-                        playerID={this.props.playerID}
-                        id={i}
-                    /> }
-                    { !this.isActive(i) && <ReadOnlyCanvas
-                        svgText={this.props.G.canvases[i]['svg']}
-                    /> }
-                    <input onChange={(e) => this.guessArt(i, e)} value={this.props.G.words[i]}/>
-                </div>
-            )
-        }
+        let body = [
+            <div key={0}>
+                { this.isCanvasOneArtist() && <Grid
+                    snapshot={this.props.G.canvases[0]['snapshot']}
+                    updateSnapshot={this.props.moves.updateSnapshotForCanvasOne}
+                    isActive={this.isActive}
+                    playerID={this.props.playerID}
+                    id={0}
+                /> }
+                { !this.isCanvasOneArtist() && <ReadOnlyCanvas
+                    svgText={this.props.G.canvases[0]['svg']}
+                /> }
+                { this.isPlayerGuessing() && <input onChange={(e) => this.guessArt(0, e)} value={this.props.G.words[0]}/> }
+            </div>,
+            <div key={1}>
+                { this.isCanvasTwoArtist() && <Grid
+                    snapshot={this.props.G.canvases[1]['snapshot']}
+                    updateSnapshot={this.props.moves.updateSnapshotForCanvasTwo}
+                    isActive={this.isActive}
+                    playerID={this.props.playerID}
+                    id={1}
+                /> }
+                { !this.isCanvasTwoArtist() && <ReadOnlyCanvas
+                    svgText={this.props.G.canvases[1]['svg']}
+                /> }
+                { this.isPlayerGuessing() && <input onChange={(e) => this.guessArt(1, e)} value={this.props.G.words[1]}/> }
+            </div>
+        ]
 
         return (
             <div>

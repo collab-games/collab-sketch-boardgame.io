@@ -29,7 +29,7 @@ class Grid extends React.Component {
   saveSnapshot() {
     const canvas = this.state.canvasRef;
     if(canvas) {
-      this.props.updateSnapshot(this.props.id.toString(), canvas.getSnapshot(), canvas.getSVGString());
+      this.props.updateSnapshot(canvas.getSnapshot(), canvas.getSVGString());
     }
   };
 
