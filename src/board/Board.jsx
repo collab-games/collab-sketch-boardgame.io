@@ -5,6 +5,10 @@ import Grid from "../components/Grid";
 import { GameState } from '../constants';
 import './Board.css';
 import ReadOnlyCanvas from "../components/ReadOnlyCanvas";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import PlayerList from "../components/PlayerList";
+import Container from "react-bootstrap/Container";
 
 class CollabSketchBoard extends React.Component {
     static propTypes = {
@@ -103,15 +107,24 @@ class CollabSketchBoard extends React.Component {
                 /> }
                 { this.isPlayerGuessing() && <input onChange={(e) => this.guessArt(1, e)} value={this.props.G.words[1]}/> }
             </div>
-        ]
+        ];
 
         return (
-            <div>
-                { this.isAdmin(this.props.playerID) && this.props.G.state === GameState.WAITING ? <button onClick={this.startGame}>Start</button>: null }
-                <div className='board'>
-                    {body}
-                </div>
-            </div>
+            <Container fluid={true}>
+                <Row>
+                    <Col md={{ span: 10 }}>
+                        <div>
+                            { this.isAdmin(this.props.playerID) && this.props.G.state === GameState.WAITING ? <button onClick={this.startGame}>Start</button>: null }
+                            <div className='board'>
+                                {body}
+                            </div>
+                        </div>
+                    </Col>
+                    <Col style={{paddingRight:0}} md={{ span: 2 }}>
+                        <PlayerList players={this.getActivePlayers()} />
+                    </Col>
+                </Row>
+            </Container>
         );
     }
 }

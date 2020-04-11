@@ -4,6 +4,7 @@ import {SocketIO} from "boardgame.io";
 import { SERVER_PORT } from '../constants';
 import CollabSketch from "../game/Game";
 import CollabSketchBoard from "../board/Board";
+import Navbar from "react-bootstrap/Navbar";
 
 const url = window.location.protocol+'//'+window.location.hostname+(window.location.port ? ':'+window.location.port: '');
 
@@ -29,9 +30,16 @@ class App extends React.Component {
 
     render() {
         return (
-            <div className="player-container">
-                <h1> You are playing as Player {this.state.playerId}</h1>
-                <CollabSketchClient gameID={this.state.gameId} credentials={this.state.credentials} playerID={this.state.playerId + ''} />
+            <div>
+                <div>
+                    <Navbar bg="dark" variant="dark">
+                        <Navbar.Brand>Collab Sketch</Navbar.Brand>
+                    </Navbar>
+                </div>
+                <div className="player-container">
+                    <CollabSketchClient gameID={this.state.gameId} credentials={this.state.credentials}
+                                        playerID={this.state.playerId + ''}/>
+                </div>
             </div>
         );
     }

@@ -12,7 +12,7 @@ describe("<Lobby>", () => {
   it("should render Game name", () => {
     const wrapper = shallow(<Lobby />);
     expect(wrapper.find(Navbar).exists()).toBeTruthy();
-    expect(wrapper.find(Navbar).text()).toContain("Collab Games");
+    expect(wrapper.find(Navbar).text()).toContain("Collab Sketch");
   });
 
   it("should render create game block", () => {
