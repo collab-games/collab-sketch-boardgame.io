@@ -7,14 +7,14 @@
 
 .canvas {
     display: block;
-    width: 750px;
+    width: 680px;
     min-height: 800px;
     border: 2px solid #5a6268;
 }
 
 .svg-container {
     display: block;
-    width: 750px;
+    width: 680px;
     border: 2px solid #5a6268;
     min-height: 800px;
     background-color: #ddd;
