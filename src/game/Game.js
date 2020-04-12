@@ -62,19 +62,22 @@ const assignWordsToPlayers = (guessWords, artists) => {
 
 const pickWords = () => "hello world";
 
-const initRound = (lengths) => ({
-  secret: "",
-  players: {},
-  canvasOne: { snapshot: {}, svg: "", chars: lengths[0]},
-  canvasTwo: { snapshot: {}, svg: "", chars: lengths[1]},
-  words: Array(2).fill(""),
-});
+const initRound = (words, players) => {
+  const wordLengths = words.split(' ').length === 2 ? words.split(' ').map(word => word.length) : [0,0];
+  return {
+    secret: words,
+    players: players,
+    canvasOne: {snapshot: {}, svg: "", chars: wordLengths[0]},
+    canvasTwo: {snapshot: {}, svg: "", chars: wordLengths[1]},
+    words: Array(2).fill(""),
+  };
+};
 
 const CollabSketch = {
   name: 'collab-sketch',
 
   setup: (ctx) => ({
-    ...initRound([0, 0]),
+    ...initRound("", {}),
     state: GameState.WAITING
   }),
 
@@ -92,7 +95,7 @@ const CollabSketch = {
         onBegin: (G, ctx) => {
           let { activePlayers, guessWords, playerWords } = assignStagesAndWordsToPlayers(ctx);
           ctx.events.setActivePlayers({ value: activePlayers });
-          return { ...G, ...initRound(guessWords.split(' ').map(word => word.length)), secret: guessWords, players: playerWords };
+          return { ...G, ...initRound(guessWords, playerWords) };
         },
         onEnd: (G, ctx) => {
           console.log("Turn Ended");
