@@ -23,7 +23,7 @@ const startGame = (G, ctx) => {
 
 const guessArt = (G, ctx, id, value) => {
   G.words[id] = value;
-}
+};
 
 const nextArtistsFromPrevArtists = (array, totalPlayers) => {
   if(isEmpty(array.length)) {
@@ -31,7 +31,7 @@ const nextArtistsFromPrevArtists = (array, totalPlayers) => {
   } else {
     return [ (max(array) + 1) % totalPlayers, (max(array) + 2) % totalPlayers];
   }
-}
+};
 const getArtists = (activePlayers) => Object.keys(filter(activePlayers, (val, _) => val === 'draw'));
 
 const assignStages = (ctx) => {
@@ -44,9 +44,14 @@ const assignStages = (ctx) => {
   activePlayers[nextArtists[1]] = { stage: 'drawCanvasTwo'};
   otherPlayers.forEach(playerId => {
     activePlayers[playerId] = { stage: 'guess'}
-  })
+  });
   return activePlayers;
-}
+};
+
+const stripArtWord = (G, playerId) => {
+  const { artWord, ...rest } = G;
+  return rest;
+};
 
 const CollabSketch = {
   name: 'collab-sketch',
@@ -54,8 +59,13 @@ const CollabSketch = {
   setup: (ctx) => ({
     canvases: Array(ctx.numPlayers).fill({ snapshot: {}, svg: ""}),
     words: Array(2).fill(""),
-    state: GameState.WAITING
+    state: GameState.WAITING,
+    artWord: 'Shield'
   }),
+
+  playerView: (G, ctx, playerID) => {
+    return stripArtWord(G, playerID);
+  },
 
   phases: {
     wait: {
