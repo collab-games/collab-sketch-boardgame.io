@@ -4,15 +4,16 @@ import indexOf from 'lodash/indexOf';
 import isEmpty from 'lodash/isEmpty';
 import range from 'lodash/range';
 import filter from 'lodash/filter';
+import {PlayerView} from "boardgame.io/dist/esm/core";
 
 const isAdmin = (playerID) => playerID === '0';
 
 const updateSnapshotForCanvasOne = (G, ctx, snapshot, svg) => {
-  G.canvases[0] = { snapshot, svg};
+  G.canvasOne = { ...G.canvasOne, snapshot, svg };
 };
 
 const updateSnapshotForCanvasTwo = (G, ctx, snapshot, svg) => {
-  G.canvases[1] = { snapshot, svg};
+  G.canvasTwo = { ...G.canvasTwo, snapshot, svg };
 };
 
 const startGame = (G, ctx) => {
@@ -26,7 +27,7 @@ const guessArt = (G, ctx, id, value) => {
 };
 
 const nextArtistsFromPrevArtists = (array, totalPlayers) => {
-  if(isEmpty(array.length)) {
+  if(isEmpty(array)) {
     return [0, 1];
   } else {
     return [ (max(array) + 1) % totalPlayers, (max(array) + 2) % totalPlayers];
@@ -34,7 +35,7 @@ const nextArtistsFromPrevArtists = (array, totalPlayers) => {
 };
 const getArtists = (activePlayers) => Object.keys(filter(activePlayers, (val, _) => val === 'draw'));
 
-const assignStages = (ctx) => {
+const assignStagesAndWordsToPlayers = (ctx) => {
   const totalPlayers = ctx.numPlayers;
   const previousArtists = getArtists(ctx.activePlayers);
   let nextArtists = nextArtistsFromPrevArtists(previousArtists, totalPlayers);
@@ -45,27 +46,39 @@ const assignStages = (ctx) => {
   otherPlayers.forEach(playerId => {
     activePlayers[playerId] = { stage: 'guess'}
   });
-  return activePlayers;
-};
 
-const stripArtWord = (G, playerId) => {
-  const { artWord, ...rest } = G;
-  return rest;
-};
+  const guessWords = pickWords();
+  const playerWords = assignWordsToPlayers(guessWords, nextArtists);
+  return { activePlayers, guessWords, playerWords };
+}
+
+const assignWordsToPlayers = (guessWords, artists) => {
+  let assignments = {};
+  let words = guessWords.split(' ');
+  assignments[artists[0]] = words[0];
+  assignments[artists[1]] = words[1];
+  return assignments;
+}
+
+const pickWords = () => "hello world";
+
+const initRound = (lengths) => ({
+  secret: "",
+  players: {},
+  canvasOne: { snapshot: {}, svg: "", chars: lengths[0]},
+  canvasTwo: { snapshot: {}, svg: "", chars: lengths[1]},
+  words: Array(2).fill(""),
+});
 
 const CollabSketch = {
   name: 'collab-sketch',
 
   setup: (ctx) => ({
-    canvases: Array(ctx.numPlayers).fill({ snapshot: {}, svg: ""}),
-    words: Array(2).fill(""),
-    state: GameState.WAITING,
-    artWord: 'Shield'
+    ...initRound([0, 0]),
+    state: GameState.WAITING
   }),
 
-  playerView: (G, ctx, playerID) => {
-    return stripArtWord(G, playerID);
-  },
+  playerView: PlayerView.STRIP_SECRETS,
 
   phases: {
     wait: {
@@ -75,12 +88,15 @@ const CollabSketch = {
       next: 'play',
     },
     play: {
-      onBegin: (G, ctx) => {
-        ctx.events.setActivePlayers({
-          value: assignStages(ctx),
-        })
-      },
       turn: {
+        onBegin: (G, ctx) => {
+          let { activePlayers, guessWords, playerWords } = assignStagesAndWordsToPlayers(ctx);
+          ctx.events.setActivePlayers({ value: activePlayers });
+          return { ...G, ...initRound(guessWords.split(' ').map(word => word.length)), secret: guessWords, players: playerWords };
+        },
+        onEnd: (G, ctx) => {
+          console.log("Turn Ended");
+        },
         stages: {
           drawCanvasOne: {
             moves: { updateSnapshotForCanvasOne },
