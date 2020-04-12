@@ -82,28 +82,30 @@ class CollabSketchBoard extends React.Component {
     render() {
         let body = [
             <div key={0}>
+                {this.isCanvasOneArtist()?<span>{this.props.G.players[this.props.playerID]}</span>:<span>length: {this.props.G.canvasOne['chars']}</span>}
                 { this.isCanvasOneArtist() && <Grid
-                    snapshot={this.props.G.canvases[0]['snapshot']}
+                    snapshot={this.props.G.canvasOne['snapshot']}
                     updateSnapshot={this.props.moves.updateSnapshotForCanvasOne}
                     isActive={this.isActive}
                     playerID={this.props.playerID}
                     id={0}
                 /> }
                 { !this.isCanvasOneArtist() && <ReadOnlyCanvas
-                    svgText={this.props.G.canvases[0]['svg']}
+                    svgText={this.props.G.canvasOne['svg']}
                 /> }
                 { this.isPlayerGuessing() && <input onChange={(e) => this.guessArt(0, e)} value={this.props.G.words[0]}/> }
             </div>,
             <div key={1}>
+                {this.isCanvasTwoArtist()?<span>{this.props.G.players[1]}</span>:<span>length: {this.props.G.canvasTwo['chars']}</span>}
                 { this.isCanvasTwoArtist() && <Grid
-                    snapshot={this.props.G.canvases[1]['snapshot']}
+                    snapshot={this.props.G.canvasTwo['snapshot']}
                     updateSnapshot={this.props.moves.updateSnapshotForCanvasTwo}
                     isActive={this.isActive}
                     playerID={this.props.playerID}
                     id={1}
                 /> }
                 { !this.isCanvasTwoArtist() && <ReadOnlyCanvas
-                    svgText={this.props.G.canvases[1]['svg']}
+                    svgText={this.props.G.canvasTwo['svg']}
                 /> }
                 { this.isPlayerGuessing() && <input onChange={(e) => this.guessArt(1, e)} value={this.props.G.words[1]}/> }
             </div>
