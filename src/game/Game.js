@@ -2,11 +2,24 @@ import { GameState } from '../constants'
 import max from 'lodash/max';
 import indexOf from 'lodash/indexOf';
 import isEmpty from 'lodash/isEmpty';
+import isNull from 'lodash/isNull';
 import range from 'lodash/range';
-import filter from 'lodash/filter';
 import {PlayerView} from "boardgame.io/dist/esm/core";
 
 const isAdmin = (playerID) => playerID === '0';
+
+const endTurn = {
+  move: (G, ctx, turn) => {
+    if (ctx.turn === turn && !isNull(G.turn.startTime)) {
+      const startTime = G.turn.startTime;
+      const period = G.settings.turnPeriod;
+      if ((Date.now() - startTime) >= period * 1000) {
+        ctx.events.endTurn();
+      }
+    }
+  },
+  client: false,
+}
 
 const updateSnapshotForCanvasOne = (G, ctx, snapshot, svg) => {
   G.canvasOne = { ...G.canvasOne, snapshot, svg };
@@ -33,11 +46,12 @@ const nextArtistsFromPrevArtists = (array, totalPlayers) => {
     return [ (max(array) + 1) % totalPlayers, (max(array) + 2) % totalPlayers];
   }
 };
-const getArtists = (activePlayers) => Object.keys(filter(activePlayers, (val, _) => val === 'draw'));
 
-const assignStagesAndWordsToPlayers = (ctx) => {
+const getArtists = (players) => Object.entries(players).map(([k,_]) => parseInt(k));
+
+const assignStagesAndWordsToPlayers = (G, ctx) => {
   const totalPlayers = ctx.numPlayers;
-  const previousArtists = getArtists(ctx.activePlayers);
+  const previousArtists = getArtists(G.players);
   let nextArtists = nextArtistsFromPrevArtists(previousArtists, totalPlayers);
   let otherPlayers = range(totalPlayers).filter(playerId => indexOf(nextArtists, playerId) === -1)
   let activePlayers = {};
@@ -67,8 +81,11 @@ const initRound = (words, players) => {
   return {
     secret: words,
     players: players,
-    canvasOne: {snapshot: {}, svg: "", chars: wordLengths[0]},
-    canvasTwo: {snapshot: {}, svg: "", chars: wordLengths[1]},
+    turn: {
+      startTime: Date.now()
+    },
+    canvasOne: { snapshot: {}, svg: "", chars: wordLengths[0] },
+    canvasTwo: { snapshot: {}, svg: "", chars: wordLengths[1] },
     words: Array(2).fill(""),
   };
 };
@@ -78,7 +95,10 @@ const CollabSketch = {
 
   setup: (ctx) => ({
     ...initRound("", {}),
-    state: GameState.WAITING
+    state: GameState.WAITING,
+    settings: {
+      turnPeriod: 60
+    }
   }),
 
   playerView: PlayerView.STRIP_SECRETS,
@@ -93,8 +113,9 @@ const CollabSketch = {
     play: {
       turn: {
         onBegin: (G, ctx) => {
-          let { activePlayers, guessWords, playerWords } = assignStagesAndWordsToPlayers(ctx);
-          ctx.events.setActivePlayers({ value: activePlayers });
+          console.log('Turn Started');
+          let { activePlayers, guessWords, playerWords } = assignStagesAndWordsToPlayers(G, ctx);
+          ctx.events.setActivePlayers({ value: activePlayers, next: activePlayers });
           return { ...G, ...initRound(guessWords, playerWords) };
         },
         onEnd: (G, ctx) => {
@@ -102,13 +123,13 @@ const CollabSketch = {
         },
         stages: {
           drawCanvasOne: {
-            moves: { updateSnapshotForCanvasOne },
+            moves: { updateSnapshotForCanvasOne, endTurn },
           },
           drawCanvasTwo: {
-            moves: { updateSnapshotForCanvasTwo },
+            moves: { updateSnapshotForCanvasTwo, endTurn },
           },
           guess: {
-            moves: { guessArt },
+            moves: { guessArt, endTurn },
           },
         },
       },
