@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
+import Timer from 'easytimer.js';
 import Grid from "../components/Grid";
 import { GameState } from '../constants';
 import './Board.css';
@@ -14,6 +15,7 @@ class CollabSketchBoard extends React.Component {
     static propTypes = {
         G: PropTypes.any.isRequired,
         ctx: PropTypes.any.isRequired,
+        events: PropTypes.any.isRequired,
         moves: PropTypes.any.isRequired,
         playerID: PropTypes.string.isRequired,
         isActive: PropTypes.bool.isRequired,
@@ -23,6 +25,9 @@ class CollabSketchBoard extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            turn: props.ctx.turn,
+        }
         this.startGame = this.startGame.bind(this);
         this.isAdmin = this.isAdmin.bind(this);
         this.isActive = this.isActive.bind(this);
@@ -31,6 +36,14 @@ class CollabSketchBoard extends React.Component {
         this.isCanvasOneArtist = this.isCanvasOneArtist.bind(this);
         this.isCanvasTwoArtist = this.isCanvasTwoArtist.bind(this);
         this.isPlayerGuessing = this.isPlayerGuessing.bind(this);
+        this.endTurn = this.endTurn.bind(this);
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState){
+        if(nextProps.ctx.turn > prevState.turn){
+            return { turn: nextProps.ctx.turn };
+        }
+        else return null;
     }
 
     getActivePlayers() {
@@ -77,6 +90,25 @@ class CollabSketchBoard extends React.Component {
 
     isAdmin(playerID) {
         return playerID === '0';
+    }
+
+    endTurn() {
+        this.props.moves.endTurn(this.state.turn);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        const previousTurn = prevState.turn;
+        const currentTurn = this.state.turn;
+        if( currentTurn > previousTurn) {
+            const timer = new Timer();
+            timer.start({
+                countdown: true,
+                startValues: {
+                    seconds: this.props.G.settings.turnPeriod
+                }
+            });
+            timer.addEventListener('targetAchieved', this.endTurn);
+        }
     }
 
     render() {

@@ -18,6 +18,7 @@
     "boardgame.io": "^0.38.1",
     "bootstrap": "^4.4.1",
     "create-react-class": "^15.6.3",
+    "easytimer.js": "^4.1.1",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
     "koa-router": "^8.0.8",
