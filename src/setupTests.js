@@ -1,3 +1,4 @@
+import 'jest-canvas-mock';
 global.fetch = require("jest-fetch-mock");
 global.flushPromises = () => new Promise(resolve => setImmediate(resolve));
 const Enzyme = require("enzyme");
