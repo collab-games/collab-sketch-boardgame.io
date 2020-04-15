@@ -92,8 +92,8 @@ class CollabSketchBoard extends React.Component {
         return playerID === '0';
     }
 
-    endTurn() {
-        this.props.moves.endTurn(this.state.turn);
+    endTurn(turn) {
+        this.props.moves.endTurn(turn);
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -107,8 +107,12 @@ class CollabSketchBoard extends React.Component {
                     seconds: this.props.G.settings.turnPeriod
                 }
             });
-            timer.addEventListener('targetAchieved', this.endTurn);
+            timer.addEventListener('targetAchieved', this.endTurn.bind(this, currentTurn));
         }
+    }
+
+    componentDidMount() {
+        this.props.moves.joinGame(this.props.playerID, this.props.gameMetadata[parseInt(this.props.playerID)]['name']);
     }
 
     render() {

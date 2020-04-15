@@ -1,43 +1,9 @@
-import { GameState } from '../constants'
+import {GameState} from '../constants'
 import max from 'lodash/max';
-import indexOf from 'lodash/indexOf';
 import isEmpty from 'lodash/isEmpty';
-import isNull from 'lodash/isNull';
 import range from 'lodash/range';
-import {PlayerView} from "boardgame.io/dist/esm/core";
-
-const isAdmin = (playerID) => playerID === '0';
-
-const endTurn = {
-  move: (G, ctx, turn) => {
-    if (ctx.turn === turn && !isNull(G.turn.startTime)) {
-      const startTime = G.turn.startTime;
-      const period = G.settings.turnPeriod;
-      if ((Date.now() - startTime) >= period * 1000) {
-        ctx.events.endTurn();
-      }
-    }
-  },
-  client: false,
-}
-
-const updateSnapshotForCanvasOne = (G, ctx, snapshot, svg) => {
-  G.canvasOne = { ...G.canvasOne, snapshot, svg };
-};
-
-const updateSnapshotForCanvasTwo = (G, ctx, snapshot, svg) => {
-  G.canvasTwo = { ...G.canvasTwo, snapshot, svg };
-};
-
-const startGame = (G, ctx) => {
-  if(isAdmin(ctx.currentPlayer)) {
-    G.state = GameState.STARTED;
-  }
-};
-
-const guessArt = (G, ctx, id, value) => {
-  G.words[id] = value;
-};
+import {ActivePlayers, PlayerView} from "boardgame.io/dist/esm/core";
+import {endTurn, guessArt, startGame, updateSnapshotForCanvasOne, updateSnapshotForCanvasTwo, joinGame} from "./Moves";
 
 const nextArtistsFromPrevArtists = (array, totalPlayers) => {
   if(isEmpty(array)) {
@@ -47,18 +13,25 @@ const nextArtistsFromPrevArtists = (array, totalPlayers) => {
   }
 };
 
+const difference = (arr1, arr2) => arr1.filter(x => !arr2.includes(x));
+
 const getArtists = (players) => Object.entries(players).map(([k,_]) => parseInt(k));
 
 const assignStagesAndWordsToPlayers = (G, ctx) => {
   const totalPlayers = ctx.numPlayers;
+  const registeredPlayers = Object.keys(G.registeredPlayers).map( key => parseInt(key));
   const previousArtists = getArtists(G.players);
-  let nextArtists = nextArtistsFromPrevArtists(previousArtists, totalPlayers);
-  let otherPlayers = range(totalPlayers).filter(playerId => indexOf(nextArtists, playerId) === -1)
+  let nextArtists = nextArtistsFromPrevArtists(previousArtists, registeredPlayers.length);
+  let guessPlayers = difference(registeredPlayers, nextArtists);
+  let inactivePlayers = difference(range(totalPlayers), registeredPlayers);
   let activePlayers = {};
   activePlayers[nextArtists[0]] = { stage: 'drawCanvasOne'};
   activePlayers[nextArtists[1]] = { stage: 'drawCanvasTwo'};
-  otherPlayers.forEach(playerId => {
+  guessPlayers.forEach(playerId => {
     activePlayers[playerId] = { stage: 'guess'}
+  });
+  inactivePlayers.forEach(playerId => {
+    activePlayers[playerId] = { stage: 'inactive'}
   });
 
   const guessWords = pickWords();
@@ -95,6 +68,7 @@ const CollabSketch = {
 
   setup: (ctx) => ({
     ...initRound("", {}),
+    registeredPlayers: {},
     state: GameState.WAITING,
     settings: {
       turnPeriod: 60
@@ -105,10 +79,13 @@ const CollabSketch = {
 
   phases: {
     wait: {
-      moves: { startGame },
+      moves: { startGame, joinGame },
       start: true,
       endIf: G => (G.state === GameState.STARTED),
       next: 'play',
+      turn: {
+        activePlayers: ActivePlayers.ALL,
+      },
     },
     play: {
       turn: {
@@ -131,6 +108,9 @@ const CollabSketch = {
           guess: {
             moves: { guessArt, endTurn },
           },
+          inactive: {
+            moves: { joinGame },
+          }
         },
       },
     },
