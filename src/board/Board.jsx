@@ -47,7 +47,7 @@ class CollabSketchBoard extends React.Component {
     }
 
     getActivePlayers() {
-        return this.props.gameMetadata.filter(player => !!player.name);
+        return this.props.G.registeredPlayers;
     }
 
     guessArt(id, e) {
