@@ -1,15 +1,14 @@
 import {GameState} from '../constants'
-import max from 'lodash/max';
 import isEmpty from 'lodash/isEmpty';
 import range from 'lodash/range';
 import {ActivePlayers, PlayerView} from "boardgame.io/dist/esm/core";
 import {endTurn, guessArt, startGame, updateSnapshotForCanvasOne, updateSnapshotForCanvasTwo, joinGame} from "./Moves";
 
-const nextArtistsFromPrevArtists = (array, totalPlayers) => {
-  if(isEmpty(array)) {
+const nextArtistsFromPrevArtists = (artists, totalPlayers) => {
+  if(isEmpty(artists)) {
     return [0, 1];
   } else {
-    return [ (max(array) + 1) % totalPlayers, (max(array) + 2) % totalPlayers];
+    return [ (artists[1] + 1) % totalPlayers, (artists[1] + 2) % totalPlayers];
   }
 };
 
@@ -71,7 +70,7 @@ const CollabSketch = {
     registeredPlayers: {},
     state: GameState.WAITING,
     settings: {
-      turnPeriod: 60
+      turnPeriod: 20
     }
   }),
 
