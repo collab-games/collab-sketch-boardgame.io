@@ -14,7 +14,7 @@ class PlayerList extends React.Component {
 
   render() {
     return (
-      <ListGroup>
+      <ListGroup className="players-list">
         <ListGroup.Item variant="primary">Players</ListGroup.Item>
         {this.renderPlayers()}
       </ListGroup>

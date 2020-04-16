@@ -1,0 +1,28 @@
+.players-list {
+ height: 350px;
+}
+
+
+.sc-launcher.opened {
+    display: none;
+}
+
+.sc-chat-window.opened {
+    right:0;
+    position: inherit;
+    width: auto;
+    height: 500px;
+    max-height: 500px;
+}
+
+.sc-header--close-button {
+    display: none;
+}
+
+.sc-message {
+    width: auto;
+}
+
+.sc-user-input--file-icon-wrapper {
+    display: none;
+}

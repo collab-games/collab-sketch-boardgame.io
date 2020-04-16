@@ -59,6 +59,7 @@ const initRound = (words, players) => {
     canvasOne: { snapshot: {}, svg: "", chars: wordLengths[0] },
     canvasTwo: { snapshot: {}, svg: "", chars: wordLengths[1] },
     words: Array(2).fill(""),
+    chatMessages: Array(),
   };
 };
 

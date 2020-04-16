@@ -9,6 +9,7 @@ import ReadOnlyCanvas from "../components/ReadOnlyCanvas";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import PlayerList from "../components/PlayerList";
+import ChatBox from "../components/ChatBox";
 import Container from "react-bootstrap/Container";
 
 class CollabSketchBoard extends React.Component {
@@ -32,7 +33,6 @@ class CollabSketchBoard extends React.Component {
         this.isAdmin = this.isAdmin.bind(this);
         this.isActive = this.isActive.bind(this);
         this.getActivePlayers = this.getActivePlayers.bind(this);
-        this.guessArt = this.guessArt.bind(this);
         this.isCanvasOneArtist = this.isCanvasOneArtist.bind(this);
         this.isCanvasTwoArtist = this.isCanvasTwoArtist.bind(this);
         this.isPlayerGuessing = this.isPlayerGuessing.bind(this);
@@ -48,10 +48,6 @@ class CollabSketchBoard extends React.Component {
 
     getActivePlayers() {
         return this.props.G.registeredPlayers;
-    }
-
-    guessArt(id, e) {
-        this.props.moves.guessArt(id, e.target.value)
     }
 
     startGame() {
@@ -116,34 +112,33 @@ class CollabSketchBoard extends React.Component {
     }
 
     render() {
+        const { G, ctx, playerID, moves } = this.props;
         let body = [
             <div key={0}>
-                {this.isCanvasOneArtist()?<span>{this.props.G.players[this.props.playerID]}</span>:<span>length: {this.props.G.canvasOne['chars']}</span>}
+                {this.isCanvasOneArtist()?<span>{G.players[playerID]}</span>:<span>length: {G.canvasOne['chars']}</span>}
                 { this.isCanvasOneArtist() && <Grid
-                    snapshot={this.props.G.canvasOne['snapshot']}
-                    updateSnapshot={this.props.moves.updateSnapshotForCanvasOne}
+                    snapshot={G.canvasOne['snapshot']}
+                    updateSnapshot={moves.updateSnapshotForCanvasOne}
                     isActive={this.isActive}
-                    playerID={this.props.playerID}
+                    playerID={playerID}
                     id={0}
                 /> }
                 { !this.isCanvasOneArtist() && <ReadOnlyCanvas
-                    svgText={this.props.G.canvasOne['svg']}
+                    svgText={G.canvasOne['svg']}
                 /> }
-                { this.isPlayerGuessing() && <input onChange={(e) => this.guessArt(0, e)} value={this.props.G.words[0]}/> }
             </div>,
             <div key={1}>
-                {this.isCanvasTwoArtist()?<span>{this.props.G.players[1]}</span>:<span>length: {this.props.G.canvasTwo['chars']}</span>}
+                {this.isCanvasTwoArtist()?<span>{G.players[1]}</span>:<span>length: {G.canvasTwo['chars']}</span>}
                 { this.isCanvasTwoArtist() && <Grid
-                    snapshot={this.props.G.canvasTwo['snapshot']}
-                    updateSnapshot={this.props.moves.updateSnapshotForCanvasTwo}
+                    snapshot={G.canvasTwo['snapshot']}
+                    updateSnapshot={moves.updateSnapshotForCanvasTwo}
                     isActive={this.isActive}
-                    playerID={this.props.playerID}
+                    playerID={playerID}
                     id={1}
                 /> }
                 { !this.isCanvasTwoArtist() && <ReadOnlyCanvas
-                    svgText={this.props.G.canvasTwo['svg']}
+                    svgText={G.canvasTwo['svg']}
                 /> }
-                { this.isPlayerGuessing() && <input onChange={(e) => this.guessArt(1, e)} value={this.props.G.words[1]}/> }
             </div>
         ];
 
@@ -152,15 +147,20 @@ class CollabSketchBoard extends React.Component {
                 <Row>
                     <Col md={{ span: 10 }}>
                         <div>
-                            { this.isAdmin(this.props.playerID) && this.props.G.state === GameState.WAITING ? <button onClick={this.startGame}>Start</button>: null }
-                            { this.props.G.state === GameState.ENDED && this.props.ctx.gameover && <h1> Winner: {this.props.ctx.gameover.winner}</h1>}
+                            { this.isAdmin(playerID) && G.state === GameState.WAITING ? <button onClick={this.startGame}>Start</button>: null }
+                            { G.state === GameState.ENDED && ctx.gameover && <h1> Winner: {ctx.gameover.winner}</h1>}
                             <div className='board'>
-                                { this.props.G.state === GameState.STARTED && body}
+                                { G.state === GameState.STARTED && body}
                             </div>
                         </div>
                     </Col>
                     <Col style={{paddingRight:0}} md={{ span: 2 }}>
-                        <PlayerList players={this.getActivePlayers()} />
+                        <div>
+                            <PlayerList players={this.getActivePlayers()} />
+                        </div>
+                        <div>
+                            <ChatBox G={G} moves={moves} currentPlayer={G.registeredPlayers[playerID]} />
+                        </div>
                     </Col>
                 </Row>
             </Container>
