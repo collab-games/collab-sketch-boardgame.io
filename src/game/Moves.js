@@ -30,8 +30,8 @@ export const startGame = (G, ctx) => {
     }
 };
 
-export const guessArt = (G, ctx, id, value) => {
-    G.words[id] = value;
+export const guessArt = (G, ctx, value) => {
+    G.chatMessages = [...G.chatMessages, value];
 };
 
 export const joinGame = (G, ctx, playerId, playerName) => {
