@@ -70,7 +70,8 @@ const CollabSketch = {
     registeredPlayers: {},
     state: GameState.WAITING,
     settings: {
-      turnPeriod: 20
+      turnPeriod: 20,
+      rounds: 5,
     }
   }),
 
@@ -112,9 +113,19 @@ const CollabSketch = {
           }
         },
       },
+      endIf: (G, ctx) => {
+        if (ctx.turn === G.settings.rounds + 1) {
+          G.state = GameState.ENDED
+        }
+      },
     },
   },
 
+  endIf: (G, ctx) => {
+    if ( G.state === GameState.ENDED) {
+      return { winner: 'someone'};
+    }
+  }
 };
 
 export default CollabSketch;
