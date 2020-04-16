@@ -153,8 +153,9 @@ class CollabSketchBoard extends React.Component {
                     <Col md={{ span: 10 }}>
                         <div>
                             { this.isAdmin(this.props.playerID) && this.props.G.state === GameState.WAITING ? <button onClick={this.startGame}>Start</button>: null }
+                            { this.props.G.state === GameState.ENDED && this.props.ctx.gameover && <h1> Winner: {this.props.ctx.gameover.winner}</h1>}
                             <div className='board'>
-                                {body}
+                                { this.props.G.state === GameState.STARTED && body}
                             </div>
                         </div>
                     </Col>
