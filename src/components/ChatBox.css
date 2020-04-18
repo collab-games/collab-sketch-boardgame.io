@@ -1,7 +1,7 @@
 .players-list {
- height: 350px;
+    height: 350px;
+    overflow-y: auto;
 }
-
 
 .sc-launcher.opened {
     display: none;
@@ -25,4 +25,28 @@
 
 .sc-user-input--file-icon-wrapper {
     display: none;
+}
+
+.sc-header {
+    min-height: 60px;
+    padding: 3px;
+    background: #343a40;
+}
+
+.sc-header--team-name {
+    font-size: 20px;
+}
+
+.sc-message--content.sent {
+    justify-content: flex-start;
+    padding-left: 5px;
+}
+
+.sc-message--content.sent .sc-message--text {
+    width: 250px;
+    max-width: 250px;
+    background: #dee2e6;
+    color: black;
+    padding: 8px 8px;
+    font-family: monospace;
 }

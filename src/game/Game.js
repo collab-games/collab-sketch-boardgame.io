@@ -59,7 +59,6 @@ const initRound = (words, players) => {
     canvasOne: { snapshot: {}, svg: "", chars: wordLengths[0] },
     canvasTwo: { snapshot: {}, svg: "", chars: wordLengths[1] },
     words: Array(2).fill(""),
-    chatMessages: Array(),
   };
 };
 
@@ -70,6 +69,7 @@ const CollabSketch = {
     ...initRound("", {}),
     registeredPlayers: {},
     state: GameState.WAITING,
+    chatMessages: Array(),
     settings: {
       turnPeriod: 20,
       rounds: 5,

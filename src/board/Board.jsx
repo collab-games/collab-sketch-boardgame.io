@@ -159,7 +159,10 @@ class CollabSketchBoard extends React.Component {
                             <PlayerList players={this.getActivePlayers()} />
                         </div>
                         <div>
-                            <ChatBox G={G} moves={moves} currentPlayer={G.registeredPlayers[playerID]} />
+                            {
+                                G.state === GameState.STARTED &&
+                                <ChatBox G={G} moves={moves} currentPlayer={G.registeredPlayers[playerID]} isPlayerGuessing={this.isPlayerGuessing()}/>
+                            }
                         </div>
                     </Col>
                 </Row>
