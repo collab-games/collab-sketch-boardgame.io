@@ -47,7 +47,7 @@ class CollabSketchBoard extends React.Component {
     }
 
     getActivePlayers() {
-        return this.props.G.registeredPlayers;
+        return this.props.G.players;
     }
 
     startGame() {
@@ -115,7 +115,7 @@ class CollabSketchBoard extends React.Component {
         const { G, ctx, playerID, moves } = this.props;
         let body = [
             <div key={0}>
-                {this.isCanvasOneArtist()?<span>{G.players[playerID]}</span>:<span>length: {G.canvasOne['chars']}</span>}
+                {this.isCanvasOneArtist()?<span>{G.word}</span>:<span>length: {G.canvasOne['chars']}</span>}
                 { this.isCanvasOneArtist() && <Grid
                     snapshot={G.canvasOne['snapshot']}
                     updateSnapshot={moves.updateSnapshotForCanvasOne}
@@ -128,7 +128,7 @@ class CollabSketchBoard extends React.Component {
                 /> }
             </div>,
             <div key={1}>
-                {this.isCanvasTwoArtist()?<span>{G.players[1]}</span>:<span>length: {G.canvasTwo['chars']}</span>}
+                {this.isCanvasTwoArtist()?<span>{G.word}</span>:<span>length: {G.canvasTwo['chars']}</span>}
                 { this.isCanvasTwoArtist() && <Grid
                     snapshot={G.canvasTwo['snapshot']}
                     updateSnapshot={moves.updateSnapshotForCanvasTwo}
@@ -159,7 +159,7 @@ class CollabSketchBoard extends React.Component {
                             <PlayerList players={this.getActivePlayers()} />
                         </div>
                         <div>
-                            <ChatBox G={G} moves={moves} currentPlayer={G.registeredPlayers[playerID]} />
+                            <ChatBox G={G} moves={moves} currentPlayer={G.players[playerID]} />
                         </div>
                     </Col>
                 </Row>

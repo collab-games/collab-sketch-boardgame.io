@@ -35,5 +35,5 @@ export const guessArt = (G, ctx, value) => {
 };
 
 export const joinGame = (G, ctx, playerId, playerName) => {
-    G.registeredPlayers[playerId] = { joined: true, name: playerName };
+    G.players[playerId] = { joined: true, name: playerName };
 };
