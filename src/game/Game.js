@@ -11,7 +11,7 @@ const uniqueWordsFor = (numOfRounds, numOfPlayers) => {
   let count = numOfRounds * numOfPlayers;
   let uniqueNumbers = [];
   let uniqueWords = [];
-  while(count) {
+  while(count > 0) {
     let index = random( dictionaryWords.length - 1);
     if(!(index in uniqueNumbers)) {
       uniqueWords.push(dictionaryWords[index]);
@@ -36,7 +36,7 @@ const getArtists = (players) => Object.entries(players).map(([k,_]) => parseInt(
 
 const nextActivePlayersFor = (G, ctx) => {
   const totalPlayers = ctx.numPlayers;
-  const registeredPlayers = Object.keys(G.registeredPlayers).map( key => parseInt(key));
+  const registeredPlayers = Object.keys(G.players).map( key => parseInt(key));
   const previousArtists = getArtists(G.players);
   let nextArtists = nextArtistsFromPrevArtists(previousArtists, registeredPlayers.length);
   let guessPlayers = difference(registeredPlayers, nextArtists);
@@ -51,7 +51,7 @@ const nextActivePlayersFor = (G, ctx) => {
     activePlayers[playerId] = { stage: 'inactive'}
   });
   return activePlayers;
-}
+};
 
 // const assignWordsToPlayers = (guessWords, artists) => {
 //   let assignments = {};
@@ -93,14 +93,21 @@ const isCanvasTwoPlayer = (activePlayers, playerId) => activePlayers[playerId] =
 
 const stripSecret = (G, playerId, activePlayers) => {
   const { words, ...rest } = G;
-  if (isCanvasOnePlayer(activePlayers, playerId)){
+  console.log("words", words);
+  console.log("rest", rest);
+  if (isEmpty(words)) {
+    return rest;
+  } else if (isEmpty(activePlayers)) {
+    return rest;
+  }
+  if (isCanvasOnePlayer(activePlayers, playerId)) {
     return { ...rest, word: words.current.split(' ')[0]};
   } else if (isCanvasTwoPlayer(activePlayers, playerId)) {
     return { ...rest, word: words.current.split(' ')[1]};
   } else {
     return rest;
   }
-}
+};
 
 const DEFAULT_NUM_OF_PLAYERS = 10;
 const DEFAULT_NUM_OF_ROUNDS = 1;
@@ -119,6 +126,9 @@ const CollabSketch = {
       all: uniqueWordsFor(DEFAULT_NUM_OF_ROUNDS, DEFAULT_NUM_OF_PLAYERS),
       current: '',
     },
+    canvasOne: { snapshot: {}, svg: "", chars: 0 },
+    canvasTwo: { snapshot: {}, svg: "", chars: 0 },
+    chatMessages: Array(),
   }),
 
   playerView: (G, ctx, playerId) => stripSecret(G, playerId, ctx.activePlayers),
