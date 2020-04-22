@@ -1,8 +1,3 @@
-.players-list {
-    height: 350px;
-    overflow-y: auto;
-}
-
 .sc-launcher.opened {
     display: none;
 }

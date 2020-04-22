@@ -1,0 +1,7 @@
+.players-list {
+    height: 350px;
+    overflow-y: auto;
+}
+.score {
+    float: right;
+}

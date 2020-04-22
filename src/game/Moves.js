@@ -30,6 +30,18 @@ export const startGame = (G, ctx) => {
     }
 };
 
+const addScore = (players, currentPlayerId) => {
+    let activePlayers = Object.values(players);
+    const currentGuessPosition = activePlayers
+      .map(player => player.turn.guessPosition)
+      .sort((a, b) => b-a)[0];
+
+    const score  = (activePlayers.length - (currentGuessPosition + 1) ) * 10;
+
+    players[currentPlayerId].game.score += score;
+    players[currentPlayerId].turn.guessPosition = currentGuessPosition + 1;
+};
+
 export const guessArt = (G, ctx, value) => {
     const playerId = ctx.playerID;
     const split = value.data.text.split(':');
@@ -40,6 +52,7 @@ export const guessArt = (G, ctx, value) => {
             const message = { ...value, data: { text: `${playerName} has guessed it correct` } };
             G.players[playerId]['turn']['hasGuessed'] = true;
             G.chatMessages = [...G.chatMessages, message];
+            addScore(G.players, playerId);
         }
     } else {
         G.chatMessages = [...G.chatMessages, value];
@@ -50,7 +63,8 @@ export const joinGame = (G, ctx, playerId, playerName) => {
     G.players[playerId] = {
         game: {
             joined: true,
-            name: playerName
+            name: playerName,
+            score: 0
         },
         turn: {
             hasGuessed: false,
