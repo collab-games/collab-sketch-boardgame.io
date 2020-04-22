@@ -31,9 +31,30 @@ export const startGame = (G, ctx) => {
 };
 
 export const guessArt = (G, ctx, value) => {
-    G.chatMessages = [...G.chatMessages, value];
+    const playerId = ctx.playerID;
+    const split = value.data.text.split(':');
+    const playerName = split[0];
+    const guess = split[1].trim();
+    if (G.words && guess === G.words.current) {
+        if (!G.players[playerId]['turn']['hasGuessed']) {
+            const message = { ...value, data: { text: `${playerName} has guessed it correct` } };
+            G.players[playerId]['turn']['hasGuessed'] = true;
+            G.chatMessages = [...G.chatMessages, message];
+        }
+    } else {
+        G.chatMessages = [...G.chatMessages, value];
+    }
 };
 
 export const joinGame = (G, ctx, playerId, playerName) => {
-    G.players[playerId] = { joined: true, name: playerName };
+    G.players[playerId] = {
+        game: {
+            joined: true,
+            name: playerName
+        },
+        turn: {
+            hasGuessed: false,
+            guessPosition: 0
+        }
+    };
 };

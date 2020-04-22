@@ -33,17 +33,18 @@ const nextArtistsFromPrevArtists = (artists, totalPlayers) => {
 const difference = (arr1, arr2) => arr1.filter(x => !arr2.includes(x));
 
 const getArtists = (players) => {
-  const artists = Object.entries(players).filter(([_, player]) => ( player.action === 'drawingCanvasOne' || player.action === 'drawingCanvasTwo'));
+  const artists = Object.entries(players)
+    .filter(([_, player]) => ( player.turn.action === 'drawingCanvasOne' || player.turn.action === 'drawingCanvasTwo'));
   if (artists.length === 2) {
-    if (artists[0][1]['action'] === 'drawingCanvasOne') {
-      return [ parseInt(artists[0][0]), parseInt(artists[1][0])]
+    if (artists[0][1]['turn']['action'] === 'drawingCanvasOne') {
+      return [ parseInt(artists[0][0]), parseInt(artists[1][0])];
     } else {
-      return [ parseInt(artists[1][0]), parseInt(artists[0][0])]
+      return [ parseInt(artists[1][0]), parseInt(artists[0][0])];
     }
   } else {
     return [];
   }
-}
+};
 
 const nextActivePlayersFor = (G, ctx) => {
   const totalPlayers = ctx.numPlayers;
@@ -104,13 +105,13 @@ const stripSecret = (G, playerId, activePlayers) => {
 
 const updatePlayers = (players, nextPlayers) => {
   let updatedPlayers = {};
-  Object.entries(players).forEach(([k, player]) => updatedPlayers[k] = { ...player, action: ''});
+  Object.entries(players).forEach(([k, player]) => updatedPlayers[k] = { ...player, turn: { hasGuessed: false, guessPosition: 0, action: ''}});
 
   Object.entries(nextPlayers).forEach(([k, player]) => {
     if ( player.stage === 'drawCanvasOne') {
-      updatedPlayers[k] = { ...updatedPlayers[k], action: 'drawingCanvasOne'}
+      updatedPlayers[k] = { ...updatedPlayers[k], turn: { ...updatedPlayers[k].turn, action: 'drawingCanvasOne' }};
     } else if ( player.stage === 'drawCanvasTwo') {
-      updatedPlayers[k] = { ...updatedPlayers[k], action: 'drawingCanvasTwo'}
+      updatedPlayers[k] = { ...updatedPlayers[k], turn: { ...updatedPlayers[k].turn, action: 'drawingCanvasTwo' }};
     }
   });
   return updatedPlayers;
@@ -126,7 +127,7 @@ const CollabSketch = {
     players: {},
     state: GameState.WAITING,
     settings: {
-      turnPeriod: 20,
+      turnPeriod: 1000,
       rounds: DEFAULT_NUM_OF_ROUNDS,
     },
     words: {

@@ -18,7 +18,7 @@ class ChatBox extends React.Component {
 
   sendMessage(message) {
     const { moves, currentPlayer, isPlayerGuessing } = this.props;
-    const updatedText = `${currentPlayer.name}: ${message.data.text}`;
+    const updatedText = `${currentPlayer.game.name}: ${message.data.text}`;
     const updatedMessage = Object.assign({}, message, {data: {text: updatedText}});
     isPlayerGuessing && moves.guessArt(updatedMessage);
   }

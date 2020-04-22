@@ -13,9 +13,9 @@ describe('<PlayerList>', function () {
 
   it('should render players', () => {
     const players = {
-      '0' : { joined: true, name: 'bond'},
-      '1' : { joined: true, name: 'abc'},
-      '2' : { joined: true, name: 'def'}
+      '0' : { game: { joined: true, name: 'bond' }},
+      '1' : { game: { joined: true, name: 'abc' }},
+      '2' : { game: { joined: true, name: 'def' }}
     };
 
     const wrapper = shallow(<PlayerList players={players}/>);

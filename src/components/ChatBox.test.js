@@ -8,8 +8,9 @@ describe("<ChatBox>", () => {
 
   let guessArt;
   const currentPlayer = {
-    name: 'bond',
-    id: 0
+    game: {
+      name: 'bond'
+    }
   };
   beforeEach(() => {
     guessArt = jest.fn();

@@ -5,11 +5,12 @@ import PropTypes from 'prop-types';
 class PlayerList extends React.Component {
   static propTypes = {
     players: PropTypes.object.isRequired,
-  }
+  };
 
   renderPlayers() {
     const { players } = this.props;
-    return Object.entries(players).map(([ index, player]) => <ListGroup.Item key={index}>{player.name}</ListGroup.Item>)
+    return Object.entries(players)
+      .map(([ index, player]) => <ListGroup.Item key={index}>{player.game.name}</ListGroup.Item>);
   }
 
   render() {
