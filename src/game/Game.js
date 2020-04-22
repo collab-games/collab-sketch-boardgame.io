@@ -2,13 +2,13 @@ import {GameState} from '../constants'
 import isEmpty from 'lodash/isEmpty';
 import random from 'lodash/random';
 import clone from 'lodash/clone';
-import range from 'lodash/range';
 import { ActivePlayers } from "boardgame.io/dist/esm/core";
 import { endTurn, guessArt, startGame, updateSnapshotForCanvasOne, updateSnapshotForCanvasTwo, joinGame } from "./Moves";
 import { default as dictionaryWords } from '../words.json';
+import { firstCanvasPlayerIdFrom, secondCanvasPlayerIdFrom, nextActivePlayersFrom, updatePlayers } from "./Player";
 
 const uniqueWordsFor = (numOfRounds, numOfPlayers) => {
-  let count = numOfRounds * numOfPlayers;
+  let count = (numOfRounds * numOfPlayers) > dictionaryWords.length ? dictionaryWords.length : numOfRounds * numOfPlayers;
   let uniqueNumbers = [];
   let uniqueWords = [];
   while(count > 0) {
@@ -20,49 +20,6 @@ const uniqueWordsFor = (numOfRounds, numOfPlayers) => {
     }
   }
   return uniqueWords;
-};
-
-const nextArtistsFromPrevArtists = (artists, totalPlayers) => {
-  if(isEmpty(artists)) {
-    return [0, 1];
-  } else {
-    return [ (artists[1] + 1) % totalPlayers, (artists[1] + 2) % totalPlayers];
-  }
-};
-
-const difference = (arr1, arr2) => arr1.filter(x => !arr2.includes(x));
-
-const getArtists = (players) => {
-  const artists = Object.entries(players)
-    .filter(([_, player]) => ( player.turn.action === 'drawingCanvasOne' || player.turn.action === 'drawingCanvasTwo'));
-  if (artists.length === 2) {
-    if (artists[0][1]['turn']['action'] === 'drawingCanvasOne') {
-      return [ parseInt(artists[0][0]), parseInt(artists[1][0])];
-    } else {
-      return [ parseInt(artists[1][0]), parseInt(artists[0][0])];
-    }
-  } else {
-    return [];
-  }
-};
-
-const nextActivePlayersFor = (G, ctx) => {
-  const totalPlayers = ctx.numPlayers;
-  const registeredPlayers = Object.keys(G.players).map( key => parseInt(key));
-  const previousArtists = getArtists(G.players);
-  let nextArtists = nextArtistsFromPrevArtists(previousArtists, registeredPlayers.length);
-  let guessPlayers = difference(registeredPlayers, nextArtists);
-  let inactivePlayers = difference(range(totalPlayers), registeredPlayers);
-  let activePlayers = {};
-  activePlayers[nextArtists[0]] = { stage: 'drawCanvasOne'};
-  activePlayers[nextArtists[1]] = { stage: 'drawCanvasTwo'};
-  guessPlayers.forEach(playerId => {
-    activePlayers[playerId] = { stage: 'guess'}
-  });
-  inactivePlayers.forEach(playerId => {
-    activePlayers[playerId] = { stage: 'inactive'}
-  });
-  return activePlayers;
 };
 
 const initTurn = (G) => {
@@ -84,41 +41,27 @@ const initTurn = (G) => {
   };
 };
 
-const isCanvasOnePlayer = (activePlayers, playerId) => activePlayers[playerId] === 'drawCanvasOne';
-const isCanvasTwoPlayer = (activePlayers, playerId) => activePlayers[playerId] === 'drawCanvasTwo';
-
-const stripSecret = (G, playerId, activePlayers) => {
-  const { words, ...rest } = G;
+const stripSecret = (G, playerId) => {
+  const { words, ...rest} = G;
   if (isEmpty(words)) {
     return rest;
-  } else if (isEmpty(activePlayers)) {
-    return rest;
-  }
-  if (isCanvasOnePlayer(activePlayers, playerId)) {
+  } else if (playerId === firstCanvasPlayerIdFrom(G.players)) {
     return { ...rest, word: words.current.split(' ')[0]};
-  } else if (isCanvasTwoPlayer(activePlayers, playerId)) {
+  } else if (playerId === secondCanvasPlayerIdFrom(G.players)) {
     return { ...rest, word: words.current.split(' ')[1]};
   } else {
     return rest;
   }
 };
 
-const updatePlayers = (players, nextPlayers) => {
-  let updatedPlayers = {};
-  Object.entries(players).forEach(([k, player]) => updatedPlayers[k] = { ...player, turn: { hasGuessed: false, guessPosition: 0, action: ''}});
-
-  Object.entries(nextPlayers).forEach(([k, player]) => {
-    if ( player.stage === 'drawCanvasOne') {
-      updatedPlayers[k] = { ...updatedPlayers[k], turn: { ...updatedPlayers[k].turn, action: 'drawingCanvasOne' }};
-    } else if ( player.stage === 'drawCanvasTwo') {
-      updatedPlayers[k] = { ...updatedPlayers[k], turn: { ...updatedPlayers[k].turn, action: 'drawingCanvasTwo' }};
-    }
-  });
-  return updatedPlayers;
-}
-
 const DEFAULT_NUM_OF_PLAYERS = 10;
 const DEFAULT_NUM_OF_ROUNDS = 1;
+
+const onTurnBegin = (G, ctx)  => {
+  const nextActivePlayers = nextActivePlayersFrom(G.players, ctx.numPlayers);
+  ctx.events.setActivePlayers({value: nextActivePlayers});
+  return {...G, ...initTurn(G), players: updatePlayers(G.players, nextActivePlayers)};
+};
 
 const CollabSketch = {
   name: 'collab-sketch',
@@ -127,7 +70,7 @@ const CollabSketch = {
     players: {},
     state: GameState.WAITING,
     settings: {
-      turnPeriod: 1000,
+      turnPeriod: 20,
       rounds: DEFAULT_NUM_OF_ROUNDS,
     },
     words: {
@@ -136,10 +79,10 @@ const CollabSketch = {
     },
     canvasOne: { snapshot: {}, svg: "", chars: 0 },
     canvasTwo: { snapshot: {}, svg: "", chars: 0 },
-    chatMessages: Array(),
+    chatMessages: [],
   }),
 
-  playerView: (G, ctx, playerId) => stripSecret(G, playerId, ctx.activePlayers),
+  playerView: (G, ctx, playerId) => stripSecret(G, playerId),
 
   phases: {
     wait: {
@@ -155,9 +98,7 @@ const CollabSketch = {
       turn: {
         onBegin: (G, ctx) => {
           console.log('Turn Started');
-          const nextPlayers = nextActivePlayersFor(G, ctx);
-          ctx.events.setActivePlayers({ value: nextPlayers });
-          return { ...G, ...initTurn(G), players: updatePlayers(G.players, nextPlayers) };
+          return onTurnBegin(G, ctx);
         },
         onEnd: (G, ctx) => {
           console.log("Turn Ended");

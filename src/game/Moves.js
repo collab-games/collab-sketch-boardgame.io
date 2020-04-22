@@ -1,5 +1,6 @@
 import isNull from "lodash/isNull";
 import {GameState} from "../constants";
+import { newPlayer } from "./Player";
 
 const isAdmin = (playerID) => playerID === '0';
 
@@ -60,15 +61,5 @@ export const guessArt = (G, ctx, value) => {
 };
 
 export const joinGame = (G, ctx, playerId, playerName) => {
-    G.players[playerId] = {
-        game: {
-            joined: true,
-            name: playerName,
-            score: 0
-        },
-        turn: {
-            hasGuessed: false,
-            guessPosition: 0
-        }
-    };
+    G.players[playerId] = newPlayer(playerName);
 };
