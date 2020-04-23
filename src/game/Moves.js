@@ -32,15 +32,30 @@ export const startGame = (G, ctx) => {
 };
 
 const addScore = (players, currentPlayerId) => {
-    let activePlayers = Object.values(players);
-    const currentGuessPosition = activePlayers
+    let activeGuessingPlayers = Object.values(players).filter(player => player.turn.action === 'guess');
+    const currentGuessPosition = activeGuessingPlayers
       .map(player => player.turn.guessPosition)
       .sort((a, b) => b-a)[0];
 
-    const score  = (activePlayers.length - (currentGuessPosition + 1) ) * 10;
+    const score  = (activeGuessingPlayers.length - currentGuessPosition) * 10;
 
     players[currentPlayerId].game.score += score;
     players[currentPlayerId].turn.guessPosition = currentGuessPosition + 1;
+
+    const everybodyGuessed = activeGuessingPlayers.every(player => player.turn.hasGuessed);
+
+    if (everybodyGuessed) {
+        const drawingPlayers = Object.values(players).filter(player => player.turn.action !== 'guess');
+        drawingPlayers.forEach((player) => player.game.score += (activeGuessingPlayers.length) * 5);
+    }
+};
+
+const endTurnIfAllGuessed = (players, ctx) => {
+    const activeGuessingPlayers = Object.values(players).filter(player => player.turn.action === 'guess');
+    const everybodyGuessed = activeGuessingPlayers.every(player => player.turn.hasGuessed);
+    if (everybodyGuessed) {
+        ctx.events.endTurn();
+    }
 };
 
 export const guessArt = (G, ctx, value) => {
@@ -54,6 +69,7 @@ export const guessArt = (G, ctx, value) => {
             G.players[playerId]['turn']['hasGuessed'] = true;
             G.chatMessages = [...G.chatMessages, message];
             addScore(G.players, playerId);
+            endTurnIfAllGuessed(G.players, ctx);
         }
     } else {
         G.chatMessages = [...G.chatMessages, value];
