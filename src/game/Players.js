@@ -10,7 +10,6 @@ export const newPlayer = (playerName) => ({
     score: 0,
   },
   turn: {
-    score: 0,
     action: '',
     hasGuessed: false,
     guessPosition: 0,
@@ -46,9 +45,9 @@ export const secondCanvasPlayerIdFrom = (players) => findKey(players, (player) =
 
 const playerIds = players => Object.keys(players).map( key => parseInt(key));
 
-const updatePlayerAction = (player, action) => ({ ...player, turn:{ score: player.turn.score, action}});
+const updatePlayerAction = (player, action) => ({ ...player, turn:{ ...player.turn, action }});
 
-const resetPlayer = player => ({ ...player, turn:{ score: 0, action:''}});
+const resetPlayer = player => ({ ...player, turn:{ action:'', guessPosition: 0, hasGuessed: false }});
 
 const difference = (arr1, arr2) => arr1.filter(x => !arr2.includes(x));
 

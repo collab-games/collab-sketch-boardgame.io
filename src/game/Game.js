@@ -35,7 +35,7 @@ const stripSecret = (G, playerId) => {
 };
 
 const DEFAULT_NUM_OF_PLAYERS = 10;
-const DEFAULT_NUM_OF_ROUNDS = 1;
+const DEFAULT_NUM_OF_ROUNDS = 10;
 
 const onTurnBegin = (G, ctx)  => {
   const nextActivePlayers = nextActivePlayersFrom(G.players, ctx.numPlayers);
@@ -50,7 +50,7 @@ const CollabSketch = {
     players: {},
     state: GameState.WAITING,
     settings: {
-      turnPeriod: 20,
+      turnPeriod: 30,
       rounds: DEFAULT_NUM_OF_ROUNDS,
     },
     words: {
