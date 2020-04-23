@@ -1,6 +1,6 @@
 import isNull from "lodash/isNull";
 import {GameState} from "../constants";
-import { newPlayer } from "./Player";
+import { newPlayer } from "./Players";
 
 const isAdmin = (playerID) => playerID === '0';
 

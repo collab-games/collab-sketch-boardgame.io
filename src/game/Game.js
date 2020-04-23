@@ -1,32 +1,12 @@
-import {GameState} from '../constants'
+import { GameState } from '../constants'
 import isEmpty from 'lodash/isEmpty';
-import random from 'lodash/random';
-import clone from 'lodash/clone';
 import { ActivePlayers } from "boardgame.io/dist/esm/core";
-import { endTurn, guessArt, startGame, updateSnapshotForCanvasOne, updateSnapshotForCanvasTwo, joinGame } from "./Moves";
-import { default as dictionaryWords } from '../words.json';
-import { firstCanvasPlayerIdFrom, secondCanvasPlayerIdFrom, nextActivePlayersFrom, updatePlayers } from "./Player";
-
-const uniqueWordsFor = (numOfRounds, numOfPlayers) => {
-  let count = (numOfRounds * numOfPlayers) > dictionaryWords.length ? dictionaryWords.length : numOfRounds * numOfPlayers;
-  let uniqueNumbers = [];
-  let uniqueWords = [];
-  while(count > 0) {
-    let index = random( dictionaryWords.length - 1);
-    if(!(index in uniqueNumbers)) {
-      uniqueWords.push(dictionaryWords[index]);
-      uniqueNumbers.push(index);
-      count--;
-    }
-  }
-  return uniqueWords;
-};
+import { endTurn, guessArt, joinGame, startGame, updateSnapshotForCanvasOne, updateSnapshotForCanvasTwo } from "./Moves";
+import { firstCanvasPlayerIdFrom, nextActivePlayersFrom, secondCanvasPlayerIdFrom, updatePlayers } from "./Players";
+import { uniqueWordsFor, nextWordsFrom, firstWord, secondWord } from "./Words";
 
 const initTurn = (G) => {
-  let allWords = clone(G.words.all);
-  const index = random(allWords.length - 1);
-  const currentWords = allWords.splice(index,1)[0];
-  const wordLengths = currentWords.split(' ').length === 2 ? currentWords.split(' ').map(word => word.length) : [0,0];
+  let {allWords, currentWords, firstWordLength, secondWordLength} = nextWordsFrom(G.words.all);
 
   return {
     words: {
@@ -36,8 +16,8 @@ const initTurn = (G) => {
     turn: {
       startTime: Date.now()
     },
-    canvasOne: { snapshot: {}, svg: "", chars: wordLengths[0] },
-    canvasTwo: { snapshot: {}, svg: "", chars: wordLengths[1] },
+    canvasOne: { snapshot: {}, svg: "", chars: firstWordLength },
+    canvasTwo: { snapshot: {}, svg: "", chars: secondWordLength },
   };
 };
 
@@ -46,9 +26,9 @@ const stripSecret = (G, playerId) => {
   if (isEmpty(words)) {
     return rest;
   } else if (playerId === firstCanvasPlayerIdFrom(G.players)) {
-    return { ...rest, word: words.current.split(' ')[0]};
+    return { ...rest, word: firstWord(words.current) }
   } else if (playerId === secondCanvasPlayerIdFrom(G.players)) {
-    return { ...rest, word: words.current.split(' ')[1]};
+    return { ...rest, word: secondWord(words.current) }
   } else {
     return rest;
   }

@@ -32,13 +32,12 @@ export const nextActivePlayersFrom = (players, totalPlayers) => {
   const artistIds = nextArtistIdsFrom(players);
   const guessPlayerIds = difference(activePlayerIds, artistIds);
   const inactivePlayerIds = difference(range(totalPlayers), activePlayerIds);
-  const activePlayers = {
+  return {
     ...assignStageTo(artistIds[0], 'drawCanvasOne'),
     ...assignStageTo(artistIds[1], 'drawCanvasTwo'),
     ...assignStageTo(guessPlayerIds, 'guess'),
     ...assignStageTo(inactivePlayerIds, 'inactive')
   }
-  return activePlayers;
 };
 
 export const firstCanvasPlayerIdFrom = (players) => findKey(players, (player) => player.turn.action === 'drawCanvasOne');
