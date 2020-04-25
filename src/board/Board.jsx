@@ -28,7 +28,8 @@ class CollabSketchBoard extends React.Component {
     super(props);
     this.state = {
       turn: props.ctx.turn,
-    }
+      timer: 0
+    };
     this.startGame = this.startGame.bind(this);
     this.isAdmin = this.isAdmin.bind(this);
     this.isActive = this.isActive.bind(this);
@@ -37,6 +38,7 @@ class CollabSketchBoard extends React.Component {
     this.isCanvasTwoArtist = this.isCanvasTwoArtist.bind(this);
     this.isPlayerGuessing = this.isPlayerGuessing.bind(this);
     this.endTurn = this.endTurn.bind(this);
+    this.decreaseTimer = this.decreaseTimer.bind(this);
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -91,6 +93,16 @@ class CollabSketchBoard extends React.Component {
     this.props.moves.endTurn(turn);
   }
 
+  decreaseTimer(timeHandler) {
+    const currentTime = this.state.timer - 1;
+    this.setState({
+      timer: currentTime
+    });
+    if (currentTime <= 0) {
+      clearInterval(timeHandler);
+    }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const previousTurn = prevState.turn;
     const currentTurn = this.state.turn;
@@ -103,17 +115,37 @@ class CollabSketchBoard extends React.Component {
         }
       });
       timer.addEventListener('targetAchieved', this.endTurn.bind(this, currentTurn));
+      this.setState({
+        timer: 60
+      });
+      let timeHandler;
+      timeHandler = setInterval(() => this.decreaseTimer(timeHandler), 1000);
     }
   }
 
   componentDidMount() {
     this.props.moves.joinGame(this.props.playerID, this.props.gameMetadata[parseInt(this.props.playerID)]['name']);
+    if (this.props.G.state === GameState.STARTED) {
+      const serverTime = this.props.G.turn.startTime;
+      const remainingTime =  this.props.G.settings.turnPeriod - Math.floor((Date.now() - serverTime)/1000);
+      this.setState({
+        timer: remainingTime
+      });
+      let timeHandler;
+      timeHandler = setInterval(() => this.decreaseTimer(timeHandler), 1000)
+    }
   }
 
+  renderTimer() {
+    if (this.state.timer > 0) {
+      return <span>Timer: {this.state.timer}</span>
+    }
+  }
   render() {
     const {G, ctx, playerID, moves} = this.props;
     let body = [
       <div key={0}>
+        {this.renderTimer()}
         {this.isCanvasOneArtist() ? <span>{G.word}</span> : <span>length: {G.canvasOne['chars']}</span>}
         {this.isCanvasOneArtist() && <Grid
           snapshot={G.canvasOne['snapshot']}
