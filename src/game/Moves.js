@@ -79,3 +79,7 @@ export const guessArt = (G, ctx, value) => {
 export const joinGame = (G, ctx, playerId, playerName) => {
     G.players[playerId] = newPlayer(playerName);
 };
+
+export const markSoundPlayed = (G, ctx, playerId) => {
+    G.players[playerId].turn.hasSoundPlayed = true;
+};
