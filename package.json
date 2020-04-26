@@ -18,7 +18,6 @@
     "boardgame.io": "^0.38.1",
     "bootstrap": "^4.4.1",
     "create-react-class": "^15.6.3",
-    "easytimer.js": "^4.1.1",
     "jest-canvas-mock": "^2.2.0",
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",

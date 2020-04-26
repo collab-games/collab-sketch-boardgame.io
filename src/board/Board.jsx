@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
-import Timer from 'easytimer.js';
 import Grid from "../components/Grid";
 import {GameState} from '../constants';
 import './Board.css';
@@ -93,33 +92,22 @@ class CollabSketchBoard extends React.Component {
     this.props.moves.endTurn(turn);
   }
 
-  decreaseTimer(timeHandler) {
+  decreaseTimer(timeHandler, turn) {
     const currentTime = this.state.timer - 1;
-    this.setState({
-      timer: currentTime
-    });
     if (currentTime <= 0) {
+      this.endTurn(turn);
       clearInterval(timeHandler);
     }
+    this.setState({ timer: currentTime });
   }
 
   componentDidUpdate(prevProps, prevState) {
     const previousTurn = prevState.turn;
     const currentTurn = this.state.turn;
     if (currentTurn > previousTurn) {
-      const timer = new Timer();
-      timer.start({
-        countdown: true,
-        startValues: {
-          seconds: this.props.G.settings.turnPeriod
-        }
-      });
-      timer.addEventListener('targetAchieved', this.endTurn.bind(this, currentTurn));
-      this.setState({
-        timer: 60
-      });
+      this.setState({ timer: prevProps.G.settings.turnPeriod });
       let timeHandler;
-      timeHandler = setInterval(() => this.decreaseTimer(timeHandler), 1000);
+      timeHandler = setInterval(() => this.decreaseTimer(timeHandler, currentTurn), 1000);
     }
   }
 
@@ -128,11 +116,9 @@ class CollabSketchBoard extends React.Component {
     if (this.props.G.state === GameState.STARTED) {
       const serverTime = this.props.G.turn.startTime;
       const remainingTime =  this.props.G.settings.turnPeriod - Math.floor((Date.now() - serverTime)/1000);
-      this.setState({
-        timer: remainingTime
-      });
+      this.setState({ timer: remainingTime });
       let timeHandler;
-      timeHandler = setInterval(() => this.decreaseTimer(timeHandler), 1000)
+      timeHandler = setInterval(() => this.decreaseTimer(timeHandler, this.props.ctx.turn), 1000)
     }
   }
 
