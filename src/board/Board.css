@@ -19,3 +19,15 @@
     min-height: 800px;
     background-color: #ddd;
 }
+
+.count-down-timer {
+    position: absolute;
+    vertical-align: center;
+    left: 700px;
+    top: -55px;
+    width: 50px;
+}
+
+.CircularProgressbar .CircularProgressbar-text{
+    font-size: 40px !important;
+}

@@ -10,6 +10,8 @@ import Col from "react-bootstrap/Col";
 import PlayerList from "../components/PlayerList";
 import ChatBox from "../components/ChatBox";
 import Container from "react-bootstrap/Container";
+import { CircularProgressbar } from 'react-circular-progressbar';
+import 'react-circular-progressbar/dist/styles.css';
 
 class CollabSketchBoard extends React.Component {
   static propTypes = {
@@ -38,6 +40,7 @@ class CollabSketchBoard extends React.Component {
     this.isPlayerGuessing = this.isPlayerGuessing.bind(this);
     this.endTurn = this.endTurn.bind(this);
     this.decreaseTimer = this.decreaseTimer.bind(this);
+    this.timerHandler = null;
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
@@ -92,11 +95,11 @@ class CollabSketchBoard extends React.Component {
     this.props.moves.endTurn(turn);
   }
 
-  decreaseTimer(timeHandler, turn) {
+  decreaseTimer(turn) {
     const currentTime = this.state.timer - 1;
     if (currentTime <= 0) {
       this.endTurn(turn);
-      clearInterval(timeHandler);
+      clearInterval(this.timerHandler);
     }
     this.setState({ timer: currentTime });
   }
@@ -105,9 +108,9 @@ class CollabSketchBoard extends React.Component {
     const previousTurn = prevState.turn;
     const currentTurn = this.state.turn;
     if (currentTurn > previousTurn) {
+      clearInterval(this.timerHandler);
+      this.timerHandler = setInterval(() => this.decreaseTimer(currentTurn), 1000);
       this.setState({ timer: prevProps.G.settings.turnPeriod });
-      let timeHandler;
-      timeHandler = setInterval(() => this.decreaseTimer(timeHandler, currentTurn), 1000);
     }
   }
 
@@ -116,15 +119,19 @@ class CollabSketchBoard extends React.Component {
     if (this.props.G.state === GameState.STARTED) {
       const serverTime = this.props.G.turn.startTime;
       const remainingTime =  this.props.G.settings.turnPeriod - Math.floor((Date.now() - serverTime)/1000);
+      clearInterval(this.timerHandler);
+      this.timerHandler = setInterval(() => this.decreaseTimer(this.props.ctx.turn), 1000);
       this.setState({ timer: remainingTime });
-      let timeHandler;
-      timeHandler = setInterval(() => this.decreaseTimer(timeHandler, this.props.ctx.turn), 1000)
     }
   }
 
   renderTimer() {
     if (this.state.timer > 0) {
-      return <span>Timer: {this.state.timer}</span>
+      return (
+        <div className="count-down-timer">
+        <CircularProgressbar maxValue={60} value={this.state.timer} text={this.state.timer} />
+      </div>
+      );
     }
   }
   render() {
