@@ -8,7 +8,6 @@ class PlayerList extends React.Component {
   static propTypes = {
     players: PropTypes.object.isRequired,
     currentPlayerId: PropTypes.any,
-    moves: PropTypes.any,
   };
 
   constructor(props) {
@@ -16,13 +15,15 @@ class PlayerList extends React.Component {
     this.correctGuess = new UIfx('/ta-da.mp3');
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     const { players, currentPlayerId } = this.props;
     const currentPlayer = players[currentPlayerId];
 
-    if (currentPlayer.turn.hasGuessed && !currentPlayer.turn.hasSoundPlayed) {
+    const currentScore = currentPlayer.game.score;
+    const previousScore = prevProps.players[currentPlayerId].game.score;
+
+    if (currentScore > previousScore) {
         this.correctGuess.play();
-        this.props.moves.markSoundPlayed(currentPlayerId);
     }
 
   }

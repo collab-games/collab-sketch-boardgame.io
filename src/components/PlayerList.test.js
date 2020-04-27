@@ -2,7 +2,12 @@ import React from "react";
 import { shallow } from "enzyme";
 import PlayerList from "./PlayerList";
 import ListGroup from "react-bootstrap/ListGroup";
+import UIfx from 'uifx';
+import cloneDeep from 'lodash/cloneDeep';
 
+  jest.mock('uifx', () => jest.fn())  ;
+const play = jest.fn();
+UIfx.mockImplementation(() => ({play}));
 
 describe('<PlayerList>', function () {
 
@@ -11,9 +16,9 @@ describe('<PlayerList>', function () {
   beforeEach(() => {
     window.HTMLMediaElement.prototype.load = () => {};
     players = {
-      '0' : { game: { joined: true, name: 'bond', score: 10 }, turn: { hasGuessed: false, hasSoundPlayed: false}},
-      '1' : { game: { joined: true, name: 'abc', score: 30 }, turn: { hasGuessed: true, hasSoundPlayed: false}},
-      '2' : { game: { joined: true, name: 'def', score: 20 }, turn: { hasGuessed: false, hasSoundPlayed: false}}
+      '0' : { game: { joined: true, name: 'bond', score: 10 }, turn: { hasGuessed: false }},
+      '1' : { game: { joined: true, name: 'abc', score: 30 }, turn: { hasGuessed: true }},
+      '2' : { game: { joined: true, name: 'def', score: 20 }, turn: { hasGuessed: false }}
     };
   });
 
@@ -36,10 +41,11 @@ describe('<PlayerList>', function () {
     expect(wrapper.find(ListGroup.Item).at(1).props().variant).toContain('success');
   });
 
-  it('should play sound and mark sound as played', () => {
+  it('should play sound on correct guess', () => {
     const wrapper = shallow(<PlayerList players={players} currentPlayerId={1}/>);
-    const moves = { markSoundPlayed: jest.fn() };
-    wrapper.setProps({ players: players, moves});
-    expect(moves.markSoundPlayed).toHaveBeenCalledWith(1);
+    const updatedPlayers = cloneDeep(players);
+    updatedPlayers[1].game.score = 50;
+    wrapper.setProps({ players: updatedPlayers });
+    expect(play).toHaveBeenCalled();
   });
 });

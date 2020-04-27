@@ -1,7 +1,7 @@
 import { GameState } from '../constants'
 import isEmpty from 'lodash/isEmpty';
 import { ActivePlayers } from "boardgame.io/dist/esm/core";
-import { endTurn, guessArt, joinGame, startGame, updateSnapshotForCanvasOne, updateSnapshotForCanvasTwo, markSoundPlayed } from "./Moves";
+import { endTurn, guessArt, joinGame, startGame, updateSnapshotForCanvasOne, updateSnapshotForCanvasTwo } from "./Moves";
 import { firstCanvasPlayerIdFrom, nextActivePlayersFrom, secondCanvasPlayerIdFrom, updatePlayers } from "./Players";
 import { uniqueWordsFor, nextWordsFrom, firstWord, secondWord } from "./Words";
 
@@ -91,7 +91,7 @@ const CollabSketch = {
             moves: { updateSnapshotForCanvasTwo, endTurn },
           },
           guess: {
-            moves: { guessArt, endTurn, markSoundPlayed },
+            moves: { guessArt, endTurn },
           },
           inactive: {
             moves: { joinGame },

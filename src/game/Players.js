@@ -13,7 +13,6 @@ export const newPlayer = (playerName) => ({
     action: '',
     hasGuessed: false,
     guessPosition: 0,
-    hasSoundPlayed: false,
   }
 })
 
@@ -48,7 +47,7 @@ const playerIds = players => Object.keys(players).map( key => parseInt(key));
 
 const updatePlayerAction = (player, action) => ({ ...player, turn:{ ...player.turn, action }});
 
-const resetPlayer = player => ({ ...player, turn:{ action:'', guessPosition: 0, hasGuessed: false, hasSoundPlayed: false }});
+const resetPlayer = player => ({ ...player, turn:{ action:'', guessPosition: 0, hasGuessed: false }});
 
 const difference = (arr1, arr2) => arr1.filter(x => !arr2.includes(x));
 
