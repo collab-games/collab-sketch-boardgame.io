@@ -181,7 +181,7 @@ class CollabSketchBoard extends React.Component {
           </Col>
           <Col style={{paddingRight: 0}} md={{span: 2}}>
             <div>
-              <PlayerList players={this.getActivePlayers()} currentPlayerId={playerID}/>
+              <PlayerList G={G} players={this.getActivePlayers()} currentPlayerId={playerID}/>
             </div>
             <div>
               {

@@ -4,17 +4,18 @@ import PlayerList from "./PlayerList";
 import ListGroup from "react-bootstrap/ListGroup";
 import UIfx from 'uifx';
 import cloneDeep from 'lodash/cloneDeep';
+import {GameState} from "../constants";
 
   jest.mock('uifx', () => jest.fn())  ;
-const play = jest.fn();
-UIfx.mockImplementation(() => ({play}));
 
 describe('<PlayerList>', function () {
 
   let players;
+  let play;
 
   beforeEach(() => {
-    window.HTMLMediaElement.prototype.load = () => {};
+    play = jest.fn();
+    UIfx.mockImplementation(() => ({play}));
     players = {
       '0' : { game: { joined: true, name: 'bond', score: 10 }, turn: { hasGuessed: false }},
       '1' : { game: { joined: true, name: 'abc', score: 30 }, turn: { hasGuessed: true }},
@@ -42,10 +43,18 @@ describe('<PlayerList>', function () {
   });
 
   it('should play sound on correct guess', () => {
-    const wrapper = shallow(<PlayerList players={players} currentPlayerId={1}/>);
+    const wrapper = shallow(<PlayerList G={{state: GameState.STARTED}} players={players} currentPlayerId={'1'}/>);
     const updatedPlayers = cloneDeep(players);
-    updatedPlayers[1].game.score = 50;
+    updatedPlayers['1'].game.score = 50;
     wrapper.setProps({ players: updatedPlayers });
-    expect(play).toHaveBeenCalled();
+    expect(play).toHaveBeenCalledTimes(1);
+  });
+
+  it('should play sound on other players guess', () => {
+    const wrapper = shallow(<PlayerList G={{state: GameState.STARTED}} players={players} currentPlayerId={'1'}/>);
+    const updatedPlayers = cloneDeep(players);
+    updatedPlayers['2'].game.score = 30;
+    wrapper.setProps({ players: updatedPlayers });
+    expect(play).toHaveBeenCalledTimes(1);
   });
 });

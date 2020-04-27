@@ -3,11 +3,13 @@ import ListGroup from "react-bootstrap/ListGroup";
 import PropTypes from 'prop-types';
 import UIfx from 'uifx';
 import './PlayerList.css';
+import { GameState } from "../constants";
 
 class PlayerList extends React.Component {
   static propTypes = {
     players: PropTypes.object.isRequired,
     currentPlayerId: PropTypes.any,
+    G: PropTypes.any
   };
 
   constructor(props) {
@@ -16,16 +18,24 @@ class PlayerList extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { players, currentPlayerId } = this.props;
+    const { G, players, currentPlayerId } = this.props;
     const currentPlayer = players[currentPlayerId];
 
-    const currentScore = currentPlayer.game.score;
-    const previousScore = prevProps.players[currentPlayerId].game.score;
+    if (G.state === GameState.STARTED) {
+      const currentScore = currentPlayer.game.score;
+      const previousScore = prevProps.players[currentPlayerId].game.score;
 
-    if (currentScore > previousScore) {
+      if (currentScore > previousScore) {
+          this.correctGuess.play();
+      }
+
+      const othersGuessed = Object.entries(players)
+        .find(([key, player]) => ((key !== currentPlayerId) && player.game.score > prevProps.players[key].game.score));
+
+      if (othersGuessed) {
         this.correctGuess.play();
+      }
     }
-
   }
 
   renderPlayers() {
