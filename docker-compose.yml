@@ -1,0 +1,6 @@
+version: '2.0'
+services:
+  collab-sketch:
+    image: srujankumar/collab-sketch
+    ports:
+      - "80:80"
