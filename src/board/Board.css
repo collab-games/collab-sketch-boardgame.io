@@ -8,7 +8,7 @@
 .canvas {
     display: block;
     width: 680px;
-    min-height: 800px;
+    min-height: 700px;
     border: 2px solid #5a6268;
 }
 
@@ -16,7 +16,7 @@
     display: block;
     width: 680px;
     border: 2px solid #5a6268;
-    min-height: 800px;
+    min-height: 700px;
     background-color: #ddd;
 }
 
@@ -30,4 +30,12 @@
 
 .CircularProgressbar .CircularProgressbar-text{
     font-size: 40px !important;
+}
+
+.word {
+    left: 280px;
+    position: relative;
+    font-size: 20px;
+    font-weight: bold;
+    bottom: 10px;
 }

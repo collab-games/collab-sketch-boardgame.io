@@ -1,7 +1,11 @@
 .players-list {
-    height: 350px;
+    height: 300px;
     overflow-y: auto;
 }
 .score {
     float: right;
+}
+
+.list-group-item {
+    padding: 8px !important;
 }

@@ -42,7 +42,7 @@ class Grid extends React.Component {
           onInit={this.initFunc}
           imageSize={{
             width: 750,
-            height: 800,
+            height: 700,
           }}
         />
         </div>

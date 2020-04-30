@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import isEmpty from 'lodash/isEmpty';
+import repeat from 'lodash/repeat';
 import Grid from "../components/Grid";
 import {GameState} from '../constants';
 import './Board.css';
@@ -134,12 +135,27 @@ class CollabSketchBoard extends React.Component {
       );
     }
   }
+
+  renderFirstWord() {
+    const { G } = this.props;
+    return <div className="word">
+      { this.isCanvasOneArtist() ? G.word : repeat('_ ', G.canvasOne['chars'])}
+    </div>;
+  }
+
+  renderSecondWord() {
+  const { G } = this.props;
+  return <div className="word">
+      { this.isCanvasTwoArtist() ? G.word : repeat('_ ', G.canvasTwo['chars'])}
+    </div>;
+  }
+
   render() {
     const {G, ctx, playerID, moves} = this.props;
     let body = [
       <div key={0}>
         {this.renderTimer()}
-        {this.isCanvasOneArtist() ? <span>{G.word}</span> : <span>length: {G.canvasOne['chars']}</span>}
+        {this.renderFirstWord()}
         {this.isCanvasOneArtist() && <Grid
           snapshot={G.canvasOne['snapshot']}
           updateSnapshot={moves.updateSnapshotForCanvasOne}
@@ -152,7 +168,7 @@ class CollabSketchBoard extends React.Component {
         />}
       </div>,
       <div key={1}>
-        {this.isCanvasTwoArtist() ? <span>{G.word}</span> : <span>length: {G.canvasTwo['chars']}</span>}
+        {this.renderSecondWord()}
         {this.isCanvasTwoArtist() && <Grid
           snapshot={G.canvasTwo['snapshot']}
           updateSnapshot={moves.updateSnapshotForCanvasTwo}
