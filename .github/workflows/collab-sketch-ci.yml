@@ -44,6 +44,9 @@ jobs:
           token: ${{ secrets.DIGITAL_OCEAN_ACCESS_TOKEN }}
       - uses: webfactory/ssh-agent@v0.2.0
         with:
-          ssh-private-key: ${{ secrets.DIGITAL_OCEAN_SSH_KEY }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - run: mkdir -p ~/.ssh && echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+        env:
+          SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
       - name: Run container on droplet
         run: doctl compute ssh collab-games --ssh-command "curl https://raw.githubusercontent.com/collab-games/collab-sketch/$GITHUB_SHA/docker-compose.yml | docker-compose -f - up -d"
