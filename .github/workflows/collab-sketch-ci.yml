@@ -8,40 +8,40 @@ on:
     branches: [ master ]
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js 13.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: 13.x
-    - run: npm ci
-    - run: npm test  
-      env:
-        CI: true
-
-  build-docker:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@master
-        with:
-          name: srujankumar/collab-sketch
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
-          tags: "latest,${{ env.GITHUB_SHA }}"
+#  test:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v2
+#    - name: Use Node.js 13.x
+#      uses: actions/setup-node@v1
+#      with:
+#        node-version: 13.x
+#    - run: npm ci
+#    - run: npm test
+#      env:
+#        CI: true
+#
+#  build-docker:
+#    needs: test
+#    runs-on: ubuntu-latest
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Publish to Registry
+#        uses: elgohr/Publish-Docker-Github-Action@master
+#        with:
+#          name: srujankumar/collab-sketch
+#          username: ${{ secrets.DOCKER_USERNAME }}
+#          password: ${{ secrets.DOCKER_PASSWORD }}
+#          tags: "latest,${{ env.GITHUB_SHA }}"
 
   deploy:
-    needs: build-docker
+#    needs: build-docker
     runs-on: ubuntu-latest
     steps:
       - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITAL_OCEAN_ACCESS_TOKEN }}
-      - run: mkdir -p ~/.ssh && echo ${{ secrets.DIGITAL_OCEAN_SSH_KEY }} >> ~/.ssh/id_rsa
+      - run: mkdir -p ~/.ssh && echo "${{ secrets.DIGITAL_OCEAN_SSH_KEY }}" >> ~/.ssh/id_rsa
       - name: Run container on droplet
         run: doctl compute ssh collab-games --ssh-command "curl https://raw.githubusercontent.com/collab-games/collab-sketch/$GITHUB_SHA/docker-compose.yml | docker-compose -f - up -d"
