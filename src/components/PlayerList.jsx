@@ -20,18 +20,17 @@ class PlayerList extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { G, players, currentPlayerId } = this.props;
-    const currentPlayer = players[currentPlayerId];
 
     if (G.state === GameState.STARTED) {
-      const currentScore = currentPlayer.game.score;
-      const previousScore = R.pathOr(0, `players.${currentPlayerId}.game.score`, prevProps);
+      const currentScore = R.pathOr(0, ['game', 'score'], players[currentPlayerId]);
+      const previousScore = R.pathOr(0,['game', 'score'], prevProps.players[currentPlayerId]);
 
       if (currentScore > previousScore) {
           this.correctGuess.play();
       }
 
       const othersGuessed = Object.entries(players)
-        .find(([key, player]) => ((key !== currentPlayerId) && player.game.score > R.pathOr(0, `players.${key}.game.score`, prevProps)));
+        .find(([key, player]) => ((key !== currentPlayerId) && player.game.score > R.pathOr(0, ['game', 'score'], prevProps.players[key])));
 
       if (othersGuessed) {
         this.correctGuess.play();
