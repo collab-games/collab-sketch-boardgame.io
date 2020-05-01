@@ -1,5 +1,6 @@
 import React from 'react';
 import ListGroup from "react-bootstrap/ListGroup";
+import * as R from 'ramda';
 import PropTypes from 'prop-types';
 import UIfx from 'uifx';
 import './PlayerList.css';
@@ -23,14 +24,14 @@ class PlayerList extends React.Component {
 
     if (G.state === GameState.STARTED) {
       const currentScore = currentPlayer.game.score;
-      const previousScore = prevProps.players[currentPlayerId].game.score;
+      const previousScore = R.pathOr(0, `players.${currentPlayerId}.game.score`, prevProps);
 
       if (currentScore > previousScore) {
           this.correctGuess.play();
       }
 
       const othersGuessed = Object.entries(players)
-        .find(([key, player]) => ((key !== currentPlayerId) && player.game.score > prevProps.players[key].game.score));
+        .find(([key, player]) => ((key !== currentPlayerId) && player.game.score > R.pathOr(0, `players.${key}.game.score`, prevProps)));
 
       if (othersGuessed) {
         this.correctGuess.play();
