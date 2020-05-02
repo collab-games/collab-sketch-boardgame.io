@@ -151,8 +151,28 @@ class CollabSketchBoard extends React.Component {
     </div>;
   }
 
-  render() {
-    const {G, ctx, playerID, moves} = this.props;
+  renderWaiting() {
+    const {G, playerID } = this.props;
+    const start =  this.isAdmin(playerID) ? <button onClick={this.startGame}>Start</button> : null ;
+
+    return (
+      <Container fluid={true}>
+        <Row>
+          <Col md={{span: 10}}>
+            { start }
+          </Col>
+          <Col style={{paddingRight: 0}} md={{span: 2}}>
+            <div>
+              <PlayerList G={G} players={this.getActivePlayers()} currentPlayerId={playerID}/>
+            </div>
+          </Col>
+        </Row>
+      </Container>
+    )
+  }
+
+  renderStarted() {
+    const {G, playerID, moves} = this.props;
     let body = [
       <div key={0}>
         {this.renderTimer()}
@@ -183,21 +203,13 @@ class CollabSketchBoard extends React.Component {
       </div>
     ];
 
-    switch (G.state) {
-      case GameState.ENDED:
-        return <LeaderBoard players={this.getActivePlayers()} />
-    }
-
-    return (
+    return(
       <Container fluid={true}>
         <Row>
           <Col md={{span: 10}}>
             <div>
-              {this.isAdmin(playerID) && G.state === GameState.WAITING ?
-                <button onClick={this.startGame}>Start</button> : null}
-              {G.state === GameState.ENDED && ctx.gameover && <h1> Winner: {ctx.gameover.winner}</h1>}
               <div className='board'>
-                {G.state === GameState.STARTED && body}
+                { body }
               </div>
             </div>
           </Col>
@@ -206,16 +218,30 @@ class CollabSketchBoard extends React.Component {
               <PlayerList G={G} players={this.getActivePlayers()} currentPlayerId={playerID}/>
             </div>
             <div>
-              {
-                G.state === GameState.STARTED &&
-                <ChatBox G={G} moves={moves} currentPlayer={G.players[playerID]}
+              <ChatBox G={G} moves={moves} currentPlayer={G.players[playerID]}
                          isPlayerGuessing={this.isPlayerGuessing()}/>
-              }
             </div>
           </Col>
         </Row>
       </Container>
-    );
+    )
+  }
+
+  render() {
+    const { G } = this.props;
+    switch (G.state) {
+      case GameState.WAITING:
+        return this.renderWaiting();
+
+      case GameState.STARTED:
+        return this.renderStarted();
+
+      case GameState.ENDED:
+        return <LeaderBoard players={this.getActivePlayers()} />;
+
+      default:
+        return null;
+    }
   }
 }
 
