@@ -56,7 +56,7 @@ jobs:
       - name: Run container on droplet
         run: |
           ip_address=$(doctl compute droplet list --tag-name production -o json | jq -r '.[0].networks.v4[0].ip_address')
-          ssh root@$ip_address "curl https://raw.githubusercontent.com/collab-games/collab-sketch/$GITHUB_SHA/docker-compose.yml | docker-compose -f - up -d"
+          ssh root@$ip_address "wget -q https://raw.githubusercontent.com/collab-games/collab-sketch/$GITHUB_SHA/docker-compose.yml -O docker-compose.yml && docker-compose pull && docker-compose up -d"
         shell: bash
         env:
           GITHUB_SHA: ${{ env.GITHUB_SHA }}
