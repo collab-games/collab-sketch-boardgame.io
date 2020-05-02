@@ -35,7 +35,7 @@ const stripSecret = (G, playerId) => {
 };
 
 const DEFAULT_NUM_OF_PLAYERS = 10;
-const DEFAULT_NUM_OF_ROUNDS = 10;
+const DEFAULT_NUM_OF_ROUNDS = 1;
 
 const onTurnBegin = (G, ctx)  => {
   const nextActivePlayers = nextActivePlayersFrom(G.players, ctx.numPlayers);

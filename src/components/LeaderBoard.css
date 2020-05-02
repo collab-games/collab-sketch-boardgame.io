@@ -1,0 +1,79 @@
+.leader-board {
+    width: 550px;
+    margin: 80px auto;
+}
+
+.winner {
+    margin: 30px;
+}
+
+.winner h2 {
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+}
+
+.leader-board-header {
+    width: 100%;
+    height: 60px;
+    background: rgba(0, 168, 232, 0.79);
+    text-align: center;
+    border-radius: 5px 5px 0 0;
+}
+.leader-board-header h2 {
+    margin: 0;
+    color: #fefefe;
+    padding-top: 10px;
+    font-size: 30px;
+    font-family: "Montserrat", sans-serif;
+    font-weight:bold;
+}
+
+.col-header {
+    background: rgba(254, 254, 254, 0.9);
+    width: 100%;
+    height: 100%;
+    margin: 0 !important;
+    text-align: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 5px;
+}
+.col-header h4 {
+    font-size: 20px;
+    font-family: "Montserrat", sans-serif;
+    font-weight:bold;
+}
+
+.users {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    -webkit-box-align: center;
+    align-items: center;
+    background: #fefefe;
+    width: 100%;
+    height: 100%;
+    margin: 0 !important;
+    padding: 5px;
+    text-align: center;
+}
+
+.users h4 {
+    font-family: "Montserrat", sans-serif;
+}
+
+.users .rank {
+    padding-left: 6px;
+}
+
+.users:nth-of-type(odd) {
+    background: rgba(254, 254, 254, 0.9);
+}
+.users:nth-of-type(even) {
+    background: rgba(240, 240, 240, 0.9);
+}
+.users:last-child {
+    border-radius: 0 0 5px 5px;
+}

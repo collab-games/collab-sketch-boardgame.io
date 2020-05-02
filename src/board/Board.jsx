@@ -9,6 +9,7 @@ import ReadOnlyCanvas from "../components/ReadOnlyCanvas";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import PlayerList from "../components/PlayerList";
+import LeaderBoard from "../components/LeaderBoard";
 import ChatBox from "../components/ChatBox";
 import Container from "react-bootstrap/Container";
 import { CircularProgressbar } from 'react-circular-progressbar';
@@ -181,6 +182,11 @@ class CollabSketchBoard extends React.Component {
         />}
       </div>
     ];
+
+    switch (G.state) {
+      case GameState.ENDED:
+        return <LeaderBoard players={this.getActivePlayers()} />
+    }
 
     return (
       <Container fluid={true}>
