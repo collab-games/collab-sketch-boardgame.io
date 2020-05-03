@@ -14,6 +14,7 @@ import ChatBox from "../components/ChatBox";
 import Container from "react-bootstrap/Container";
 import { CircularProgressbar } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import WaitingRoom from "../components/WaitingRoom";
 
 class CollabSketchBoard extends React.Component {
   static propTypes = {
@@ -33,8 +34,6 @@ class CollabSketchBoard extends React.Component {
       turn: props.ctx.turn,
       timer: 0
     };
-    this.startGame = this.startGame.bind(this);
-    this.isAdmin = this.isAdmin.bind(this);
     this.isActive = this.isActive.bind(this);
     this.getActivePlayers = this.getActivePlayers.bind(this);
     this.isCanvasOneArtist = this.isCanvasOneArtist.bind(this);
@@ -53,12 +52,6 @@ class CollabSketchBoard extends React.Component {
 
   getActivePlayers() {
     return this.props.G.players;
-  }
-
-  startGame() {
-    if (this.props.isActive) {
-      this.props.moves.startGame();
-    }
   }
 
   isActive() {
@@ -87,10 +80,6 @@ class CollabSketchBoard extends React.Component {
 
   isPlayerGuessing() {
     return !this.isCanvasOneArtist() && !this.isCanvasTwoArtist();
-  }
-
-  isAdmin(playerID) {
-    return playerID === '0';
   }
 
   endTurn(turn) {
@@ -152,23 +141,13 @@ class CollabSketchBoard extends React.Component {
   }
 
   renderWaiting() {
-    const {G, playerID } = this.props;
-    const start =  this.isAdmin(playerID) ? <button onClick={this.startGame}>Start</button> : null ;
-
-    return (
-      <Container fluid={true}>
-        <Row>
-          <Col md={{span: 10}}>
-            { start }
-          </Col>
-          <Col style={{paddingRight: 0}} md={{span: 2}}>
-            <div>
-              <PlayerList G={G} players={this.getActivePlayers()} currentPlayerId={playerID}/>
-            </div>
-          </Col>
-        </Row>
-      </Container>
-    )
+    const {G, playerID, moves:{ startGame }, isActive} = this.props;
+    return <WaitingRoom
+      startGameMove={ startGame }
+      isActive={ isActive }
+      playerID={ playerID }
+      G={G}
+    />
   }
 
   renderStarted() {

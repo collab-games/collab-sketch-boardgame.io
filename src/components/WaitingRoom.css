@@ -1,0 +1,12 @@
+.start-game-button {
+    width: 150px;
+    margin: 20px auto auto;
+}
+.waiting-info {
+    margin-top: 20px;
+    margin-bottom: 150px;
+}
+p.waiting-text {
+    color: darkgray;
+    font-family: Georgia, serif;
+}

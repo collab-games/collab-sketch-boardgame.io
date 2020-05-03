@@ -7,3 +7,5 @@ export const GameState = {
     STARTED: 1,
     ENDED: 2
 };
+
+export const MIN_PLAYERS_REQUIRED = 3;
