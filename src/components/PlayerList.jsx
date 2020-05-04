@@ -38,13 +38,19 @@ class PlayerList extends React.Component {
     }
   }
 
+  highLightCurrentPlayer(playerId) {
+    return this.props.currentPlayerId === playerId ? <span>&#9733;</span> : null;
+  }
+
   renderPlayers() {
     const { players } = this.props;
-    return Object.values(players)
-      .sort((p1, p2) => p2.game.score - p1.game.score)
-      .map((player, index) => <ListGroup.Item key={index} variant={(player.turn.hasGuessed) ? 'success' :''}>
-        <span>{player.game.name}</span>
-        <span className="score">{player.game.score}</span>
+
+    return Object.keys(players)
+      .sort((p1, p2) => players[p2].game.score - players[p1].game.score)
+      .map((playerId, index) => <ListGroup.Item key={index} variant={(players[playerId].turn.hasGuessed) ? 'success' :''}>
+        { this.highLightCurrentPlayer(playerId) }
+        <span>{players[playerId].game.name}</span>
+        <span className="score">{players[playerId].game.score}</span>
       </ListGroup.Item>);
   }
 

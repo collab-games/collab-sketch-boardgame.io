@@ -29,7 +29,7 @@ describe('<PlayerList>', function () {
   });
 
   it('should render players', () => {
-    const wrapper = shallow(<PlayerList players={players} currentPlayerId={1}/>);
+    const wrapper = shallow(<PlayerList players={players} currentPlayerId={'1'}/>);
     expect(wrapper.find(ListGroup.Item).length).toEqual(4);
     expect(wrapper.find(ListGroup.Item).at(1).text()).toContain('abc');
     expect(wrapper.find(ListGroup.Item).at(2).text()).toContain('def');
@@ -40,6 +40,11 @@ describe('<PlayerList>', function () {
     expect(wrapper.find(ListGroup.Item).at(3).text()).toContain('10');
 
     expect(wrapper.find(ListGroup.Item).at(1).props().variant).toContain('success');
+  });
+
+  it('should highLight current player', () => {
+    const wrapper = shallow(<PlayerList players={players} currentPlayerId={'1'}/>);
+    expect(wrapper.find(ListGroup.Item).at(1).text()).toContain('★');
   });
 
   it('should play sound on correct guess', () => {
