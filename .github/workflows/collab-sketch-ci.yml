@@ -39,10 +39,6 @@ jobs:
     needs: build-docker
     runs-on: ubuntu-latest
     steps:
-      - name: Install doctl
-        uses: digitalocean/action-doctl@v2
-        with:
-          token: ${{ secrets.DIGITAL_OCEAN_ACCESS_TOKEN }}
       - name: Create SSH key
         run: |
           mkdir -p ~/.ssh/
@@ -55,8 +51,10 @@ jobs:
           SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
       - name: Run container on droplet
         run: |
-          ip_address=$(doctl compute droplet list --tag-name production -o json | jq -r '.[0].networks.v4[0].ip_address')
-          ssh root@$ip_address "wget -q https://raw.githubusercontent.com/collab-games/collab-sketch/$GITHUB_SHA/docker-compose.yml -O docker-compose.yml && docker-compose pull && docker-compose up -d"
+          ssh root@collabsketch.app "mkdir -p /data/certs && echo \"$SSL_CERT\" > /data/certs/cert.pem && echo \"$SSL_KEY\" > /data/certs/key.pem"
+          ssh root@collabsketch.app "wget -q https://raw.githubusercontent.com/collab-games/collab-sketch/$GITHUB_SHA/docker-compose.yml -O docker-compose.yml && docker-compose pull && docker-compose up -d"
         shell: bash
         env:
           GITHUB_SHA: ${{ env.GITHUB_SHA }}
+          SSL_CERT: ${{ secrets.SSL_CERT }}
+          SSL_KEY: ${{ secrets.SSL_KEY }}

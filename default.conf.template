@@ -1,5 +1,11 @@
 server {
     listen 80;
+    listen 443 http2 ssl;
+
+    server_name collabsketch.app;
+
+    ssl_certificate /etc/nginx/certs/cert.pem;
+    ssl_certificate_key /etc/nginx/certs/key.pem;
 
     rewrite_log on;
     client_max_body_size   11M;

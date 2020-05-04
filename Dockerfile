@@ -22,5 +22,5 @@ COPY --from=builder ./app/supervisord.conf /etc/supervisord.conf
 
 COPY default.conf.template /etc/nginx/conf.d/default.conf
 
-EXPOSE 80
+EXPOSE 80 443
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]

@@ -4,3 +4,6 @@ services:
     image: srujankumar/collab-sketch:latest
     ports:
       - "80:80"
+      - "443:443"
+    volumes:
+      - /data/certs:/etc/nginx/certs
