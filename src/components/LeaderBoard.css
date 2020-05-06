@@ -1,3 +1,10 @@
+.leader-board-container {
+    background: url("/unsplash.jpg");
+    background-size: cover;
+    height: 770px;
+    padding: 5px;
+}
+
 .leader-board {
     width: 550px;
     margin: 80px auto;
@@ -10,6 +17,7 @@
 .winner h2 {
     text-align: center;
     font-family: "Montserrat", sans-serif;
+    color: white;
 }
 
 .leader-board-header {

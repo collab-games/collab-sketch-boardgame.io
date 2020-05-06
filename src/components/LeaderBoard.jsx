@@ -73,7 +73,7 @@ class LeaderBoard extends React.Component {
     const winner = Object.values(players)
       .sort((p1, p2) => p2.game.score - p1.game.score)[0];
     return (
-      <div>
+      <div className="leader-board-container">
         <div className="leader-board">
           <Winner name={winner.game.name} />
           <LeaderBoardHeader/>
