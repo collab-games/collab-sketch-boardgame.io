@@ -27,8 +27,10 @@
     "node-persist": "^3.0.5",
     "node-sass": "^4.13.1",
     "prop-types": "^15.7.2",
+    "ramda": "^0.27.0",
     "react": "^16.13.1",
     "react-bootstrap": "^1.0.0",
+    "react-bootstrap-icons": "^1.0.1-alpha3",
     "react-card-flip": "^1.0.10",
     "react-chat-window": "^1.2.1",
     "react-circular-progressbar": "^2.0.3",
@@ -38,8 +40,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.1",
     "superagent": "^5.2.2",
-    "uifx": "^2.0.7",
-    "ramda": "^0.27.0"
+    "uifx": "^2.0.7"
   },
   "devDependencies": {
     "enzyme": "^3.9.0",

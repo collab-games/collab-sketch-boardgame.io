@@ -1,8 +1,10 @@
 .quote {
     width: 680px;
-    margin: 0 auto;
+    margin: 50px auto 50PX;
+    padding-left: 50px;
     padding-top: 80px;
     padding-bottom: 80px;
+    background-color: aliceblue;
 }
 
 .testimonial-quote {

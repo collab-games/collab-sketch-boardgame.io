@@ -12,6 +12,7 @@ import './WaitingRoom.css';
 import {MIN_PLAYERS_REQUIRED} from "../constants";
 import Badge from "react-bootstrap/Badge";
 import Spinner from "react-bootstrap/Spinner";
+import { Union } from 'react-bootstrap-icons';
 
 class WaitingRoom extends React.Component {
 
@@ -73,6 +74,19 @@ class WaitingRoom extends React.Component {
       )
   }
 
+  sharingInfo() {
+    return (
+          <div className="share-info">
+            <div className="share-game-link">
+              <label>ZEXEFGD</label>
+            </div>
+            <div className="clipboard">
+              <Union size={30}/>
+            </div>
+          </div>
+    );
+  }
+
   render() {
     const {G, playerID} = this.props;
     const randomQuote = quotes[random(quotes.length - 1)];
@@ -81,8 +95,15 @@ class WaitingRoom extends React.Component {
         <Container fluid={true}>
           <Row>
             <Col md={{span: 10}}>
-              {this.isAdmin(playerID) ? this.startGameButton() : this.waitingInfo()}
-              <Quote text={randomQuote.quote} author={randomQuote.author}/>
+              <Row>
+                  {this.isAdmin(playerID) ? this.startGameButton() : this.waitingInfo()}
+              </Row>
+              <Row>
+                <Quote text={randomQuote.quote} author={randomQuote.author}/>
+              </Row>
+              <Row>
+                {this.sharingInfo()}
+              </Row>
             </Col>
             <Col style={{paddingRight: 0}} md={{span: 2}}>
               <div>
