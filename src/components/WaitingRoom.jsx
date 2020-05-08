@@ -1,5 +1,4 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
@@ -8,11 +7,11 @@ import size from 'lodash/size';
 import Quote from "./Quote";
 import {default as quotes} from "../quotes.json";
 import PlayerList from "./PlayerList";
-import './WaitingRoom.css';
 import {MIN_PLAYERS_REQUIRED} from "../constants";
-import Badge from "react-bootstrap/Badge";
 import Spinner from "react-bootstrap/Spinner";
-import { Union } from 'react-bootstrap-icons';
+import { Union, PlayFill } from 'react-bootstrap-icons';
+import { CopyToClipboard } from "react-copy-to-clipboard/lib/Component";
+import './WaitingRoom.css';
 
 class WaitingRoom extends React.Component {
 
@@ -33,10 +32,11 @@ class WaitingRoom extends React.Component {
     return this.props.G.players;
   }
 
-  startGame() {
+  startGame(event) {
+    event.preventDefault();
     if (this.props.isActive) {
       if (size(this.getActivePlayers()) >= MIN_PLAYERS_REQUIRED) {
-        this.props.startGameMove();
+        this.props.startGame();
       }
     }
   }
@@ -44,13 +44,12 @@ class WaitingRoom extends React.Component {
   startGameButton() {
     const canStartGame = size(this.getActivePlayers()) >= MIN_PLAYERS_REQUIRED;
     return (
-      <div className="start-game-button text-center">
-        <Button onClick={this.startGame} disabled={ !canStartGame }>
-          Start Game
-        </Button>
-        {canStartGame ? '': <Badge variant="light">Minimum 3 players required to play**</Badge>}
-
-      </div>
+      <Row className="start-game-button-container">
+        <div className="start-game-button text-center" onClick={this.startGame}>
+            <PlayFill size="50" color="#495057" />
+        </div>
+        {canStartGame ? '': <label className="start-game-hint">min 3 players required **</label>}
+      </Row>
     )
   }
 
@@ -76,14 +75,17 @@ class WaitingRoom extends React.Component {
 
   sharingInfo() {
     return (
-          <div className="share-info">
-            <div className="share-game-link">
-              <label>ZEXEFGD</label>
-            </div>
-            <div className="clipboard">
-              <Union size={30}/>
-            </div>
+      <Row className="share-info-container">
+        <label> Share Room Code:</label>
+        <div className="share-info">
+          <label className="share-game-link">{this.props.gameID}</label>
+          <div className="clipboard">
+            <CopyToClipboard text={this.props.gameID}>
+              <Union size="30" color="#495057" />
+            </CopyToClipboard>
           </div>
+        </div>
+      </Row>
     );
   }
 

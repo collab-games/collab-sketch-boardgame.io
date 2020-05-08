@@ -1,7 +1,4 @@
-.start-game-button {
-    width: 150px;
-    margin: 20px auto auto;
-}
+
 .waiting-info {
     margin-top: 20px;
 }
@@ -11,27 +8,59 @@ p.waiting-text {
 }
 
 .share-game-link {
-    display: block;
-    float: left;
-    border-right: black dashed 1px;
-    vertical-align: text-top;
-    background-color: aliceblue;
-    padding: 1px 5px 0px 5px;
+    margin: 0;
+    border-right: darkgoldenrod solid 1px;
+    padding: 1px 5px;
     font-size: 2rem;
-    border-top-left-radius: 15px;
-    border-bottom-left-radius: 15px;
+}
+
+.share-info-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.share-info-container > label {
+    color: darkgoldenrod;
+    font-size: 1.5rem;
 }
 
 .share-info {
-    border: blue solid 2px;
+    border: darkgoldenrod solid 2px;
     border-radius: 15px;
-    display: inline-block;
-    margin: auto;
+    display: flex;
+    justify-content: left;
+    align-items: center;
 }
 
 .clipboard {
-    display: block;
-    float: left;
     padding: 10px;
+    background-color: #e9ecef;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    cursor: pointer;
+}
+
+.start-game-button-container {
+    margin-top: 20px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.start-game-button {
+    padding: 10px;
+    border: darkgoldenrod solid 2px;
+    border-radius: 41px;
+    background-color: #e9ecef;
+    cursor: pointer;
+}
+
+.start-game-hint {
+    color: darkgray;
 }
 

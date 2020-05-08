@@ -10,6 +10,7 @@ class CollabSketchBoard extends React.Component {
     G: PropTypes.any.isRequired,
     ctx: PropTypes.any.isRequired,
     events: PropTypes.any.isRequired,
+    gameID: PropTypes.string.isRequired,
     moves: PropTypes.any.isRequired,
     playerID: PropTypes.string.isRequired,
     isActive: PropTypes.bool.isRequired,
@@ -24,15 +25,16 @@ class CollabSketchBoard extends React.Component {
   }
 
   render() {
-    const { G, playerID, moves:{ startGame }, isActive } = this.props;
+    const { G, playerID, moves:{ startGame }, isActive, gameID } = this.props;
     switch (G.state) {
       case GameState.WAITING:
         return (
           <WaitingRoom
-            startGameMove={ startGame }
-            isActive={ isActive }
-            playerID={ playerID }
             G={G}
+            startGame={startGame}
+            isActive={isActive}
+            gameID={gameID}
+            playerID={playerID}
           />
         );
 
