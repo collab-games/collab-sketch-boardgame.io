@@ -12,6 +12,8 @@ import Spinner from "react-bootstrap/Spinner";
 import { Union, PlayFill } from 'react-bootstrap-icons';
 import { CopyToClipboard } from "react-copy-to-clipboard/lib/Component";
 import './WaitingRoom.css';
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import Tooltip from "react-bootstrap/Tooltip";
 
 class WaitingRoom extends React.Component {
 
@@ -22,6 +24,12 @@ class WaitingRoom extends React.Component {
     this.startGame = this.startGame.bind(this);
     this.startGameButton = this.startGameButton.bind(this);
     this.waitingInfo = this.waitingInfo.bind(this);
+    this.onCopyToClipboard = this.onCopyToClipboard.bind(this);
+    this.sharingInfo = this.sharingInfo.bind(this);
+    this.state = {
+      copied: false,
+      quote: quotes[random(quotes.length - 1)]
+    }
   }
 
   isAdmin(playerID) {
@@ -45,7 +53,7 @@ class WaitingRoom extends React.Component {
     const canStartGame = size(this.getActivePlayers()) >= MIN_PLAYERS_REQUIRED;
     return (
       <Row className="start-game-button-container">
-        <div className="start-game-button text-center" onClick={this.startGame}>
+        <div className="start-game-button" onClick={this.startGame}>
             <PlayFill size="50" color="#495057" />
         </div>
         {canStartGame ? '': <label className="start-game-hint">min 3 players required **</label>}
@@ -73,6 +81,10 @@ class WaitingRoom extends React.Component {
       )
   }
 
+  onCopyToClipboard() {
+    this.setState({ copied: true });
+  }
+
   sharingInfo() {
     return (
       <Row className="share-info-container">
@@ -80,9 +92,18 @@ class WaitingRoom extends React.Component {
         <div className="share-info">
           <label className="share-game-link">{this.props.gameID}</label>
           <div className="clipboard">
-            <CopyToClipboard text={this.props.gameID}>
-              <Union size="30" color="#495057" />
-            </CopyToClipboard>
+            <OverlayTrigger
+              placement="right"
+              delay={{ show: 250, hide: 400 }}
+              overlay={this.state.copied ? <Tooltip id="button-tooltip">Copied!</Tooltip>: <Tooltip id="button-tooltip">Click to Copy!</Tooltip>}
+            >
+              <CopyToClipboard
+                text={this.props.gameID}
+                onCopy={this.onCopyToClipboard}
+              >
+                <Union size="30" color="#495057" />
+              </CopyToClipboard>
+            </OverlayTrigger>
           </div>
         </div>
       </Row>
@@ -91,17 +112,17 @@ class WaitingRoom extends React.Component {
 
   render() {
     const {G, playerID} = this.props;
-    const randomQuote = quotes[random(quotes.length - 1)];
+    const { quote } = this.state;
     return (
       <div>
         <Container fluid={true}>
           <Row>
             <Col md={{span: 10}}>
               <Row>
-                  {this.isAdmin(playerID) ? this.startGameButton() : this.waitingInfo()}
+                {this.isAdmin(playerID) ? this.startGameButton() : this.waitingInfo()}
               </Row>
               <Row>
-                <Quote text={randomQuote.quote} author={randomQuote.author}/>
+                <Quote text={quote.quote} author={quote.author}/>
               </Row>
               <Row>
                 {this.sharingInfo()}
@@ -114,9 +135,10 @@ class WaitingRoom extends React.Component {
             </Col>
           </Row>
         </Container>
-      </div>
-    );
-  }
-}
 
-export default WaitingRoom;
+      </div>
+  );
+  }
+  }
+
+  export default WaitingRoom;
