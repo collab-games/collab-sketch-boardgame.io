@@ -4,7 +4,7 @@ import {CircularProgressbar} from "react-circular-progressbar";
 import 'react-circular-progressbar/dist/styles.css';
 import './Timer.css';
 
-class TurnTimer extends React.Component {
+class SelectionTimer extends React.Component {
   static propTypes = {
     G: PropTypes.any.isRequired,
     ctx: PropTypes.any.isRequired,
@@ -23,9 +23,15 @@ class TurnTimer extends React.Component {
     this.timerHandler = null;
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    if (nextProps.ctx.turn > prevState.turn) {
+      return {turn: nextProps.ctx.turn};
+    } else return null;
+  }
+
   componentDidMount() {
-    const serverTime = this.props.G.turn.startTime;
-    const remainingTime =  this.props.G.settings.turnPeriod - Math.floor((Date.now() - serverTime)/1000);
+    const serverTime = this.props.G.turn.selectionStartTime;
+    const remainingTime =  this.props.G.settings.selectionPeriod - Math.floor((Date.now() - serverTime)/1000);
     clearInterval(this.timerHandler);
     this.timerHandler = setInterval(() => this.decreaseTimer(this.props.ctx.turn), 1000);
     this.setState({ timer: remainingTime });
@@ -33,7 +39,7 @@ class TurnTimer extends React.Component {
   }
 
   endTurn(turn) {
-    this.props.moves.endTurn(turn);
+    this.props.moves.endSelection(turn);
   }
 
   decreaseTimer(turn) {
@@ -43,6 +49,16 @@ class TurnTimer extends React.Component {
       clearInterval(this.timerHandler);
     }
     this.setState({ timer: currentTime });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const previousTurn = prevState.turn;
+    const currentTurn = this.state.turn;
+    if (currentTurn > previousTurn) {
+      clearInterval(this.timerHandler);
+      this.timerHandler = setInterval(() => this.decreaseTimer(currentTurn), 1000);
+      this.setState({ timer: prevProps.G.settings.selectionPeriod });
+    }
   }
 
   renderTimer() {
@@ -62,4 +78,4 @@ class TurnTimer extends React.Component {
   }
 }
 
-export default TurnTimer;
+export default SelectionTimer;

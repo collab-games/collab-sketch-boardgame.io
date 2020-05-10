@@ -19,6 +19,19 @@ export const endTurn = {
   client: false
 };
 
+export const endSelection = {
+  move: (G, ctx, turn) => {
+    if (ctx.turn === turn && !isNull(G.turn.selectionStartTime)) {
+      const startTime = G.turn.selectionStartTime;
+      const period = G.settings.selectionPeriod;
+      if ((Date.now() - startTime) >= period * 1000) {
+        ctx.events.endTurn();
+      }
+    }
+  },
+  client: false
+};
+
 export const updateSnapshotForCanvasOne = {
   move: (G, ctx, snapshot, svg) => {
     G.canvasOne = {...G.canvasOne, snapshot, svg};

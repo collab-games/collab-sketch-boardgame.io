@@ -9,14 +9,14 @@ import {
   updateSnapshotForCanvasOne,
   updateSnapshotForCanvasTwo,
   choosePlayer,
-  chooseWord
+  chooseWord, endSelection
 } from "./Moves";
 import {
-  artistIdFrom,
+  choosingPlayerIdFrom,
   firstCanvasPlayerIdFrom,
-  nextArtistIdFrom,
+  nextActivePlayersForSelectionFrom,
   secondCanvasPlayerIdFrom,
-  updateChoosePlayer,
+  updatePlayers,
 } from "./Players";
 import {uniqueWordsFor, firstWord, secondWord, pickRandomWords} from "./Words";
 
@@ -28,6 +28,10 @@ const initChooseStage = (words) => {
       all: rest,
       selection: selected,
       current: ''
+    },
+    turn: {
+      startTime: null,
+      selectionStartTime: Date.now(),
     }
   };
 };
@@ -36,7 +40,7 @@ const stripSecret = (G, playerId) => {
   const { words, ...rest} = G;
   if (isEmpty(words)) {
     return rest;
-  } else if(playerId === artistIdFrom(G.players)) {
+  } else if(playerId === choosingPlayerIdFrom(G.players)) {
     return { ...rest, chooseWords: words.selection}
   } else if (playerId === firstCanvasPlayerIdFrom(G.players)) {
     return { ...rest, word: firstWord(words.current) }
@@ -51,9 +55,9 @@ const DEFAULT_NUM_OF_PLAYERS = 10;
 const DEFAULT_NUM_OF_ROUNDS = 10;
 
 const onTurnBegin = (G, ctx)  => {
-  const nextArtistId = nextArtistIdFrom(G.players);
-  ctx.events.setActivePlayers({value: { [nextArtistId] : 'choose'}});
-  return {...G, ...initChooseStage(G.words.all), players: updateChoosePlayer(G.players, nextArtistId)};
+  const nextActivePlayers = nextActivePlayersForSelectionFrom(G.players, ctx.numPlayers);
+  ctx.events.setActivePlayers({value: nextActivePlayers});
+  return {...G, ...initChooseStage(G.words.all), players: updatePlayers(G.players, nextActivePlayers)};
 };
 
 const CollabSketch = {
@@ -63,7 +67,8 @@ const CollabSketch = {
     players: {},
     state: GameState.WAITING,
     settings: {
-      turnPeriod: 30,
+      turnPeriod: 60,
+      selectionPeriod: 10,
       rounds: DEFAULT_NUM_OF_ROUNDS,
     },
     turn: {
@@ -103,7 +108,10 @@ const CollabSketch = {
         },
         stages: {
           choose: {
-            moves: { chooseWord, choosePlayer },
+            moves: { chooseWord, choosePlayer, endSelection },
+          },
+          waiting: {
+            moves: { endSelection },
           },
           drawCanvasOne: {
             moves: { updateSnapshotForCanvasOne, endTurn },

@@ -2,6 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import PlayArea from "../components/PlayArea";
 import TurnTimer from "../components/TurnTimer";
+import { isPlayerChoosing } from "../game/Players";
+import SelectionTimer from "../components/SelectionTimer";
 
 class PlayBoard extends React.Component {
   static propTypes = {
@@ -9,8 +11,7 @@ class PlayBoard extends React.Component {
     ctx: PropTypes.any.isRequired,
     moves: PropTypes.any.isRequired,
     playerID: PropTypes.string.isRequired,
-    isActive: PropTypes.bool.isRequired,
-    gameMetadata: PropTypes.array.isRequired,
+    isActive: PropTypes.bool.isRequired
   };
 
   constructor(props) {
@@ -21,7 +22,11 @@ class PlayBoard extends React.Component {
     const { G, ctx, playerID, isActive, moves } = this.props;
     return (
       <div>
-        <TurnTimer G={G} ctx={ctx} moves={moves} />
+        {
+          isPlayerChoosing(G.players)
+            ? <SelectionTimer G={G} ctx={ctx} moves={moves} />
+            : <TurnTimer G={G} ctx={ctx} moves={moves} />
+        }
         <PlayArea G={G} ctx={ctx} playerID={playerID} isActive={isActive} moves={moves}/>
       </div>
     )

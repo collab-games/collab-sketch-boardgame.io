@@ -1,22 +1,22 @@
 import React from 'react';
-import {artistIdFrom, playerNames} from "../game/Players";
+import {choosingPlayerIdFrom, playerNames} from "../game/Players";
 
 const ChooseBoard = (props) => {
   const { words, chooseWord, choosePlayer, players, currentPlayerId } = props;
-  if(currentPlayerId === artistIdFrom(players)) {
+  if(currentPlayerId === choosingPlayerIdFrom(players)) {
     return (
       <div>
         <h1>Player is choosing</h1>
         <p>Choose Word</p>
         {
-          words.map( word => <button onClick={() => chooseWord(word)}>
+          words.map( (word, index) => <button key={index} onClick={() => chooseWord(word)}>
               {word}
             </button>
           )
         }
         <p>Choose Player</p>
         {
-          playerNames(players).filter( player => player.playerId !== currentPlayerId ).map( player => <button onClick={() => choosePlayer(player.playerId)}>
+          playerNames(players).filter( player => player.playerId !== currentPlayerId ).map( (player, index) => <button key={index} onClick={() => choosePlayer(player.playerId)}>
               {player.playerName}
             </button>
           )

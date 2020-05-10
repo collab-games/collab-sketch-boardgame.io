@@ -28,19 +28,9 @@ export const updatePlayers = (players, nextActivePlayers) => {
   return updatedPlayers;
 }
 
-export const updateChoosePlayer = (players, currentPlayerId) => {
-  let updatedPlayers = {};
-  Object.entries(players)
-    .forEach(([k, player]) => {
-      updatedPlayers[k] = updatePlayerAction(resetPlayer(players[k]), 'waiting');
-  })
-  updatedPlayers[currentPlayerId] = updatePlayerAction(resetPlayer(players[currentPlayerId]), 'choose')
-  return updatedPlayers;
-}
-
 export const nextActivePlayersFrom = (players, totalPlayers) => {
   const activePlayerIds = playerIds(players);
-  const artistId = artistIdFrom(players);
+  const artistId = choosingPlayerIdFrom(players);
   const coArtistId = coArtistIdFrom(players);
   const guessPlayerIds = difference(activePlayerIds, [artistId, coArtistId]);
   const inactivePlayerIds = difference(range(totalPlayers).map( playerId => playerId.toString()), activePlayerIds);
@@ -52,11 +42,25 @@ export const nextActivePlayersFrom = (players, totalPlayers) => {
   }
 };
 
+export const nextActivePlayersForSelectionFrom = (players, totalPlayers) => {
+  const nextArtistId = nextArtistIdFrom(players);
+  const activePlayerIds = playerIds(players);
+  const waitingPlayerIds = difference(activePlayerIds, [nextArtistId])
+  const inactivePlayerIds = difference(range(totalPlayers).map( playerId => playerId.toString()), activePlayerIds);
+  return {
+    ...assignStageTo(nextArtistId, 'choose'),
+    ...assignStageTo(waitingPlayerIds, 'waiting'),
+    ...assignStageTo(inactivePlayerIds, 'inactive')
+  }
+};
+
 export const firstCanvasPlayerIdFrom = (players) => findKey(players, (player) => player.turn.action === 'drawCanvasOne');
 
 export const secondCanvasPlayerIdFrom = (players) => findKey(players, (player) => player.turn.action === 'drawCanvasTwo');
 
-export const artistIdFrom = (players) => findKey(players, player => player.turn.action === 'choose');
+export const artistIdFrom = (players) =>  choosingPlayerIdFrom(players)|| firstCanvasPlayerIdFrom(players);
+
+export const choosingPlayerIdFrom = (players) => findKey(players, player => player.turn.action === 'choose');
 
 const coArtistIdFrom = (players) => findKey(players, player => player.turn.coArtist);
 
@@ -74,6 +78,8 @@ const resetPlayer = player => ({ ...player, turn:{ action:'', guessPosition: 0, 
 
 const difference = (arr1, arr2) => arr1.filter(x => !arr2.includes(x));
 
+export const isPlayerChoosing = players => some(Object.values(players), player => player.turn.action === 'choose');
+
 const assignStageTo = (playerIds, stage) => {
   const ids = Array.isArray(playerIds) ? playerIds : [ playerIds ];
   let activePlayers = {};
@@ -85,7 +91,7 @@ const assignStageTo = (playerIds, stage) => {
 
 export const nextArtistIdFrom = (players) => {
   const numOfPlayers = size(players);
-  const currArtistId = firstCanvasPlayerIdFrom(players);
+  const currArtistId = artistIdFrom(players);
   if(isEmpty(currArtistId)) {
     return '0';
   } else {

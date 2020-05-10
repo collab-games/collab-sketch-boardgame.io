@@ -4,12 +4,8 @@ import { GameState } from '../constants';
 import LeaderBoard from "./LeaderBoard";
 import PlayBoard from "./PlayBoard";
 import WaitingRoom from "../components/WaitingRoom";
-import some from "lodash/some";
 import ChooseBoard from "./ChooseBoard";
-
-const isPlayerChoosing = players => {
-  return some(Object.values(players), player => player.turn.action === 'choose');
-}
+import {isPlayerChoosing, choosingPlayerIdFrom} from "../game/Players";
 
 class CollabSketchBoard extends React.Component {
   static propTypes = {
@@ -31,7 +27,7 @@ class CollabSketchBoard extends React.Component {
   }
 
   render() {
-    const { G, playerID, moves:{ startGame, chooseWord, choosePlayer }, isActive, gameID } = this.props;
+    const { G, ctx, playerID, moves:{ startGame, chooseWord, choosePlayer }, isActive, gameID, moves } = this.props;
     switch (G.state) {
       case GameState.WAITING:
         return (
@@ -46,13 +42,15 @@ class CollabSketchBoard extends React.Component {
 
       case GameState.STARTED:
         return isPlayerChoosing(G.players)
-          ? <ChooseBoard
-            words={G.chooseWords}
-            chooseWord={chooseWord}
-            choosePlayer={choosePlayer}
-            players={G.players}
-            currentPlayerId={playerID}
-          />
+          ? (playerID === choosingPlayerIdFrom(G.players))
+            ? <ChooseBoard
+              words={G.chooseWords}
+              chooseWord={chooseWord}
+              choosePlayer={choosePlayer}
+              players={G.players}
+              currentPlayerId={playerID}
+            />
+            : <PlayBoard G={G} ctx={ctx} moves={moves} playerID={playerID} isActive={isActive} />
           : <PlayBoard {...this.props} />;
 
       case GameState.ENDED:
