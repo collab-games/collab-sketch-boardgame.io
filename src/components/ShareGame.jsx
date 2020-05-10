@@ -4,6 +4,7 @@ import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import {CopyToClipboard} from "react-copy-to-clipboard/lib/Component";
 import {Union} from "react-bootstrap-icons";
+import './ShareGame.css';
 
 class ShareGame extends React.Component {
   constructor(props) {
