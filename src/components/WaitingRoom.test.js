@@ -1,8 +1,10 @@
 import React from "react";
 import {shallow} from "enzyme";
 import WaitingRoom from "./WaitingRoom";
-import Button from 'react-bootstrap/Button';
 import PlayerList from "./PlayerList";
+import {PlayFill} from "react-bootstrap-icons";
+import Quote from './Quote';
+import ShareGame from "./ShareGame";
 
 describe('<WaitingRoom>', function () {
   it('should start the game', () => {
@@ -14,12 +16,14 @@ describe('<WaitingRoom>', function () {
     expect(startGame).toHaveBeenCalled();
   });
 
-  it('should not have optoin to start the game when player is not admin', () => {
+  it('should not have option to start the game when player is not admin', () => {
     const G = { players: {'0': {}, '1': {}, '2': {}} };
     const startGame = jest.fn();
     const component = shallow(<WaitingRoom isActive={true} startGame={startGame} playerID={'1'} G={G}/>);
 
-    expect(component.find(Button).exists()).toBeFalsy();
+    expect(component.find('.start-game-button').exists()).toBeFalsy();
+    expect(component.find(PlayFill).exists()).toBeFalsy();
+    expect(component.find('.waiting-text').text()).toContain('Waiting for admin to start the Game');
   });
 
   it('should show players', () => {
@@ -41,4 +45,32 @@ describe('<WaitingRoom>', function () {
     component.find('.start-game-button').simulate('click', { preventDefault: jest.fn()});
     expect(startGame).not.toHaveBeenCalled();
   });
+
+  it('should show quote for admin', () => {
+    const G = { players: {'0': {}, '1': {}, '2': {}} };
+    const startGame = jest.fn();
+    const component = shallow(<WaitingRoom isActive={true} startGame={startGame} playerID={'0'} G={G}/>);
+
+    const quote = component.find(Quote);
+    expect(quote.exists()).toBeTruthy();
+  });
+
+  it('should show quote for players who are not admin', () => {
+    const G = { players: {'0': {}, '1': {}, '2': {}} };
+    const startGame = jest.fn();
+    const component = shallow(<WaitingRoom isActive={true} startGame={startGame} playerID={'0'} G={G}/>);
+
+    const quote = component.find(Quote);
+    expect(quote.exists()).toBeTruthy();
+  });
+
+  it('should show information for sharing room', () => {
+    const G = { players: {'0': {}, '1': {}, '2': {}} };
+    const startGame = jest.fn();
+    const component = shallow(<WaitingRoom isActive={true} startGame={startGame} playerID={'0'} G={G} gameID={'xf3dxf'}/>);
+
+    const shareGame = component.find(ShareGame);
+    expect(shareGame.props().gameID).toBe('xf3dxf');
+  });
+
 });
