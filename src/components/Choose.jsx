@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Choose = (props) => {
-  const { words, chooseWord, choosePlayer, players } = props;
+  const { words, chooseWord, choosePlayer, players, currentPlayerId } = props;
   console.log(props);
   return (
     <div>
@@ -15,7 +15,7 @@ const Choose = (props) => {
       }
       <p>Choose Player</p>
       {
-        players.map( player => <button onClick={() => choosePlayer(player.playerId)}>
+        players.filter( player => player.playerId !== currentPlayerId ).map( player => <button onClick={() => choosePlayer(player.playerId)}>
             {player.playerName}
           </button>
         )

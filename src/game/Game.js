@@ -14,6 +14,7 @@ import {
 import {
   artistIdFrom,
   firstCanvasPlayerIdFrom,
+  nextArtistIdFrom,
   secondCanvasPlayerIdFrom,
   updateChoosePlayer,
 } from "./Players";
@@ -50,8 +51,9 @@ const DEFAULT_NUM_OF_PLAYERS = 10;
 const DEFAULT_NUM_OF_ROUNDS = 10;
 
 const onTurnBegin = (G, ctx)  => {
-  ctx.events.setActivePlayers({value: { '0': 'choose'}});
-  return {...G, ...initChooseStage(G.words.all), players: updateChoosePlayer(G.players, 0)};
+  const nextArtistId = nextArtistIdFrom(G.players);
+  ctx.events.setActivePlayers({value: { [nextArtistId] : 'choose'}});
+  return {...G, ...initChooseStage(G.words.all), players: updateChoosePlayer(G.players, nextArtistId)};
 };
 
 const CollabSketch = {

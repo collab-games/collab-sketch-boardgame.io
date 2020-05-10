@@ -83,22 +83,12 @@ const assignStageTo = (playerIds, stage) => {
   return activePlayers;
 };
 
-const currentArtistIdsFrom = (players) => {
-  const firstArtist = firstCanvasPlayerIdFrom(players);
-  const secondArtist = secondCanvasPlayerIdFrom(players);
-  if ( firstArtist && secondArtist) {
-    return [ parseInt(firstArtist), parseInt(secondArtist) ]
-  } else {
-    return [];
-  }
-}
-
-const nextArtistIdsFrom = (players) => {
+export const nextArtistIdFrom = (players) => {
   const numOfPlayers = size(players);
-  const currArtistIds = currentArtistIdsFrom(players);
-  if(isEmpty(currArtistIds)) {
-    return [0, 1];
+  const currArtistId = firstCanvasPlayerIdFrom(players);
+  if(isEmpty(currArtistId)) {
+    return '0';
   } else {
-    return [ (currArtistIds[1] + 1) % numOfPlayers, (currArtistIds[1] + 2) % numOfPlayers];
+    return ((parseInt(currArtistId) + 1) % numOfPlayers).toString();
   }
 };

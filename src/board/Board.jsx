@@ -48,7 +48,13 @@ class CollabSketchBoard extends React.Component {
       case GameState.STARTED:
         return isPlayerChoosing(G.players)
           ? playerID === artistIdFrom(G.players)
-            ? <Choose words={G.chooseWords} chooseWord={chooseWord} choosePlayer={choosePlayer} players={playerNames(G.players)}/>
+            ? <Choose
+              words={G.chooseWords}
+              chooseWord={chooseWord}
+              choosePlayer={choosePlayer}
+              players={playerNames(G.players)}
+              currentPlayerId={playerID}
+            />
             : <h1>Wait till selection is complete!</h1>
           : <Game {...this.props} />;
 

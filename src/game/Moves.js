@@ -124,9 +124,11 @@ export const chooseWord = {
 
 export const choosePlayer = {
   move: (G, ctx, coArtistId) => {
-    G.players[coArtistId] = makeCoArtist(G.players[coArtistId])
-    if(isSelectionComplete(G)) {
-      initRound(G, ctx);
+    if(ctx.playerID !== coArtistId) {
+      G.players[coArtistId] = makeCoArtist(G.players[coArtistId])
+      if(isSelectionComplete(G)) {
+        initRound(G, ctx);
+      }
     }
   },
   client: false
