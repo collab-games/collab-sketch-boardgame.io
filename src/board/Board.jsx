@@ -27,7 +27,7 @@ class CollabSketchBoard extends React.Component {
   componentDidMount() {
     const { G, playerID, moves, gameMetadata } = this.props;
     if (!(G.players[playerID] && G.players[playerID].game.joined)) {
-      moves.joinGame(playerID, gameMetadata[parseInt(playerID)]['name']);
+      moves.joinGame(gameMetadata[parseInt(playerID)]['name']);
     }
   }
 

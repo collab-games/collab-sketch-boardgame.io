@@ -91,9 +91,8 @@ export const guessArt = {
 };
 
 export const joinGame = {
-  move: (G, ctx, playerId, playerName) => {
-    // ctx.playerID
-    G.players[playerId] = newPlayer(playerName);
+  move: (G, ctx, playerName) => {
+    G.players[ctx.playerID] = newPlayer(playerName);
   },
   client: false
 };
