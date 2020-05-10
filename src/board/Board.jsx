@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { GameState } from '../constants';
-import LeaderBoard from "../components/LeaderBoard";
-import Game from "./Game";
+import LeaderBoard from "./LeaderBoard";
+import PlayBoard from "./PlayBoard";
 import WaitingRoom from "../components/WaitingRoom";
 import some from "lodash/some";
-import Choose from "../components/Choose";
-import {artistIdFrom, playerNames} from "../game/Players";
+import ChooseBoard from "./ChooseBoard";
 
 const isPlayerChoosing = players => {
   return some(Object.values(players), player => player.turn.action === 'choose');
@@ -47,16 +46,14 @@ class CollabSketchBoard extends React.Component {
 
       case GameState.STARTED:
         return isPlayerChoosing(G.players)
-          ? playerID === artistIdFrom(G.players)
-            ? <Choose
-              words={G.chooseWords}
-              chooseWord={chooseWord}
-              choosePlayer={choosePlayer}
-              players={playerNames(G.players)}
-              currentPlayerId={playerID}
-            />
-            : <h1>Wait till selection is complete!</h1>
-          : <Game {...this.props} />;
+          ? <ChooseBoard
+            words={G.chooseWords}
+            chooseWord={chooseWord}
+            choosePlayer={choosePlayer}
+            players={G.players}
+            currentPlayerId={playerID}
+          />
+          : <PlayBoard {...this.props} />;
 
       case GameState.ENDED:
         return <LeaderBoard players={G.players} />;

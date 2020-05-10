@@ -63,11 +63,12 @@ const CollabSketch = {
     players: {},
     state: GameState.WAITING,
     settings: {
-      turnPeriod: 60,
+      turnPeriod: 30,
       rounds: DEFAULT_NUM_OF_ROUNDS,
     },
     turn: {
       startTime: null,
+      selectionStartTime: null,
     },
     words: {
       all: uniqueWordsFor(DEFAULT_NUM_OF_ROUNDS, DEFAULT_NUM_OF_PLAYERS),

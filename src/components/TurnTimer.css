@@ -1,0 +1,11 @@
+.count-down-timer {
+    position: absolute;
+    left: 700px;
+    top: 0;
+    width: 50px;
+}
+
+.CircularProgressbar .CircularProgressbar-text{
+    font-size: 40px !important;
+}
+
