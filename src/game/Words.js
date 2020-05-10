@@ -20,6 +20,13 @@ export const uniqueWordsFor = (numOfRounds, numOfPlayers) => {
 export const firstWord = words => words.split(' ').length === 2 ? words.split(' ')[0] : '';
 export const secondWord = words => words.split(' ').length === 2 ? words.split(' ')[1] : '';
 
+export const pickRandomWord = words => {
+  const all = clone(words);
+  const index = random(all.length - 1);
+  const selected = all.splice(index, 1)[0];
+  return { selected, rest: all };
+}
+
 export const nextWordsFrom = (gameWords) => {
   const allWords = clone(gameWords);
   const index = random(allWords.length - 1);
@@ -30,4 +37,15 @@ export const nextWordsFrom = (gameWords) => {
     firstWordLength: firstWord(currentWords).length,
     secondWordLength: secondWord(currentWords).length,
   };
+}
+
+export const pickRandomWords = (gameWords) => {
+  let pickedWords = [];
+  let all = clone(gameWords);
+  for ( let i = 0; i < 3; i++) {
+    let { selected, rest } = pickRandomWord(all);
+    pickedWords.push(selected)
+    all = rest;
+  }
+  return { selected: pickedWords, rest: all };
 }

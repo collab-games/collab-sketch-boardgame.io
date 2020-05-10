@@ -4,6 +4,13 @@ import { GameState } from '../constants';
 import LeaderBoard from "../components/LeaderBoard";
 import Game from "./Game";
 import WaitingRoom from "../components/WaitingRoom";
+import some from "lodash/some";
+import Choose from "../components/Choose";
+import {artistIdFrom, playerNames} from "../game/Players";
+
+const isPlayerChoosing = players => {
+  return some(Object.values(players), player => player.turn.action === 'choose');
+}
 
 class CollabSketchBoard extends React.Component {
   static propTypes = {
@@ -25,7 +32,7 @@ class CollabSketchBoard extends React.Component {
   }
 
   render() {
-    const { G, playerID, moves:{ startGame }, isActive, gameID } = this.props;
+    const { G, playerID, moves:{ startGame, chooseWord, choosePlayer }, isActive, gameID } = this.props;
     switch (G.state) {
       case GameState.WAITING:
         return (
@@ -39,7 +46,11 @@ class CollabSketchBoard extends React.Component {
         );
 
       case GameState.STARTED:
-        return <Game {...this.props} />;
+        return isPlayerChoosing(G.players)
+          ? playerID === artistIdFrom(G.players)
+            ? <Choose words={G.chooseWords} chooseWord={chooseWord} choosePlayer={choosePlayer} players={playerNames(G.players)}/>
+            : <h1>Wait till selection is complete!</h1>
+          : <Game {...this.props} />;
 
       case GameState.ENDED:
         return <LeaderBoard players={G.players} />;

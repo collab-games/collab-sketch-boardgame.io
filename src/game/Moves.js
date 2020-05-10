@@ -1,6 +1,8 @@
 import isNull from "lodash/isNull";
 import {GameState} from "../constants";
-import { newPlayer } from "./Players";
+import {isCoArtistSelected, makeCoArtist, newPlayer, nextActivePlayersFrom, updatePlayers} from "./Players";
+import isEmpty from "lodash/isEmpty";
+import {firstWord, secondWord} from "./Words";
 
 const isAdmin = (playerID) => playerID === '0';
 
@@ -90,7 +92,43 @@ export const guessArt = {
 
 export const joinGame = {
   move: (G, ctx, playerId, playerName) => {
+    // ctx.playerID
     G.players[playerId] = newPlayer(playerName);
+  },
+  client: false
+};
+
+const updateCurrentWord = (G, word) => {
+  G.words= { ...G.words, current: word, selection: []};
+  G.canvasOne = { snapshot: {}, svg: "", chars: firstWord(word).length };
+  G.canvasTwo = { snapshot: {}, svg: "", chars: secondWord(word).length };
+};
+
+const isSelectionComplete = (G) => isCoArtistSelected(G.players) && !isEmpty(G.words.current);
+
+const initRound = (G, ctx) => {
+  const nextActivePlayers = nextActivePlayersFrom(G.players, ctx.numPlayers);
+  G.players = updatePlayers(G.players, nextActivePlayers);
+  G.turn.startTime = Date.now();
+  ctx.events.setActivePlayers({value: nextActivePlayers});
+};
+
+export const chooseWord = {
+  move: (G, ctx, word) => {
+    updateCurrentWord(G, word);
+    if(isSelectionComplete(G)) {
+      initRound(G, ctx);
+    }
+  },
+  client: false
+};
+
+export const choosePlayer = {
+  move: (G, ctx, coArtistId) => {
+    G.players[coArtistId] = makeCoArtist(G.players[coArtistId])
+    if(isSelectionComplete(G)) {
+      initRound(G, ctx);
+    }
   },
   client: false
 };

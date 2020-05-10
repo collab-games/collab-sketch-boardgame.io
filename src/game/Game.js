@@ -1,23 +1,33 @@
 import { GameState } from '../constants'
 import isEmpty from 'lodash/isEmpty';
 import { ActivePlayers } from "boardgame.io/dist/esm/core";
-import { endTurn, guessArt, joinGame, startGame, updateSnapshotForCanvasOne, updateSnapshotForCanvasTwo } from "./Moves";
-import { firstCanvasPlayerIdFrom, nextActivePlayersFrom, secondCanvasPlayerIdFrom, updatePlayers } from "./Players";
-import { uniqueWordsFor, nextWordsFrom, firstWord, secondWord } from "./Words";
+import {
+  endTurn,
+  guessArt,
+  joinGame,
+  startGame,
+  updateSnapshotForCanvasOne,
+  updateSnapshotForCanvasTwo,
+  choosePlayer,
+  chooseWord
+} from "./Moves";
+import {
+  artistIdFrom,
+  firstCanvasPlayerIdFrom,
+  secondCanvasPlayerIdFrom,
+  updateChoosePlayer,
+} from "./Players";
+import {uniqueWordsFor, firstWord, secondWord, pickRandomWords} from "./Words";
 
-const initTurn = (G) => {
-  let {allWords, currentWords, firstWordLength, secondWordLength} = nextWordsFrom(G.words.all);
+const initChooseStage = (words) => {
+  const { selected, rest } = pickRandomWords(words);
 
   return {
     words: {
-      all: allWords,
-      current: currentWords,
-    },
-    turn: {
-      startTime: Date.now()
-    },
-    canvasOne: { snapshot: {}, svg: "", chars: firstWordLength },
-    canvasTwo: { snapshot: {}, svg: "", chars: secondWordLength },
+      all: rest,
+      selection: selected,
+      current: ''
+    }
   };
 };
 
@@ -25,6 +35,8 @@ const stripSecret = (G, playerId) => {
   const { words, ...rest} = G;
   if (isEmpty(words)) {
     return rest;
+  } else if(playerId === artistIdFrom(G.players)) {
+    return { ...rest, chooseWords: words.selection}
   } else if (playerId === firstCanvasPlayerIdFrom(G.players)) {
     return { ...rest, word: firstWord(words.current) }
   } else if (playerId === secondCanvasPlayerIdFrom(G.players)) {
@@ -38,9 +50,8 @@ const DEFAULT_NUM_OF_PLAYERS = 10;
 const DEFAULT_NUM_OF_ROUNDS = 10;
 
 const onTurnBegin = (G, ctx)  => {
-  const nextActivePlayers = nextActivePlayersFrom(G.players, ctx.numPlayers);
-  ctx.events.setActivePlayers({value: nextActivePlayers});
-  return {...G, ...initTurn(G), players: updatePlayers(G.players, nextActivePlayers)};
+  ctx.events.setActivePlayers({value: { '0': 'choose'}});
+  return {...G, ...initChooseStage(G.words.all), players: updateChoosePlayer(G.players, 0)};
 };
 
 const CollabSketch = {
@@ -53,8 +64,12 @@ const CollabSketch = {
       turnPeriod: 60,
       rounds: DEFAULT_NUM_OF_ROUNDS,
     },
+    turn: {
+      startTime: null,
+    },
     words: {
       all: uniqueWordsFor(DEFAULT_NUM_OF_ROUNDS, DEFAULT_NUM_OF_PLAYERS),
+      selection: [],
       current: '',
     },
     canvasOne: { snapshot: {}, svg: "", chars: 0 },
@@ -84,6 +99,9 @@ const CollabSketch = {
           console.log("Turn Ended");
         },
         stages: {
+          choose: {
+            moves: { chooseWord, choosePlayer },
+          },
           drawCanvasOne: {
             moves: { updateSnapshotForCanvasOne, endTurn },
           },
@@ -106,7 +124,7 @@ const CollabSketch = {
     },
   },
 
-  endIf: (G, ctx) => {
+  endIf: (G) => {
     if ( G.state === GameState.ENDED) {
       return { winner: 'someone'};
     }
