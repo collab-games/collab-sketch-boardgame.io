@@ -78,7 +78,7 @@ const resetPlayer = player => ({ ...player, turn:{ action:'', guessPosition: 0, 
 
 const difference = (arr1, arr2) => arr1.filter(x => !arr2.includes(x));
 
-export const isPlayerChoosing = players => some(Object.values(players), player => player.turn.action === 'choose');
+export const isChoosingStage = players => some(Object.values(players), player => player.turn.action === 'choose');
 
 const assignStageTo = (playerIds, stage) => {
   const ids = Array.isArray(playerIds) ? playerIds : [ playerIds ];

@@ -2,8 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import PlayArea from "../components/PlayArea";
 import TurnTimer from "../components/TurnTimer";
-import { isPlayerChoosing } from "../game/Players";
+import {artistIdFrom, isChoosingStage} from "../game/Players";
 import SelectionTimer from "../components/SelectionTimer";
+import ChooseModal from "../components/ChooseModal";
+
+const isChoosingPlayer = (players, playerId) => isChoosingStage(players) && playerId === artistIdFrom(players)
 
 class PlayBoard extends React.Component {
   static propTypes = {
@@ -22,8 +25,16 @@ class PlayBoard extends React.Component {
     const { G, ctx, playerID, isActive, moves } = this.props;
     return (
       <div>
+        <ChooseModal
+          words={G.chooseWords}
+          chooseWord={moves.chooseWord}
+          choosePlayer={moves.choosePlayer}
+          players={G.players}
+          currentPlayerId={playerID}
+          show={isChoosingPlayer(G.players, playerID)}
+        />
         {
-          isPlayerChoosing(G.players)
+          isChoosingStage(G.players)
             ? <SelectionTimer G={G} ctx={ctx} moves={moves} />
             : <TurnTimer G={G} ctx={ctx} moves={moves} />
         }

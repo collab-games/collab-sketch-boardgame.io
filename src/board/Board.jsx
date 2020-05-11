@@ -5,7 +5,7 @@ import LeaderBoard from "./LeaderBoard";
 import PlayBoard from "./PlayBoard";
 import WaitingRoom from "../components/WaitingRoom";
 import ChooseModal from "../components/ChooseModal";
-import {isPlayerChoosing, choosingPlayerIdFrom} from "../game/Players";
+import {isChoosingStage, choosingPlayerIdFrom} from "../game/Players";
 
 class CollabSketchBoard extends React.Component {
   static propTypes = {
@@ -41,17 +41,7 @@ class CollabSketchBoard extends React.Component {
         );
 
       case GameState.STARTED:
-        return isPlayerChoosing(G.players)
-          ? (playerID === choosingPlayerIdFrom(G.players))
-            ? <ChooseModal
-              words={G.chooseWords}
-              chooseWord={chooseWord}
-              choosePlayer={choosePlayer}
-              players={G.players}
-              currentPlayerId={playerID}
-            />
-            : <PlayBoard G={G} ctx={ctx} moves={moves} playerID={playerID} isActive={isActive} />
-          : <PlayBoard {...this.props} />;
+        return <PlayBoard G={G} ctx={ctx} moves={moves} playerID={playerID} isActive={isActive} />;
 
       case GameState.ENDED:
         return <LeaderBoard players={G.players} />;
