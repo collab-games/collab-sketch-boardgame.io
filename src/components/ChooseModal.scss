@@ -1,0 +1,36 @@
+.choose-word {
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    & .choose-word__label {
+        color: darkgoldenrod;
+        font-size: 2rem;
+    }
+
+    & .choose-word__word {
+        margin-bottom: 20px;
+        border-radius: 20px;
+    }
+
+}
+
+.choose-player {
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+
+    & .choose-player__label {
+        color: darkgoldenrod;
+        font-size: 2rem;
+    }
+
+    & .choose-player__player {
+        margin-bottom: 20px;
+        border-radius: 20px;
+    }
+}

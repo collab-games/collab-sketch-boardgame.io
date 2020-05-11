@@ -4,7 +4,7 @@ import { GameState } from '../constants';
 import LeaderBoard from "./LeaderBoard";
 import PlayBoard from "./PlayBoard";
 import WaitingRoom from "../components/WaitingRoom";
-import ChooseBoard from "./ChooseBoard";
+import ChooseModal from "../components/ChooseModal";
 import {isPlayerChoosing, choosingPlayerIdFrom} from "../game/Players";
 
 class CollabSketchBoard extends React.Component {
@@ -43,7 +43,7 @@ class CollabSketchBoard extends React.Component {
       case GameState.STARTED:
         return isPlayerChoosing(G.players)
           ? (playerID === choosingPlayerIdFrom(G.players))
-            ? <ChooseBoard
+            ? <ChooseModal
               words={G.chooseWords}
               chooseWord={chooseWord}
               choosePlayer={choosePlayer}
