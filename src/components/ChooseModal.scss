@@ -1,5 +1,11 @@
+.modal-outline {
+    background-color: aliceblue;
+    border: darkgoldenrod solid 5px;
+}
+
 .choose-word {
-    height: 500px;
+    min-height: 500px;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -8,17 +14,20 @@
     & .choose-word__label {
         color: darkgoldenrod;
         font-size: 2rem;
+        margin-top: 25px;
+        margin-bottom: 25px;;
     }
 
     & .choose-word__word {
-        margin-bottom: 20px;
-        border-radius: 20px;
+        margin-bottom: 25px;
+        border-radius: 25px;
+        font-size: 1.5rem;
     }
-
 }
 
 .choose-player {
-    height: 500px;
+    min-height: 500px;
+    height: auto;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -27,10 +36,21 @@
     & .choose-player__label {
         color: darkgoldenrod;
         font-size: 2rem;
+        margin: 25px 0;
     }
 
-    & .choose-player__player {
-        margin-bottom: 20px;
-        border-radius: 20px;
+    & .choose-player__players {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        flex-wrap: wrap;
+
+        & .choose-player__player {
+            margin: 5px 0;
+            border-radius: 25px;
+            font-size: 1.5rem;
+        }
     }
+
 }

@@ -4,7 +4,9 @@
     padding-left: 50px;
     padding-top: 80px;
     padding-bottom: 80px;
-    background-color: aliceblue;
+    background-color: #e2eff6;
+    border: #ffffff solid 5px;
+    border-radius: 50px;
 }
 
 .testimonial-quote {

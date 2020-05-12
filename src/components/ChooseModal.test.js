@@ -19,7 +19,7 @@ describe('<ChooseModal>', function () {
   });
 
   it('should render players', function () {
-    const words = ["word1", "word2", "word3"];
+    const words = [];
     const players = {
       '0':{game: {name: 'Amar'}, turn: {action: 'choose'}},
       '1':{game: {name: 'Akbar'}, turn: {action: 'waiting'}},
@@ -31,8 +31,8 @@ describe('<ChooseModal>', function () {
     );
 
     const buttons = component.find(Button);
-    expect(buttons.length).toBe(5);
-    expect(buttons.at(3).text()).toBe(players[1].game.name);
-    expect(buttons.at(4).text()).toBe(players[2].game.name);
+    expect(buttons.length).toBe(2);
+    expect(buttons.at(0).text()).toBe(players[1].game.name);
+    expect(buttons.at(1).text()).toBe(players[2].game.name);
   });
 });

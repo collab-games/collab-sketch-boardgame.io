@@ -8,37 +8,42 @@ import "./ChooseModal.scss";
 import Modal from "react-bootstrap/Modal";
 import ModalBody from "react-bootstrap/ModalBody";
 import isEmpty from 'lodash/isEmpty';
-import {choosingPlayerIdFrom, isCoArtistSelected, playerNames} from "../game/Players";
+import {isCoArtistSelected, playerNames} from "../game/Players";
 
 const ChooseModal = (props) => {
   const { words, chooseWord, choosePlayer, players, currentPlayerId, show } = props;
   return (
-    <Modal show={show} size="lg" centered >
-      <ModalBody>
+    <Modal show={show} size="lg" centered>
+      <ModalBody className="modal-outline">
         <Container>
           <Row>
-            <Col md={{span: 6}} className="choose-word">
-              <p className="choose-word__label">Choose Word</p>
-              {
-                isEmpty(words)
-                  ? <p>Word Chosen !</p>
-                  : words.map( (word, index) =>
-                    <Button variant="secondary" key={index} className="choose-word__word" onClick={() => chooseWord(word)}>
-                      {word}
-                    </Button> )
-              }
-            </Col>
-            <Col md={{span: 6}} className="choose-player">
-              <p className="choose-player__label">Choose Player</p>
-              {
-                isCoArtistSelected(players)
-                  ? <p>Player Chosen !</p>
-                  : playerNames(players).filter( player => player.playerId !== currentPlayerId ).map( (player, index) =>
-                    <Button variant="secondary" key={index} className="choose-player__player" onClick={() => choosePlayer(player.playerId)}>
-                      {player.playerName}
-                    </Button> )
-              }
-            </Col>
+            {!isEmpty(words) ?
+              <Col md={{span: 12}} className="choose-word">
+                <p className="choose-word__label">Choose Word</p>
+                {
+                  isEmpty(words)
+                    ? <p>Word Chosen !</p>
+                    : words.map((word, index) =>
+                      <Button variant="secondary" key={index} className="choose-word__word"
+                              onClick={() => chooseWord(word)}>
+                        {word}
+                      </Button>)
+                }
+              </Col> :
+              <Col md={{span: 12}} className="choose-player">
+                <p className="choose-player__label">Choose Player</p>
+                {
+                  isCoArtistSelected(players)
+                    ? <p>Player Chosen !</p>
+                    : <div className="choose-player__players"> { playerNames(players).filter(player => player.playerId !== currentPlayerId).map((player, index) =>
+                      <Button variant="secondary" key={index} className="choose-player__player"
+                              onClick={() => choosePlayer(player.playerId)}>
+                        {player.playerName}
+                      </Button>)}
+                    </div>
+                }
+              </Col>
+            }
           </Row>
         </Container>
       </ModalBody>

@@ -5,6 +5,7 @@ import { SERVER_PORT } from '../constants';
 import CollabSketch from "../game/Game";
 import CollabSketchBoard from "../board/Board";
 import Navbar from "react-bootstrap/Navbar";
+import './App.css'
 
 const url = window.location.protocol+'//'+window.location.hostname+(window.location.port ? ':'+window.location.port: '');
 
@@ -30,13 +31,13 @@ class App extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="player-container">
                 <div>
                     <Navbar bg="dark" variant="dark">
                         <Navbar.Brand>Collab Sketch</Navbar.Brand>
                     </Navbar>
                 </div>
-                <div className="player-container">
+                <div>
                     <CollabSketchClient gameID={this.state.gameId} credentials={this.state.credentials}
                                         playerID={this.state.playerId + ''}/>
                 </div>

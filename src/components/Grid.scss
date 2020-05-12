@@ -1,0 +1,14 @@
+.canvas {
+  display: block;
+  width: 680px;
+  min-height: 700px;
+  border: 2px solid #5a6268;
+}
+.literally {
+  background-color: #ffffff;
+
+  & .lc-picker, .lc-options {
+    background-color: #ffffff;
+  }
+}
+

@@ -2,6 +2,7 @@ import React from 'react';
 import LC from "literallycanvas";
 import 'literallycanvas/scss/literallycanvas.scss';
 import PropTypes from "prop-types";
+import "./Grid.scss";
 
 class Grid extends React.Component {
   static propTypes = {
@@ -35,7 +36,7 @@ class Grid extends React.Component {
 
   render() {
     return (
-        <div className='canvas' >
+      <div className="canvas">
         <LC.LiterallyCanvasReactComponent
           toolbarPosition='bottom'
           imageURLPrefix="/img"
@@ -45,7 +46,7 @@ class Grid extends React.Component {
             height: 700,
           }}
         />
-        </div>
+      </div>
   );
   }
 }
