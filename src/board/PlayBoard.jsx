@@ -6,7 +6,7 @@ import {artistIdFrom, isChoosingStage} from "../game/Players";
 import SelectionTimer from "../components/SelectionTimer";
 import ChooseModal from "../components/ChooseModal";
 
-const isChoosingPlayer = (players, playerId) => isChoosingStage(players) && playerId === artistIdFrom(players)
+const isChoosingPlayer = (players, playerId) => isChoosingStage(players) && playerId === artistIdFrom(players);
 
 class PlayBoard extends React.Component {
   static propTypes = {
