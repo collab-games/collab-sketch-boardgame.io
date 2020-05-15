@@ -4,7 +4,7 @@ import { GameState } from '../constants';
 import LeaderBoard from "./LeaderBoard";
 import PlayBoard from "./PlayBoard";
 import WaitingRoom from "../components/WaitingRoom";
-import ChooseModal from "../components/ChooseModal";
+import ChooseModal from "../components/ChooseModal/ChooseModal";
 import {isChoosingStage, choosingPlayerIdFrom} from "../game/Players";
 
 class CollabSketchBoard extends React.Component {

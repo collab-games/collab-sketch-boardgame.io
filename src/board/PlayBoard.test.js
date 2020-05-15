@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import PlayBoard from "./PlayBoard";
 import PlayArea from "../components/PlayArea";
-import ChooseModal from "../components/ChooseModal";
+import ChooseModal from "../components/ChooseModal/ChooseModal";
 import TurnTimer from "../components/TurnTimer";
 import SelectionTimer from "../components/SelectionTimer";
 
