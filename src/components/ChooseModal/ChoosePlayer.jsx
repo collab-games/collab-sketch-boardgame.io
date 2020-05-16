@@ -2,8 +2,15 @@ import React from 'react';
 import { playerNames } from "../../game/Players";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
+import PropTypes from "prop-types";
 
 class ChoosePlayer extends React.Component {
+
+  static propTypes = {
+    choosePlayer: PropTypes.func.isRequired,
+    players: PropTypes.object.isRequired,
+    currentPlayerId: PropTypes.string.isRequired,
+  };
 
   render() {
     const { choosePlayer, players, currentPlayerId } = this.props;
