@@ -12,6 +12,7 @@ export const endTurn = {
       const startTime = G.turn.startTime;
       const period = G.settings.turnPeriod;
       if ((Date.now() - startTime) >= period * 1000) {
+        showWordInChat(G);
         ctx.events.endTurn();
       }
     }
@@ -55,8 +56,16 @@ export const startGame = {
   client: false
 };
 
-const addScore = (players, currentPlayerId) => {
-    let activeGuessingPlayers = Object.values(players).filter(player => player.turn.action === 'guess');
+const guessingPlayers = (G) => {
+  return Object.values(G.players).filter(player => player.turn.action === 'guess');
+};
+
+const drawingPlayers = (G) => {
+  return Object.values(G.players).filter(player => player.turn.action !== 'guess');
+};
+
+const addScore = (players, currentPlayerId, value, G) => {
+    let activeGuessingPlayers = guessingPlayers(G);
     const currentGuessPosition = activeGuessingPlayers
       .map(player => player.turn.guessPosition)
       .sort((a, b) => b-a)[0];
@@ -66,12 +75,32 @@ const addScore = (players, currentPlayerId) => {
     players[currentPlayerId].game.score += score;
     players[currentPlayerId].turn.guessPosition = currentGuessPosition + 1;
 
+    const currentPlayerName = players[currentPlayerId].game.name;
+    const message = { ...value, data: { text: `${currentPlayerName} has guessed it correct [+${score}]` } };
+    G.players[currentPlayerId]['turn']['hasGuessed'] = true;
+    G.chatMessages = [...G.chatMessages, message];
+
     const everybodyGuessed = activeGuessingPlayers.every(player => player.turn.hasGuessed);
 
     if (everybodyGuessed) {
-        const drawingPlayers = Object.values(players).filter(player => player.turn.action !== 'guess');
-        drawingPlayers.forEach((player) => player.game.score += (activeGuessingPlayers.length) * 5);
+        const drawingPlayerBonus = (activeGuessingPlayers.length) * 5;
+        drawingPlayers(G).forEach((player) => player.game.score += drawingPlayerBonus);
+        showWordInChat(G);
+        const message = { ...value, data: { text: `Everybody has guessed it correct [+${drawingPlayerBonus}]` } };
+        G.chatMessages = [...G.chatMessages, message];
     }
+};
+
+const showWordInChat = (G) => {
+    const artistsNames = drawingPlayers(G).map((player) => player.game.name);
+    const message = {
+      author: 'me',
+      data: {
+        text: `${artistsNames.join(' and ')} were drawing ${G.words.current}.`
+      },
+      type: 'text'
+    };
+    G.chatMessages = [...G.chatMessages, message];
 };
 
 const endTurnIfAllGuessed = (players, ctx) => {
@@ -86,14 +115,10 @@ export const guessArt = {
   move: (G, ctx, value) => {
     const playerId = ctx.playerID;
     const split = value.data.text.split(':');
-    const playerName = split[0];
     const guess = split[1].trim();
     if (G.words && guess === G.words.current) {
       if (!G.players[playerId]['turn']['hasGuessed']) {
-        const message = { ...value, data: { text: `${playerName} has guessed it correct` } };
-        G.players[playerId]['turn']['hasGuessed'] = true;
-        G.chatMessages = [...G.chatMessages, message];
-        addScore(G.players, playerId);
+        addScore(G.players, playerId, value, G);
         endTurnIfAllGuessed(G.players, ctx);
       }
     } else {
