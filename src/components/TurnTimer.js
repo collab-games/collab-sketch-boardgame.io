@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {CircularProgressbar} from "react-circular-progressbar";
+import UIfx from 'uifx';
 import 'react-circular-progressbar/dist/styles.css';
 import './Timer.css';
 
@@ -21,6 +22,7 @@ class TurnTimer extends React.Component {
     this.decreaseTimer = this.decreaseTimer.bind(this);
     this.renderTimer = this.renderTimer.bind(this);
     this.timerHandler = null;
+    this.timerTick = new UIfx('/tick.mp3');
   }
 
   componentDidMount() {
@@ -42,6 +44,7 @@ class TurnTimer extends React.Component {
       this.endTurn(turn);
       clearInterval(this.timerHandler);
     }
+    if (currentTime <= 5) this.timerTick.play();
     this.setState({ timer: currentTime });
   }
 
