@@ -34,7 +34,7 @@ class CanvasOne extends React.Component {
   renderFirstWord() {
     const { G } = this.props;
     return <div className="word">
-      { this.isCanvasOneArtist() ? G.word : repeat('_ ', G.canvasOne['chars'])}
+      { this.isCanvasOneArtist() ? G.word : repeat('_ ', G.canvasOne['chars']) }
     </div>;
   }
 
@@ -46,8 +46,6 @@ class CanvasOne extends React.Component {
         {this.isCanvasOneArtist() && <Grid
           snapshot={G.canvasOne['snapshot']}
           updateSnapshot={moves.updateSnapshotForCanvasOne}
-          playerID={playerID}
-          id={0}
         />}
         {!this.isCanvasOneArtist() && <ReadOnlyCanvas
           svgText={G.canvasOne['svg']}

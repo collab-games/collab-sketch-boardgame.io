@@ -8,7 +8,6 @@ class Grid extends React.Component {
   static propTypes = {
     snapshot: PropTypes.any.isRequired,
     updateSnapshot: PropTypes.func.isRequired,
-    id: PropTypes.number.isRequired,
   };
 
   constructor(props) {
