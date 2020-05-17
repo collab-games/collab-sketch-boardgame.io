@@ -4,6 +4,7 @@ import ReadOnlyCanvas from "./ReadOnlyCanvas";
 import PropTypes from "prop-types";
 import repeat from "lodash/repeat";
 import isEmpty from "lodash/isEmpty";
+import {isChoosingStage} from "../../game/Players";
 
 class CanvasTwo extends React.Component {
 
@@ -41,7 +42,7 @@ class CanvasTwo extends React.Component {
     const { G, moves } = this.props;
     return (
       <div>
-        {this.renderSecondWord()}
+        { !isChoosingStage(G.players) && this.renderSecondWord() }
         {this.isCanvasTwoArtist() && <Grid
           snapshot={G.canvasTwo['snapshot']}
           updateSnapshot={moves.updateSnapshotForCanvasTwo}

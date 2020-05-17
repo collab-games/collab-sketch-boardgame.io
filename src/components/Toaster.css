@@ -1,0 +1,11 @@
+.toaster {
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+}
+
+.toaster-body {
+    background-color: #6c757d;
+    color: #ffffff;
+    font-size: large;
+}

@@ -8,6 +8,8 @@ import ChatBox from "../components/ChatBox";
 import './PlayArea.css';
 import CanvasOne from "./Canvas/CanvasOne";
 import CanvasTwo from "./Canvas/CanvasTwo";
+import { choosingPlayerIdFrom, isChoosingStage, isChoosingPlayer } from "../game/Players";
+import Toaster from "./Toaster";
 
 class PlayArea extends React.Component {
   static propTypes = {
@@ -34,6 +36,15 @@ class PlayArea extends React.Component {
     return !isDrawing;
   }
 
+  showToast() {
+    const { G: {players}, playerID } = this.props;
+    if (isChoosingStage(players) && !isChoosingPlayer(players, playerID)) {
+      const message = `${players[choosingPlayerIdFrom(players)].game.name} is choosing word and co-artist`;
+      return (<Toaster message={message} />);
+    }
+    return null;
+  }
+
   render() {
     const {G, ctx, playerID, moves, isActive} = this.props;
 
@@ -42,6 +53,7 @@ class PlayArea extends React.Component {
         <Row>
           <Col md={{span: 10}}>
             <div>
+              { this.showToast() }
               <div className='board'>
                 <CanvasOne G={G} ctx={ctx} playerID={playerID} moves={moves} isActive={isActive} />
                 <CanvasTwo G={G} ctx={ctx} playerID={playerID} moves={moves} isActive={isActive} />

@@ -2,7 +2,7 @@
     border-collapse: collapse;
     font-family: monospace;
     display: flex;
-    margin: 20px;
+    margin: 10px;
 }
 
 .svg-container {
@@ -14,9 +14,10 @@
 }
 
 .word {
+    margin-top: 5px;
+    height: 51px;
     left: 280px;
     position: relative;
     font-size: 20px;
     font-weight: bold;
-    bottom: 10px;
 }

@@ -5,6 +5,7 @@ import PlayArea from "../components/PlayArea";
 import ChooseModal from "../components/ChooseModal/ChooseModal";
 import TurnTimer from "../components/TurnTimer";
 import SelectionTimer from "../components/SelectionTimer";
+import { Toast } from "react-bootstrap";
 
 describe('<PlayBoard>', function () {
   const chooseWords = ["hello world", "air cooler"];

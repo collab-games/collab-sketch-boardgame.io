@@ -80,6 +80,8 @@ const difference = (arr1, arr2) => arr1.filter(x => !arr2.includes(x));
 
 export const isChoosingStage = players => some(Object.values(players), player => player.turn.action === 'choose');
 
+export const isChoosingPlayer = (players, playerId) => isChoosingStage(players) && playerId === artistIdFrom(players);
+
 const assignStageTo = (playerIds, stage) => {
   const ids = Array.isArray(playerIds) ? playerIds : [ playerIds ];
   let activePlayers = {};
