@@ -4,7 +4,7 @@ import ReadOnlyCanvas from "./ReadOnlyCanvas";
 import PropTypes from "prop-types";
 import repeat from "lodash/repeat";
 import isEmpty from "lodash/isEmpty";
-import {isChoosingStage} from "../../game/Players";
+import { isChoosingStage, secondCanvasPlayerIdFrom } from "../../game/Players";
 
 class CanvasTwo extends React.Component {
 
@@ -38,6 +38,15 @@ class CanvasTwo extends React.Component {
     </div>;
   }
 
+  artistName() {
+    const { G } = this.props;
+    const artistId = secondCanvasPlayerIdFrom(G.players);
+    if (artistId) {
+      return G.players[artistId].game.name;
+    }
+    return null;
+  }
+
   render() {
     const { G, moves } = this.props;
     return (
@@ -50,6 +59,7 @@ class CanvasTwo extends React.Component {
         />}
         {!this.isCanvasTwoArtist() && <ReadOnlyCanvas
           svgText={G.canvasTwo['svg']}
+          artistName={this.artistName()}
         />}
       </div>
     );

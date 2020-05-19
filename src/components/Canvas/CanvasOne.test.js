@@ -9,7 +9,7 @@ describe('<CanvasOne>', function () {
   const G = {
     players: {
       '0': {turn: {action: 'guess'}, game: {}},
-      '1': {turn: {action: 'drawCanvasOne'}, game: {}},
+      '1': {turn: {action: 'drawCanvasOne'}, game: {name: 'John'}},
       '2': {turn: {action: 'drawCanvasTwo'}, game: {}}
     },
     canvasOne: {snapshot: {}, svg: "", chars: 5},
@@ -35,6 +35,7 @@ describe('<CanvasOne>', function () {
     const readOnlyCanvas = component.find(ReadOnlyCanvas);
     expect(readOnlyCanvas.exists()).toBeTruthy();
     expect(readOnlyCanvas.props().svgText).toEqual(G.canvasOne.svg);
+    expect(readOnlyCanvas.props().artistName).toEqual('John');
   });
 
   it('should render Grid canvas if current player is canvas one artist', function () {

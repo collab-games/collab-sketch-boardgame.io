@@ -13,6 +13,16 @@
     background-color: #ffffff;
 }
 
+.read-only-canvas__artist-name {
+    position: absolute;
+    color: white;
+    background-color: #343a40;
+    opacity: 0.6;
+    padding: 5px;
+    border-bottom-right-radius: 5px;
+    font-size: large;
+}
+
 .word {
     margin-top: 5px;
     height: 51px;
