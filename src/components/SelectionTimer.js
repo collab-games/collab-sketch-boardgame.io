@@ -37,7 +37,10 @@ class SelectionTimer extends React.Component {
     clearInterval(this.timerHandler);
     this.timerHandler = setInterval(() => this.decreaseTimer(this.props.ctx.turn), 1000);
     this.setState({ timer: remainingTime });
+  }
 
+  componentWillUnmount() {
+    clearInterval(this.timerHandler);
   }
 
   endTurn(turn) {
@@ -47,8 +50,8 @@ class SelectionTimer extends React.Component {
   decreaseTimer(turn) {
     const currentTime = this.state.timer - 1;
     if (currentTime <= 0) {
-      this.endTurn(turn);
       clearInterval(this.timerHandler);
+      this.endTurn(turn);
     }
     if (currentTime <= 5) this.timerTick.play();
     this.setState({ timer: currentTime });
@@ -68,7 +71,7 @@ class SelectionTimer extends React.Component {
     if (this.state.timer > 0) {
       return (
         <div className="count-down-timer">
-          <CircularProgressbar maxValue={60} value={this.state.timer} text={this.state.timer}/>
+          <CircularProgressbar maxValue={10} value={this.state.timer} text={this.state.timer}/>
         </div>
       );
     } else {
