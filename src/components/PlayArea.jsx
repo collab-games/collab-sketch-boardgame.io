@@ -10,6 +10,8 @@ import CanvasOne from "./Canvas/CanvasOne";
 import CanvasTwo from "./Canvas/CanvasTwo";
 import { choosingPlayerIdFrom, isChoosingStage, isChoosingPlayer } from "../game/Players";
 import Toaster from "./Toaster";
+import ChooseModal from "./ChooseModal/ChooseModal";
+import {isEmpty} from "lodash";
 
 class PlayArea extends React.Component {
   static propTypes = {
@@ -37,12 +39,30 @@ class PlayArea extends React.Component {
   }
 
   showToast() {
-    const { G: {players}, playerID } = this.props;
-    if (isChoosingStage(players) && !isChoosingPlayer(players, playerID)) {
-      const message = `${players[choosingPlayerIdFrom(players)].game.name} is choosing word and co-artist`;
+    const { G: {players, chooseWords}, playerID } = this.props;
+
+    if (isChoosingStage(players)) {
+      let message = `${players[choosingPlayerIdFrom(players)].game.name} is choosing a word and co-artist`;
+      if (isChoosingPlayer(players, playerID)) {
+        message = isEmpty(chooseWords) ? "Choose co-artist" : "Choose a word";
+      }
       return (<Toaster message={message} />);
     }
     return null;
+  }
+
+  showChoosingModal() {
+    const { G, moves, playerID } = this.props;
+    return (
+      <ChooseModal
+        words={G.chooseWords}
+        chooseWord={moves.chooseWord}
+        choosePlayer={moves.choosePlayer}
+        players={G.players}
+        currentPlayerId={playerID}
+        show={isChoosingPlayer(G.players, playerID)}
+      />
+    );
   }
 
   render() {
@@ -54,6 +74,7 @@ class PlayArea extends React.Component {
           <Col md={{span: 10}}>
             <div>
               { this.showToast() }
+              { this.showChoosingModal() }
               <div className='board'>
                 <CanvasOne G={G} ctx={ctx} playerID={playerID} moves={moves} isActive={isActive} />
                 <CanvasTwo G={G} ctx={ctx} playerID={playerID} moves={moves} isActive={isActive} />

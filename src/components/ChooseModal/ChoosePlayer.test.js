@@ -18,9 +18,6 @@ describe('<ChoosePlayer>', function () {
   );
 
   it('should render only waiting players', function () {
-    const modalHeader = component.find('p');
-    expect(modalHeader.text()).toEqual('Choose Player');
-
     const buttons = component.find(Button);
     expect(buttons.length).toBe(2);
     expect(buttons.at(0).text()).toBe(players[1].game.name);

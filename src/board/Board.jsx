@@ -4,8 +4,6 @@ import { GameState } from '../constants';
 import LeaderBoard from "./LeaderBoard";
 import PlayBoard from "./PlayBoard";
 import WaitingRoom from "../components/WaitingRoom";
-import ChooseModal from "../components/ChooseModal/ChooseModal";
-import {isChoosingStage, choosingPlayerIdFrom} from "../game/Players";
 
 class CollabSketchBoard extends React.Component {
   static propTypes = {
@@ -27,7 +25,7 @@ class CollabSketchBoard extends React.Component {
   }
 
   render() {
-    const { G, ctx, playerID, moves:{ startGame, chooseWord, choosePlayer }, isActive, gameID, moves } = this.props;
+    const { G, ctx, playerID, moves:{ startGame }, isActive, gameID, moves } = this.props;
     switch (G.state) {
       case GameState.WAITING:
         return (

@@ -39,7 +39,7 @@ class CanvasOne extends React.Component {
   }
 
   render() {
-    const { G, moves, playerID } = this.props;
+    const { G, moves } = this.props;
     return (
       <div>
         { !isChoosingStage(G.players) && this.renderFirstWord() }

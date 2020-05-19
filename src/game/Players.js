@@ -16,7 +16,7 @@ export const newPlayer = (playerName) => ({
     guessPosition: 0,
     coArtist: false,
   }
-})
+});
 
 export const updatePlayers = (players, nextActivePlayers) => {
   let updatedPlayers = {};

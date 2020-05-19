@@ -13,15 +13,16 @@ class ChooseWords extends React.Component {
   render() {
     const { words, chooseWord } = this.props;
     return (
-      <Col md={{span: 12}} className="choose-word">
-        <p className="choose-word__label">Choose Word</p>
-        { words.map((word, index) =>
-              <Button variant="secondary" key={index} className="choose-word__word"
-                      onClick={() => chooseWord(word)}>
-                {word}
-              </Button>)
-        }
-      </Col>
+      <div className="choose-word">
+        <div className="choose-word__words">
+          { words.map((word, index) =>
+                <Button variant="secondary" key={index} className="choose-word__word"
+                        onClick={() => chooseWord(word)}>
+                  {word}
+                </Button>)
+          }
+        </div>
+      </div>
     );
   }
 }

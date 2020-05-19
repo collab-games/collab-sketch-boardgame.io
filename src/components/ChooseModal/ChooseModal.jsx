@@ -8,22 +8,19 @@ import ModalBody from "react-bootstrap/ModalBody";
 import isEmpty from 'lodash/isEmpty';
 import ChoosePlayer from "./ChoosePlayer";
 import ChooseWords from "./ChooseWords";
+import Col from "react-bootstrap/Col";
 
 const ChooseModal = (props) => {
   const { words, chooseWord, choosePlayer, players, currentPlayerId, show } = props;
   return (
-    <Modal show={show} size="lg" centered>
-      <ModalBody className="modal-outline">
-        <Container>
-          <Row>
-            {isEmpty(words)
-              ? <ChoosePlayer choosePlayer={choosePlayer} players={players} currentPlayerId={currentPlayerId}/>
-              : <ChooseWords words={words} chooseWord={chooseWord} />
-            }
-          </Row>
-        </Container>
-      </ModalBody>
-    </Modal>
+      <Modal show={show} size="lg" className="choose-modal">
+        <ModalBody className="modal-outline">
+                {isEmpty(words)
+                  ? <ChoosePlayer choosePlayer={choosePlayer} players={players} currentPlayerId={currentPlayerId}/>
+                  : <ChooseWords words={words} chooseWord={chooseWord} />
+                }
+        </ModalBody>
+      </Modal>
   );
 };
 

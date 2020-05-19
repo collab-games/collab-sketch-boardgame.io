@@ -35,14 +35,6 @@ class PlayBoard extends React.Component {
     const { G, ctx, playerID, isActive, moves } = this.props;
     return (
       <div>
-        <ChooseModal
-          words={G.chooseWords}
-          chooseWord={moves.chooseWord}
-          choosePlayer={moves.choosePlayer}
-          players={G.players}
-          currentPlayerId={playerID}
-          show={isChoosingPlayer(G.players, playerID)}
-        />
         { this.renderTimer() }
         <PlayArea G={G} ctx={ctx} playerID={playerID} isActive={isActive} moves={moves}/>
       </div>

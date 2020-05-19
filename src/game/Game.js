@@ -57,7 +57,13 @@ const DEFAULT_NUM_OF_ROUNDS = 10;
 const onTurnBegin = (G, ctx)  => {
   const nextActivePlayers = nextActivePlayersForSelectionFrom(G.players, ctx.numPlayers);
   ctx.events.setActivePlayers({value: nextActivePlayers});
-  return {...G, ...initChooseStage(G.words.all), players: updatePlayers(G.players, nextActivePlayers)};
+  return {
+    ...G,
+    ...initChooseStage(G.words.all),
+    players: updatePlayers(G.players, nextActivePlayers),
+    canvasOne: { snapshot: {}, svg: "", chars: 0 },
+    canvasTwo: { snapshot: {}, svg: "", chars: 0 },
+  };
 };
 
 const CollabSketch = {
@@ -111,7 +117,7 @@ const CollabSketch = {
             moves: { chooseWord, choosePlayer, endSelection },
           },
           waiting: {
-            moves: { endSelection },
+            moves: { endSelection, guessArt },
           },
           drawCanvasOne: {
             moves: { updateSnapshotForCanvasOne, endTurn },

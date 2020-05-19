@@ -16,15 +16,14 @@ class ChoosePlayer extends React.Component {
     const { choosePlayer, players, currentPlayerId } = this.props;
     const otherPlayers = playerNames(players).filter(player => player.playerId !== currentPlayerId);
     return (
-      <Col md={{span: 12}} className="choose-player">
-        <p className="choose-player__label">Choose Player</p>
+      <div className="choose-player">
         <div className="choose-player__players"> { otherPlayers.map((player, index) =>
           <Button variant="secondary" key={index} className="choose-player__player"
                   onClick={() => choosePlayer(player.playerId)}>
             {player.playerName}
           </Button>)}
         </div>
-      </Col>
+      </div>
     );
   }
 }

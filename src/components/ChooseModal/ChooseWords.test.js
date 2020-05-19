@@ -10,9 +10,6 @@ describe('<ChooseWords>', function () {
       <ChooseWords words={words} chooseWord={jest.fn()} />
     );
 
-    const modalHeader = component.find('p');
-    expect(modalHeader.text()).toEqual("Choose Word");
-
     const buttons = component.find(Button);
     expect(buttons.length).toBe(3);
     expect(buttons.at(0).text()).toBe(words[0]);

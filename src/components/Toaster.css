@@ -9,3 +9,7 @@
     color: #ffffff;
     font-size: large;
 }
+
+.toast {
+    max-width: none !important;
+}
