@@ -17,13 +17,13 @@ describe('<WaitingRoom>', function () {
   });
 
   it('should not have option to start the game when player is not admin', () => {
-    const G = { players: {'0': {}, '1': {}, '2': {}} };
+    const G = { players: {'0': { game: { name: 'James' }}, '1': {}, '2': {}} };
     const startGame = jest.fn();
     const component = shallow(<WaitingRoom isActive={true} startGame={startGame} playerID={'1'} G={G}/>);
 
     expect(component.find('.start-game-button').exists()).toBeFalsy();
     expect(component.find(PlayFill).exists()).toBeFalsy();
-    expect(component.find('.waiting-text').text()).toContain('Waiting for admin to start the Game');
+    expect(component.find('.waiting-text').text()).toContain('Waiting for James to start the Game');
   });
 
   it('should show players', () => {

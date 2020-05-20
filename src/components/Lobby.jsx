@@ -27,7 +27,7 @@ class Lobby extends React.Component {
       <div>
         <div>
           <Navbar bg="dark" variant="dark">
-            <Navbar.Brand>Collab Sketch</Navbar.Brand>
+            <Navbar.Brand href="/">Collab Sketch</Navbar.Brand>
           </Navbar>
         </div>
         <div className="turn-in-card">

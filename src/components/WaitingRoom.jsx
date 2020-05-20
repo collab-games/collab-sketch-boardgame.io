@@ -56,6 +56,11 @@ class WaitingRoom extends React.Component {
     )
   }
 
+  adminName() {
+    const { G : { players } } = this.props;
+    return players ? players[0].game.name : 'admin';
+  }
+
   waitingInfo() {
     return (
       <Container className="waiting-info">
@@ -69,7 +74,7 @@ class WaitingRoom extends React.Component {
         </Row>
         <Row className="text-center">
           <Col>
-          <p className="waiting-text">Waiting for admin to start the Game !!</p>
+          <p className="waiting-text">Waiting for { this.adminName() } to start the Game !!</p>
           </Col>
         </Row>
       </Container>
