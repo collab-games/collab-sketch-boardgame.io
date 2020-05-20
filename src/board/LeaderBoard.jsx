@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import "./LeaderBoard.css";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import UIfx from 'uifx';
 
 const LeaderBoardHeader = () => {
   return (
@@ -66,6 +67,7 @@ class LeaderBoard extends React.Component {
 
   constructor(props) {
     super(props);
+    new UIfx('/ta-da.mp3').play();
   }
 
   render() {

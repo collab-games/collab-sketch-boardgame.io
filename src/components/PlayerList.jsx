@@ -15,7 +15,8 @@ class PlayerList extends React.Component {
 
   constructor(props) {
     super(props);
-    this.correctGuess = new UIfx('/ta-da.mp3');
+    this.correctGuessTone = new UIfx('/you-guess.mp3');
+    this.otherGuessTone = new UIfx('/other-guess.mp3');
   }
 
   componentDidUpdate(prevProps) {
@@ -26,14 +27,14 @@ class PlayerList extends React.Component {
       const previousScore = R.pathOr(0,['game', 'score'], prevProps.players[currentPlayerId]);
 
       if (currentScore > previousScore) {
-          this.correctGuess.play();
+          this.correctGuessTone.play();
       }
 
       const othersGuessed = Object.entries(players)
         .find(([key, player]) => ((key !== currentPlayerId) && player.game.score > R.pathOr(0, ['game', 'score'], prevProps.players[key])));
 
       if (othersGuessed) {
-        this.correctGuess.play();
+        this.otherGuessTone.play();
       }
     }
   }
