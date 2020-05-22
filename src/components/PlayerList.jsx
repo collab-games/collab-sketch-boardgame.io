@@ -3,7 +3,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import * as R from 'ramda';
 import PropTypes from 'prop-types';
 import UIfx from 'uifx';
-import './PlayerList.css';
+import './PlayerList.scss';
 import { GameState } from "../constants";
 
 class PlayerList extends React.Component {
@@ -49,8 +49,8 @@ class PlayerList extends React.Component {
     return Object.keys(players)
       .sort((p1, p2) => players[p2].game.score - players[p1].game.score)
       .map((playerId, index) => <ListGroup.Item key={index} variant={(players[playerId].turn.hasGuessed) ? 'success' :''}>
-        { this.highLightCurrentPlayer(playerId) }
         <span>{players[playerId].game.name}</span>
+        { this.highLightCurrentPlayer(playerId) }
         <span className="score">{players[playerId].game.score}</span>
       </ListGroup.Item>);
   }
@@ -58,7 +58,7 @@ class PlayerList extends React.Component {
   render() {
     return (
       <ListGroup className="players-list">
-        <ListGroup.Item variant="primary">Players</ListGroup.Item>
+        <ListGroup.Item variant="primary" className="players-list__header">Players</ListGroup.Item>
         {this.renderPlayers()}
       </ListGroup>
     );

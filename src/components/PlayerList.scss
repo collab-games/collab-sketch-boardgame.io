@@ -1,7 +1,14 @@
 .players-list {
     height: 300px;
     overflow-y: auto;
+    margin-top: 10px;
+
+    & .players-list__header {
+        background-color: #a51890;
+        color: #f5f5f5;
+    }
 }
+
 .score {
     float: right;
 }

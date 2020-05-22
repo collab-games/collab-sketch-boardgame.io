@@ -4,9 +4,6 @@
     padding-left: 50px;
     padding-top: 80px;
     padding-bottom: 80px;
-    background-color: #e2eff6;
-    border: #ffffff solid 5px;
-    border-radius: 50px;
 }
 
 .testimonial-quote {
@@ -20,7 +17,6 @@
     padding: 0;
 
     background: none;
-    color: gray;
     font-family: Georgia, serif;
     font-size: 1.5em;
     font-style: italic;
@@ -36,7 +32,7 @@
 }
 
 .testimonial-quote blockquote p {
-    color: #75808a;
+    color: #52565e;;
     line-height: 1.4 !important;
 }
 
@@ -60,7 +56,7 @@
 }
 
 .testimonial-quote cite span {
-    color: #5e5e5e;
+    color: #52565e;;
     font-size: 1em;
     font-style: normal;
     font-weight: 700;

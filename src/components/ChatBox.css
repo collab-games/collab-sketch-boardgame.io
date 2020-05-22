@@ -25,7 +25,8 @@
 .sc-header {
     min-height: 60px;
     padding: 3px;
-    background: #343a40;
+    background: #a51890;
+    color: #f5f5f5;
 }
 
 .sc-header--team-name {

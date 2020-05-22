@@ -12,10 +12,10 @@ class Toaster extends React.Component {
   }
 
   render() {
-    const { message } = this.props;
+    const { message, delay } = this.props;
     return (
       <div className="toaster">
-        <Toast onClose={() => this.setState({show: false})} show={this.state.show} delay={10000} autohide>
+        <Toast onClose={() => this.setState({show: false})} show={this.state.show} delay={delay*1000} autohide>
           <Toast.Body className="toaster-body">
               {message}
           </Toast.Body>

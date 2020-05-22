@@ -39,14 +39,14 @@ class PlayArea extends React.Component {
   }
 
   showToast() {
-    const { G: {players, chooseWords}, playerID } = this.props;
+    const { G: {players, chooseWords, settings}, playerID } = this.props;
 
     if (isChoosingStage(players)) {
       let message = `${players[choosingPlayerIdFrom(players)].game.name} is choosing a word and co-artist`;
       if (isChoosingPlayer(players, playerID)) {
         message = isEmpty(chooseWords) ? "Choose co-artist" : "Choose a word";
       }
-      return (<Toaster message={message} />);
+      return (<Toaster message={message} delay={settings.selectionPeriod}/>);
     }
     return null;
   }

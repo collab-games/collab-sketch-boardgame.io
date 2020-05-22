@@ -5,6 +5,7 @@ import ReactCardFlip from 'react-card-flip';
 import CardFront from "./CardFront";
 import './Lobby.css';
 import CardBack from "./CardBack";
+import Navigation from "./Navigation";
 
 class Lobby extends React.Component {
 
@@ -25,11 +26,7 @@ class Lobby extends React.Component {
     const { isCardFlipped, playerName } = this.state;
     return (
       <div>
-        <div>
-          <Navbar bg="dark" variant="dark">
-            <Navbar.Brand href="/">Collab Sketch</Navbar.Brand>
-          </Navbar>
-        </div>
+        <Navigation />
         <div className="turn-in-card">
           <ReactCardFlip isFlipped={isCardFlipped}>
             <CardFront joinRoomAction={this.joinRoomAction} browserHistory={this.props.history}/>

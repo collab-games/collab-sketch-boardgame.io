@@ -1,4 +1,5 @@
 import React from "react";
+import "./ReadOnlyCanvas.css";
 
 const ReadOnlyCanvas = props => {
   return (

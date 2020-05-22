@@ -1,0 +1,29 @@
+.navigation {
+    background-color: #a51890;
+}
+
+.navigation .navbar-brand,
+.navigation .navbar-text {
+    color: #f5f5f5;
+}
+
+.navigation .navbar-nav .nav-link {
+    color: #00205b;
+}
+
+.navigation .nav-item.active .nav-link,
+.navigation .nav-item:hover .nav-link {
+    color: #efdf00;
+}
+
+.navigation {
+  & .nav-item {
+    & .start-stop-game, .start-stop-game:hover, .start-stop-game:active {
+      background-color: #efdf00;
+      color: #00205b;
+      font-size: 1.2rem;
+      width: 200px;
+    }
+  }
+
+}

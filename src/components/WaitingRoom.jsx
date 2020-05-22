@@ -3,13 +3,10 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import random from 'lodash/random';
-import size from 'lodash/size';
 import Quote from "./Quote";
 import {default as quotes} from "../quotes.json";
 import PlayerList from "./PlayerList";
-import {MIN_PLAYERS_REQUIRED} from "../constants";
 import Spinner from "react-bootstrap/Spinner";
-import { PlayFill } from 'react-bootstrap-icons';
 import './WaitingRoom.css';
 import ShareGame from "./ShareGame";
 
@@ -19,8 +16,6 @@ class WaitingRoom extends React.Component {
     super(props, context);
     this.isAdmin = this.isAdmin.bind(this);
     this.getActivePlayers = this.getActivePlayers.bind(this);
-    this.startGame = this.startGame.bind(this);
-    this.startGameButton = this.startGameButton.bind(this);
     this.waitingInfo = this.waitingInfo.bind(this);
     this.state = {
       quote: quotes[random(quotes.length - 1)]
@@ -33,27 +28,6 @@ class WaitingRoom extends React.Component {
 
   getActivePlayers() {
     return this.props.G.players;
-  }
-
-  startGame(event) {
-    event.preventDefault();
-    if (this.props.isActive) {
-      if (size(this.getActivePlayers()) >= MIN_PLAYERS_REQUIRED) {
-        this.props.startGame();
-      }
-    }
-  }
-
-  startGameButton() {
-    const canStartGame = size(this.getActivePlayers()) >= MIN_PLAYERS_REQUIRED;
-    return (
-      <Row className="start-game-button-container">
-        <div className="start-game-button" onClick={this.startGame}>
-            <PlayFill size="50" color="#495057" />
-        </div>
-        {canStartGame ? '': <label className="start-game-hint">min 3 players required **</label>}
-      </Row>
-    )
   }
 
   adminName() {
@@ -90,7 +64,7 @@ class WaitingRoom extends React.Component {
           <Row>
             <Col md={{span: 10}}>
               <Row>
-                {this.isAdmin(playerID) ? this.startGameButton() : this.waitingInfo()}
+                {this.isAdmin(playerID) ? null : this.waitingInfo()}
               </Row>
               <Row>
                 <Quote text={quote.quote} author={quote.author}/>

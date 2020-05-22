@@ -31,9 +31,12 @@
      flex-wrap: wrap;
 
      & .choose-word__word {
+       background-color: #84bd00;
+       border: #84bd00 solid 1px;
        margin-bottom: 25px;
        border-radius: 25px;
        font-size: 1.5rem;
+       color: #00205b;
      }
    }
 }
@@ -56,9 +59,12 @@
       flex-wrap: wrap;
 
       & .choose-player__player {
+        background-color: #efdf00;
+        border: #efdf00 solid 1px;
         margin-bottom: 25px;
         border-radius: 25px;
         font-size: 1.5rem;
+        color: #00205b;
       }
     }
 

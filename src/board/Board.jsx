@@ -4,6 +4,7 @@ import { GameState } from '../constants';
 import LeaderBoard from "./LeaderBoard";
 import PlayBoard from "./PlayBoard";
 import WaitingRoom from "../components/WaitingRoom";
+import Navigation from "../components/Navigation";
 
 class CollabSketchBoard extends React.Component {
   static propTypes = {
@@ -24,7 +25,7 @@ class CollabSketchBoard extends React.Component {
     }
   }
 
-  render() {
+  renderBoard() {
     const { G, ctx, playerID, moves:{ startGame }, isActive, gameID, moves } = this.props;
     switch (G.state) {
       case GameState.WAITING:
@@ -47,6 +48,21 @@ class CollabSketchBoard extends React.Component {
       default:
         return null;
     }
+  }
+
+  render() {
+    return (
+      <div>
+        <Navigation
+          startGame={this.props.moves.startGame}
+          playerID={this.props.playerID}
+          gameState={this.props.G.state}
+          players={this.props.G.players}
+          isActive={this.props.isActive}
+        />
+        {this.renderBoard()}
+      </div>
+    );
   }
 }
 

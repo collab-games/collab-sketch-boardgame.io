@@ -1,30 +1,9 @@
-
 .waiting-info {
     margin-top: 20px;
 }
+
 p.waiting-text {
     color: darkgray;
     font-family: Georgia, serif;
-}
-
-.start-game-button-container {
-    margin-top: 20px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.start-game-button {
-    padding: 10px;
-    border: darkgoldenrod solid 2px;
-    border-radius: 41px;
-    background-color: #e9ecef;
-    cursor: pointer;
-}
-
-.start-game-hint {
-    color: darkgray;
 }
 

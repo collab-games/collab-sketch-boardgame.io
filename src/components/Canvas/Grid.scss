@@ -2,13 +2,22 @@
   display: block;
   width: 680px;
   min-height: 700px;
-  border: 2px solid #5a6268;
+  border: 2px solid #caccd1;
 }
 .literally {
   background-color: #ffffff;
 
-  & .lc-picker, .lc-options {
+  & .lc-options, .lc-picker {
     background-color: #ffffff;
+  }
+
+  & .lc-picker {
+    border-right: 1px solid #caccd1;
   }
 }
 
+.literally.toolbar-at-bottom {
+  & .lc-options {
+    border-top: 1px solid #caccd1;
+  }
+}
