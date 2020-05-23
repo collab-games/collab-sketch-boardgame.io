@@ -15,7 +15,7 @@ class ChooseWords extends React.Component {
       <div className="choose-word">
         <div className="choose-word__words">
           { words.map((word, index) =>
-                <Button variant="secondary" key={index} className="choose-word__word"
+                <Button variant="success" key={index} className="choose-word__word"
                         onClick={() => chooseWord(word)}>
                   {word}
                 </Button>)

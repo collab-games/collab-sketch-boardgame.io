@@ -18,7 +18,7 @@ class ChoosePlayer extends React.Component {
     return (
       <div className="choose-player">
         <div className="choose-player__players"> { otherPlayers.map((player, index) =>
-          <Button variant="secondary" key={index} className="choose-player__player"
+          <Button variant="warning" key={index} className="choose-player__player"
                   onClick={() => choosePlayer(player.playerId)}>
             {player.playerName}
           </Button>)}

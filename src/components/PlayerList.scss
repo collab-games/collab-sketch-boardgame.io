@@ -1,9 +1,17 @@
 .players-list {
-    height: 300px;
-    overflow-y: auto;
+    width: 16vw;
+    max-height: 35vh;
+    overflow-y: scroll;
     margin-top: 10px;
+    border: #caccd1 solid 1px;
+
+    & .current {
+        font-weight: bold;
+        font-size: 16px;
+    }
 
     & .players-list__header {
+        text-align: center;
         background-color: #a51890;
         color: #f5f5f5;
     }

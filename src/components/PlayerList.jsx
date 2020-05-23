@@ -39,8 +39,8 @@ class PlayerList extends React.Component {
     }
   }
 
-  highLightCurrentPlayer(playerId) {
-    return this.props.currentPlayerId === playerId ? <span>&#9733;</span> : null;
+  isCurrentPlayer(playerId) {
+    return this.props.currentPlayerId === playerId;
   }
 
   renderPlayers() {
@@ -48,17 +48,21 @@ class PlayerList extends React.Component {
 
     return Object.keys(players)
       .sort((p1, p2) => players[p2].game.score - players[p1].game.score)
-      .map((playerId, index) => <ListGroup.Item key={index} variant={(players[playerId].turn.hasGuessed) ? 'success' :''}>
-        <span>{players[playerId].game.name}</span>
-        { this.highLightCurrentPlayer(playerId) }
-        <span className="score">{players[playerId].game.score}</span>
-      </ListGroup.Item>);
+      .map((playerId, index) =>
+        <ListGroup.Item
+          key={index}
+          className={this.isCurrentPlayer(playerId)?"current":""}
+          variant={(players[playerId].turn.hasGuessed) ? 'success' :''}
+        >
+          <span >{players[playerId].game.name}</span>
+          <span className="score">{players[playerId].game.score}</span>
+        </ListGroup.Item>);
   }
 
   render() {
     return (
       <ListGroup className="players-list">
-        <ListGroup.Item variant="primary" className="players-list__header">Players</ListGroup.Item>
+        <ListGroup.Item variant="primary" className="players-list__header"> &#9733; &#9733; Leader Board &#9733; &#9733; </ListGroup.Item>
         {this.renderPlayers()}
       </ListGroup>
     );

@@ -54,10 +54,11 @@ class CollabSketchBoard extends React.Component {
     return (
       <div>
         <Navigation
-          startGame={this.props.moves.startGame}
+          G={this.props.G}
+          ctx={this.props.ctx}
+          moves={this.props.moves}
           playerID={this.props.playerID}
-          gameState={this.props.G.state}
-          players={this.props.G.players}
+          gameID={this.props.gameID}
           isActive={this.props.isActive}
         />
         {this.renderBoard()}

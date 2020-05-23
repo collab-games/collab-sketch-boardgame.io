@@ -11,6 +11,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    padding: 5px 15px;
 }
 
 .share-info-container > label {

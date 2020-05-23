@@ -36,26 +36,4 @@ describe('<PlayBoard>', function () {
     expect(playArea.props().playerID).toEqual('0');
     expect(playArea.props().isActive).toEqual(true);
   });
-
-  it('should show TurnTimer if current stage is not choosing', function () {
-    const newG = { ...defaultProps.G, players: {'0': {turn: {action: 'drawCanvasOne'}}}};
-    const props = {...defaultProps, G: newG};
-
-    const component = shallow(<PlayBoard {...props} />);
-    const turnTimer = component.find(TurnTimer);
-    expect(turnTimer.props().G).toEqual(newG);
-    expect(turnTimer.props().ctx).toEqual({});
-    expect(turnTimer.props().moves).toEqual(moves);
-  });
-
-  it('should show Selection if current stage is choosing', function () {
-    const newG = { ...defaultProps.G, players: {'0': {turn: {action: 'choose'}}}};
-    const props = {...defaultProps, G: newG};
-
-    const component = shallow(<PlayBoard {...props} />);
-    const turnTimer = component.find(SelectionTimer);
-    expect(turnTimer.props().G).toEqual(newG);
-    expect(turnTimer.props().ctx).toEqual({});
-    expect(turnTimer.props().moves).toEqual(moves);
-  });
 });

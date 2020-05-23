@@ -27,10 +27,7 @@ class ChatBox extends React.Component {
     const { G } = this.props;
     return (
       <Launcher
-        agentProfile={{
-          teamName: 'Chat Box',
-          imageUrl: ''
-        }}
+        agentProfile={{}}
         isOpen={true}
         onMessageWasSent={(message) => this.sendMessage(message)}
         messageList={G.chatMessages}

@@ -1,6 +1,5 @@
 import React from "react";
 import { shallow } from 'enzyme';
-import PlayBoard from "../board/PlayBoard";
 import ChooseModal from "./ChooseModal/ChooseModal";
 import PlayArea from "./PlayArea";
 
@@ -11,7 +10,11 @@ describe('<PlayArea>', function () {
       '0': {turn: {action: 'choose'}, game: {}},
       '1': {turn: {action: 'waiting'}, game: {}}
     },
-    chooseWords: chooseWords
+    chooseWords: chooseWords,
+    settings: {
+      selectionPeriod: 10,
+      turnPeriod: 60
+    }
   };
   const moves = {
     chooseWords: () => {},

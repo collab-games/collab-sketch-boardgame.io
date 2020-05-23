@@ -23,3 +23,11 @@
     font-size: 20px;
     font-weight: bold;
 }
+
+.sidebar {
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}

@@ -5,13 +5,22 @@ import PropTypes from "prop-types";
 import size from "lodash/size";
 import {GameState, MIN_PLAYERS_REQUIRED} from "../constants";
 import "./Navigation.scss";
+import Tooltip from "react-bootstrap/Tooltip";
+import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+import {isChoosingStage} from "../game/Players";
+import SelectionTimer from "./SelectionTimer";
+import TurnTimer from "./TurnTimer";
+import Form from "react-bootstrap/Form";
+import Popover from "react-bootstrap/Popover";
+import ShareGame from "./ShareGame";
 
 class Navigation extends React.Component {
   static propTypes = {
-    startGame: PropTypes.func.isRequired,
-    gameState: PropTypes.number.isRequired,
-    players: PropTypes.object.isRequired,
+    G: PropTypes.object.isRequired,
+    ctx: PropTypes.object.isRequired,
+    moves: PropTypes.object.isRequired,
     playerID: PropTypes.string.isRequired,
+    gameID: PropTypes.string.isRequired,
     isActive: PropTypes.bool.isRequired,
   };
 
@@ -19,6 +28,8 @@ class Navigation extends React.Component {
     super(props);
     this.renderStartGame = this.renderStartGame.bind(this);
     this.startGame = this.startGame.bind(this);
+    this.canStartGame = this.canStartGame.bind(this);
+    this.renderEndGame = this.renderEndGame.bind(this);
   }
 
   isAdmin(playerID) {
@@ -26,14 +37,18 @@ class Navigation extends React.Component {
   }
 
   getActivePlayers() {
-    return this.props.players;
+    return this.props.G.players;
+  }
+
+  canStartGame() {
+    return this.props.G.state === GameState.WAITING && size(this.getActivePlayers()) >= MIN_PLAYERS_REQUIRED;
   }
 
   startGame(event) {
     event.preventDefault();
     if (this.props.isActive) {
-      if (size(this.getActivePlayers()) >= MIN_PLAYERS_REQUIRED) {
-        this.props.startGame();
+      if (this.canStartGame()) {
+        this.props.moves.startGame();
       }
     }
   }
@@ -41,19 +56,58 @@ class Navigation extends React.Component {
   renderStartGame() {
     return (
       <NavItem>
-        <Button variant="warning" className="start-stop-game" onClick={this.startGame}> Start Game !! </Button>
+        <OverlayTrigger
+          placement="bottom"
+          overlay={ this.canStartGame()
+            ? <Tooltip id="start-game-hint"> Click to Start Game!</Tooltip>
+            : <Tooltip id="start-game-hint"> Minimum 3 players required!</Tooltip> }
+          delay={{ show: 100, hide: 1000 }}
+        >
+          <Button disabled={!this.canStartGame()} variant="warning" className="start-stop-game" onClick={this.startGame}> Start Game !! </Button>
+        </OverlayTrigger>
       </NavItem>
       );
   }
 
-  render() {
-    const { playerID, gameState } = this.props;
+  renderEndGame() {
     return (
-      <nav className="navbar navigation">
-        <NavbarBrand>Collab Sketch</NavbarBrand>
-        {gameState === GameState.WAITING && this.isAdmin(playerID) ? this.renderStartGame() : null}
-      </nav>
+      <NavItem>
+        <Button variant="warning" className="start-stop-game" onClick={this.startGame}> End Game !! </Button>
+      </NavItem>
     );
+  }
+
+  renderInvite() {
+    const popover = <Popover id="popover-basic">
+        <Popover.Content>
+          <ShareGame gameID={this.props.gameID} />
+        </Popover.Content>
+      </Popover>;
+    return <OverlayTrigger overlay={popover} trigger="click" placement="left">
+      <Button variant="warning" className="start-stop-game"> Invite </Button>
+    </OverlayTrigger>
+  }
+
+  renderTimer() {
+    const { G, ctx, moves } = this.props;
+    return isChoosingStage(G.players)
+      ? <SelectionTimer G={G} ctx={ctx} moves={moves} />
+      : <TurnTimer G={G} ctx={ctx} moves={moves} />
+  }
+
+  render() {
+    const { playerID, G: { state } } = this.props;
+      return (
+        <nav className="navbar navigation">
+          <NavbarBrand>Collab Sketch</NavbarBrand>
+          {state === GameState.STARTED && this.renderTimer()}
+          <Form inline>
+            {state === GameState.STARTED && this.renderInvite()}
+            {state === GameState.WAITING && this.isAdmin(playerID) && this.renderStartGame()}
+            {state === GameState.STARTED && this.isAdmin(playerID) && this.renderEndGame()}
+          </Form>
+        </nav>
+      );
   }
 }
 

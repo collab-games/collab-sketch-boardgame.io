@@ -3,7 +3,6 @@ import { shallow, mount } from "enzyme";
 
 import Lobby from './Lobby';
 import CardFront from './CardFront'
-import Navbar from 'react-bootstrap/Navbar';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import CardBack from "./CardBack";
@@ -11,8 +10,8 @@ import CardBack from "./CardBack";
 describe("<Lobby>", () => {
   it("should render Game name", () => {
     const wrapper = shallow(<Lobby />);
-    expect(wrapper.find(Navbar).exists()).toBeTruthy();
-    expect(wrapper.find(Navbar).text()).toContain("Collab Sketch");
+    expect(wrapper.find('nav').exists()).toBeTruthy();
+    expect(wrapper.find('nav').text()).toContain("Collab Sketch");
   });
 
   it("should render create game block", () => {

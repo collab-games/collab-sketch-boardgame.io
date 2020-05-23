@@ -81,11 +81,9 @@ class PlayArea extends React.Component {
               </div>
             </div>
           </Col>
-          <Col style={{paddingRight: 0}} md={{span: 2}}>
-            <div>
+          <Col style={{paddingRight: 0 }} md={{span: 2}}>
+            <div className="sidebar">
               <PlayerList G={G} players={this.getActivePlayers()} currentPlayerId={playerID}/>
-            </div>
-            <div>
               <ChatBox G={G} moves={moves} currentPlayer={G.players[playerID]}
                        isPlayerGuessing={this.isPlayerGuessing()}/>
             </div>

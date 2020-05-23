@@ -25,7 +25,7 @@ describe('<PlayerList>', function () {
 
   it('should render players list header', () => {
     const wrapper = shallow(<PlayerList players={{}}/>);
-    expect(wrapper.find(ListGroup.Item).at(0).text()).toEqual('Players');
+    expect(wrapper.find(ListGroup.Item).at(0).text()).toContain('Leader Board');
   });
 
   it('should render players', () => {
@@ -44,7 +44,7 @@ describe('<PlayerList>', function () {
 
   it('should highLight current player', () => {
     const wrapper = shallow(<PlayerList players={players} currentPlayerId={'1'}/>);
-    expect(wrapper.find(ListGroup.Item).at(1).text()).toContain('★');
+    expect(wrapper.find(ListGroup.Item).at(1).find('span').exists()).toBeTruthy();
   });
 
   it('should play sound on correct guess', () => {
