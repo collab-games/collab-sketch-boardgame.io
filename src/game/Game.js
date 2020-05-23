@@ -1,5 +1,6 @@
-import { GameState } from '../constants'
+import { DEFAULT_NUM_OF_PLAYERS, DEFAULT_NUM_OF_ROUNDS, GameState } from '../constants'
 import isEmpty from 'lodash/isEmpty';
+import size from 'lodash/size';
 import { ActivePlayers } from "boardgame.io/dist/esm/core";
 import {
   endTurn,
@@ -50,9 +51,6 @@ const stripSecret = (G, playerId) => {
     return rest;
   }
 };
-
-const DEFAULT_NUM_OF_PLAYERS = 10;
-const DEFAULT_NUM_OF_ROUNDS = 10;
 
 const onTurnBegin = (G, ctx)  => {
   const nextActivePlayers = nextActivePlayersForSelectionFrom(G.players, ctx.numPlayers);
@@ -134,7 +132,7 @@ const CollabSketch = {
         },
       },
       endIf: (G, ctx) => {
-        if (ctx.turn === (G.settings.rounds * Object.keys(G.players).length) + 1) {
+        if (ctx.turn === (G.settings.rounds * size(G.players) + 1)) {
           G.state = GameState.ENDED
         }
       },

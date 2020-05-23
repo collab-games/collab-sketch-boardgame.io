@@ -9,3 +9,6 @@ export const GameState = {
 };
 
 export const MIN_PLAYERS_REQUIRED = 3;
+
+export const DEFAULT_NUM_OF_PLAYERS = 20;
+export const DEFAULT_NUM_OF_ROUNDS = process.env.DEFAULT_NUM_OF_ROUNDS || 3;
