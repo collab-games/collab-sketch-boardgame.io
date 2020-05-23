@@ -55,7 +55,6 @@ class Navigation extends React.Component {
 
   renderStartGame() {
     return (
-      <NavItem>
         <OverlayTrigger
           placement="bottom"
           overlay={ this.canStartGame()
@@ -63,28 +62,25 @@ class Navigation extends React.Component {
             : <Tooltip id="start-game-hint"> Minimum 3 players required!</Tooltip> }
           delay={{ show: 100, hide: 1000 }}
         >
-          <Button disabled={!this.canStartGame()} variant="warning" className="start-stop-game" onClick={this.startGame}> Start Game !! </Button>
+          <Button disabled={!this.canStartGame()} variant="warning" className="nav-button" onClick={this.startGame}>Start Game</Button>
         </OverlayTrigger>
-      </NavItem>
       );
   }
 
   renderEndGame() {
     return (
-      <NavItem>
-        <Button variant="warning" className="start-stop-game" onClick={this.startGame}> End Game !! </Button>
-      </NavItem>
+        <Button variant="warning" className="nav-button" onClick={this.startGame}>End Game</Button>
     );
   }
 
   renderInvite() {
     const popover = <Popover id="popover-basic">
         <Popover.Content>
-          <ShareGame gameID={this.props.gameID} />
+          <ShareGame gameID={this.props.gameID} size={20} />
         </Popover.Content>
       </Popover>;
     return <OverlayTrigger overlay={popover} trigger="click" placement="left">
-      <Button variant="warning" className="start-stop-game"> Invite </Button>
+      <Button variant="warning" className="nav-button">Invite</Button>
     </OverlayTrigger>
   }
 

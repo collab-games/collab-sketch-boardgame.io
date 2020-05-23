@@ -1,0 +1,47 @@
+.share-info-container {
+  & .share-game-link {
+    margin: 0;
+    border-right: darkgoldenrod solid 1px;
+    padding: 0 5px;
+    font-size: 1.5rem;
+  }
+
+  & .share-info {
+    border: darkgoldenrod solid 2px;
+    border-radius: 15px;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+  }
+
+  & .clipboard {
+    padding: 10px;
+    background-color: #e9ecef;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    cursor: pointer;
+  }
+}
+
+.share-game-link {
+  margin: 0;
+  border-right: darkgoldenrod solid 1px;
+  padding: 0 5px;
+  font-size: 1.2rem;
+}
+
+.share-info {
+  border: darkgoldenrod solid 2px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+.clipboard {
+  padding: 5px;
+  background-color: #e9ecef;
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  cursor: pointer;
+}

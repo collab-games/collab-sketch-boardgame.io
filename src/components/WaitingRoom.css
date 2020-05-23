@@ -7,3 +7,16 @@ p.waiting-text {
     font-family: Georgia, serif;
 }
 
+.share-info-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 5px 15px;
+}
+
+.share-info-container > label {
+    color: darkgoldenrod;
+    font-size: 1.5rem;
+}

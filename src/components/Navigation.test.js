@@ -4,8 +4,6 @@ import SelectionTimer from "./SelectionTimer";
 import React from "react";
 import Navigation from "./Navigation";
 import {GameState} from "../constants";
-import WaitingRoom from "./WaitingRoom";
-import {PlayFill} from "react-bootstrap-icons";
 import Button from "react-bootstrap/Button";
 
 describe('<Navigation>', function () {
@@ -44,7 +42,7 @@ describe('<Navigation>', function () {
     const component = shallow(<Navigation {...props} />);
     const startButton = component.find(Button);
 
-    expect(startButton.text()).toContain("Start Game !!");
+    expect(startButton.text()).toContain("Start Game");
     startButton.simulate('click', { preventDefault: jest.fn() });
     expect(startGameMock).toHaveBeenCalled();
   });
@@ -63,7 +61,7 @@ describe('<Navigation>', function () {
     const props = { ...defaultProps, G: newG, playerID: '1'}
     const component = shallow(<Navigation {...props}/>);
 
-    expect(component.find('.start-stop-game').exists()).toBeFalsy();
+    expect(component.find(Button).exists()).toBeFalsy();
   });
 
   it('should show TurnTimer if current stage is not choosing', function () {

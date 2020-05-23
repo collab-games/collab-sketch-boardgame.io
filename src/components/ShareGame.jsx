@@ -1,12 +1,18 @@
 import React from 'react';
-import Row from "react-bootstrap/Row";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import {CopyToClipboard} from "react-copy-to-clipboard/lib/Component";
 import {Union} from "react-bootstrap-icons";
-import './ShareGame.css';
+import PropTypes from 'prop-types';
+import './ShareGame.scss';
 
 class ShareGame extends React.Component {
+
+  static propTypes = {
+    gameID: PropTypes.string.isRequired,
+    size: PropTypes.number.isRequired
+  }
+
   constructor(props) {
     super(props);
     this.state = {
@@ -20,28 +26,25 @@ class ShareGame extends React.Component {
   }
 
   render() {
-    const { gameID } = this.props;
+    const { gameID, size } = this.props;
     return (
-      <Row className="share-info-container">
-        <label> Share Room Code:</label>
-        <div className="share-info">
-          <label className="share-game-link">{gameID}</label>
-          <div className="clipboard">
-            <OverlayTrigger
-              placement="right"
-              delay={{ show: 250, hide: 400 }}
-              overlay={this.state.copied ? <Tooltip id="button-tooltip">Copied!</Tooltip>: <Tooltip id="button-tooltip">Click to Copy!</Tooltip>}
+      <div className="share-info">
+        <label className="share-game-link">{`collabsketch.app/${gameID}`}</label>
+        <div className="clipboard">
+          <OverlayTrigger
+            placement="right"
+            delay={{ show: 250, hide: 400 }}
+            overlay={this.state.copied ? <Tooltip id="button-tooltip">Copied!</Tooltip>: <Tooltip id="button-tooltip">Click to Copy!</Tooltip>}
+          >
+            <CopyToClipboard
+              text={`collabsketch.app/${gameID}`}
+              onCopy={this.onCopyToClipboard}
             >
-              <CopyToClipboard
-                text={gameID}
-                onCopy={this.onCopyToClipboard}
-              >
-                <Union size="30" color="#495057" />
-              </CopyToClipboard>
-            </OverlayTrigger>
-          </div>
+              <Union size={size} color="#495057" />
+            </CopyToClipboard>
+          </OverlayTrigger>
         </div>
-      </Row>
+      </div>
     );
   }
 }

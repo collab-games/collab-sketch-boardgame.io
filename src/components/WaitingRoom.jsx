@@ -69,8 +69,9 @@ class WaitingRoom extends React.Component {
               <Row>
                 <Quote text={quote.quote} author={quote.author}/>
               </Row>
-              <Row>
-                <ShareGame gameID={gameID} />
+              <Row className="share-info-container">
+                <label> Invite your friends:</label>
+                <ShareGame gameID={gameID} size={30} />
               </Row>
             </Col>
             <Col style={{paddingRight: 0}} md={{span: 2}}>
