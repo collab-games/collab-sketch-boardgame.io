@@ -9,8 +9,9 @@ class Lobby extends React.Component {
 
   constructor(props) {
     super(props);
+    const { params } = props.match;
     this.state = {
-      isCardFlipped: false,
+      isCardFlipped: params.gameId ? true : false,
       playerName: ""
     };
     this.joinRoomAction = this.joinRoomAction.bind(this);
@@ -22,6 +23,7 @@ class Lobby extends React.Component {
 
   render() {
     const { isCardFlipped, playerName } = this.state;
+    const { params } = this.props.match;
     return (
       <div>
         <nav className="navbar navigation">
@@ -30,7 +32,7 @@ class Lobby extends React.Component {
         <div className="turn-in-card">
           <ReactCardFlip isFlipped={isCardFlipped}>
             <CardFront joinRoomAction={this.joinRoomAction} browserHistory={this.props.history}/>
-            <CardBack playerName={playerName} browserHistory={this.props.history} />
+            <CardBack gameId={params.gameId} playerName={playerName} browserHistory={this.props.history} />
           </ReactCardFlip>
         </div>
       </div>

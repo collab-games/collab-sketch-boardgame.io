@@ -6,32 +6,39 @@ import Row from "react-bootstrap/Row";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
 import { API_PORT } from "../constants";
+import { isEmpty, isNil } from "lodash";
 
 class CardBack extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      roomCode: "",
+      roomCode: props.gameId || "",
       disableSubmit: true,
+      playerName: props.playerName || ""
     };
-    this.onRoomCodeChange = this.onRoomCodeChange.bind(this);
+    this.onInputChange = this.onInputChange.bind(this);
     this.onJoinRoomClick = this.onJoinRoomClick.bind(this);
     this.apiBase = (process.env.NODE_ENV === 'production') ? '/api' : `${window.location.protocol}//${window.location.hostname}:${API_PORT}`;
   }
 
-  onRoomCodeChange = (target) => {
+  componentDidUpdate(prevProps) {
+    if (prevProps.playerName !== this.props.playerName) {
+        this.setState({ playerName: this.props.playerName})
+    }
+  }
+
+  onInputChange = (target) => {
+    const { gameId } = this.props;
     const value = target.currentTarget.value;
     const disableSubmit = value.trim().length <= 0;
-    this.setState({
-      roomCode: value,
-      disableSubmit
-    })
+    (isNil(gameId) || isEmpty(gameId)) ?
+      this.setState( { disableSubmit, roomCode: value }) :
+      this.setState( { disableSubmit, playerName: value });
   };
 
   onJoinRoomClick = async(e) => {
     e.preventDefault();
-    const { roomCode } = this.state;
-    const { playerName } = this.props;
+    const { roomCode, playerName } = this.state;
     const request = new Request(`${this.apiBase}/join/${roomCode}`, {
       method: 'POST',
       body: JSON.stringify({ playerName: playerName })
@@ -42,8 +49,13 @@ class CardBack extends React.Component {
     this.props.browserHistory.push(`/${responseBody.gameId}/${responseBody.playerId}`);
   };
 
+  label() {
+    const { gameId } = this.props;
+    return isEmpty(gameId) ? "Room Code" : "Player Name";
+  }
+
   render() {
-     const { disableSubmit } = this.state;
+    const { disableSubmit } = this.state;
     return(
       <Card>
         <Card.Img variant="top" src="/starry_night.jpg"/>
@@ -53,10 +65,10 @@ class CardBack extends React.Component {
               <InputGroup className="mb-3">
                 <InputGroup.Prepend>
                   <InputGroup.Text id="basic-addon3">
-                    Room Code
+                    { this.label() }
                   </InputGroup.Text>
                 </InputGroup.Prepend>
-                <FormControl id="basic-url" aria-describedby="basic-addon3" onChange={this.onRoomCodeChange} />
+                <FormControl id="basic-url" aria-describedby="basic-addon3" onChange={this.onInputChange} />
               </InputGroup>
             </Col>
           </Row>

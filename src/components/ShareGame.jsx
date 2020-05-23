@@ -27,9 +27,10 @@ class ShareGame extends React.Component {
 
   render() {
     const { gameID, size } = this.props;
+    const gameUrl = `${window.location.origin}/${gameID}`;
     return (
       <div className="share-info">
-        <label className="share-game-link">{`collabsketch.app/${gameID}`}</label>
+        <label className="share-game-link">{gameUrl}</label>
         <div className="clipboard">
           <OverlayTrigger
             placement="right"
@@ -37,7 +38,7 @@ class ShareGame extends React.Component {
             overlay={this.state.copied ? <Tooltip id="button-tooltip">Copied!</Tooltip>: <Tooltip id="button-tooltip">Click to Copy!</Tooltip>}
           >
             <CopyToClipboard
-              text={`collabsketch.app/${gameID}`}
+              text={gameUrl}
               onCopy={this.onCopyToClipboard}
             >
               <Union size={size} color="#495057" />

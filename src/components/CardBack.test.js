@@ -9,12 +9,23 @@ import InputGroup from "react-bootstrap/InputGroup";
 
 describe('<CardBack>', function () {
 
-  it('should render card with image and join room options', function () {
-    const wrapper = shallow(<CardBack />);
+  it('should render card with image and room code input', function () {
+    const wrapper = shallow(<CardBack playerName={"John"}/>);
     const card = wrapper.find(Card);
 
     expect(card.find(InputGroup).exists()).toBeTruthy();
     expect(card.find(InputGroup).find(InputGroup.Text).text()).toContain("Room Code");
+    expect(card.find(InputGroup).find(FormControl).exists()).toBeTruthy();
+
+    expect(card.find(Button).text()).toContain("Join Room");
+  });
+
+  it('should render card with image and player name input', function () {
+    const wrapper = shallow(<CardBack gameId={"abc"}/>);
+    const card = wrapper.find(Card);
+
+    expect(card.find(InputGroup).exists()).toBeTruthy();
+    expect(card.find(InputGroup).find(InputGroup.Text).text()).toContain("Player Name");
     expect(card.find(InputGroup).find(FormControl).exists()).toBeTruthy();
 
     expect(card.find(Button).text()).toContain("Join Room");

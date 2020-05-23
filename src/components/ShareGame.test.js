@@ -8,6 +8,7 @@ import {Union} from "react-bootstrap-icons";
 describe('<ShareGame>', function () {
   it('should show room id', function () {
     const component = shallow(<ShareGame gameID="xfxs34"/>);
+    expect(component.find('label.share-game-link').text()).toContain(window.location.origin);
     expect(component.find('label.share-game-link').text()).toContain('xfxs34');
   });
 
