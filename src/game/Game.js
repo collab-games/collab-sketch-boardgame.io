@@ -9,7 +9,7 @@ import {
   updateSnapshotForCanvasOne,
   updateSnapshotForCanvasTwo,
   choosePlayer,
-  chooseWord, endSelection
+  chooseWord, endSelection, endGame
 } from "./Moves";
 import {
   choosingPlayerIdFrom,
@@ -114,22 +114,22 @@ const CollabSketch = {
         },
         stages: {
           choose: {
-            moves: { chooseWord, choosePlayer, endSelection },
+            moves: { chooseWord, choosePlayer, endSelection, endGame },
           },
           waiting: {
-            moves: { endSelection, guessArt },
+            moves: { endSelection, guessArt, endGame },
           },
           drawCanvasOne: {
-            moves: { updateSnapshotForCanvasOne, endTurn },
+            moves: { updateSnapshotForCanvasOne, endTurn, endGame },
           },
           drawCanvasTwo: {
-            moves: { updateSnapshotForCanvasTwo, endTurn },
+            moves: { updateSnapshotForCanvasTwo, endTurn, endGame },
           },
           guess: {
-            moves: { guessArt, endTurn },
+            moves: { guessArt, endTurn, endGame },
           },
           inactive: {
-            moves: { joinGame },
+            moves: { joinGame }
           }
         },
       },

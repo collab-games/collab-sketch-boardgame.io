@@ -56,6 +56,15 @@ export const startGame = {
   client: false
 };
 
+export const endGame = {
+  move: (G, ctx) => {
+    if (isAdmin(ctx.playerID)) {
+      G.state = GameState.ENDED;
+    }
+  },
+  client: false
+};
+
 const guessingPlayers = (G) => {
   return Object.values(G.players).filter(player => player.turn.action === 'guess');
 };

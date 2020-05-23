@@ -28,6 +28,7 @@ class Navigation extends React.Component {
     super(props);
     this.renderStartGame = this.renderStartGame.bind(this);
     this.startGame = this.startGame.bind(this);
+    this.endGame = this.endGame.bind(this);
     this.canStartGame = this.canStartGame.bind(this);
     this.renderEndGame = this.renderEndGame.bind(this);
   }
@@ -53,6 +54,11 @@ class Navigation extends React.Component {
     }
   }
 
+  endGame(event) {
+    event.preventDefault();
+    this.props.moves.endGame();
+  }
+
   renderStartGame() {
     return (
         <OverlayTrigger
@@ -69,7 +75,7 @@ class Navigation extends React.Component {
 
   renderEndGame() {
     return (
-        <Button variant="warning" className="nav-button" onClick={this.startGame}>End Game</Button>
+        <Button variant="warning" className="nav-button end-game-button" onClick={this.endGame}>End Game</Button>
     );
   }
 

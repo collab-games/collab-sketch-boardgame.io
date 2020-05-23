@@ -9,6 +9,7 @@ import Button from "react-bootstrap/Button";
 describe('<Navigation>', function () {
   const chooseWords = ["hello world", "air cooler"];
   const startGameMock = jest.fn();
+  const endGameMock = jest.fn();
   const G = {
     players: {
       '0': {turn: {action: 'choose'}, game: {}},
@@ -21,7 +22,8 @@ describe('<Navigation>', function () {
   const moves = {
     chooseWords: () => {},
     choosePlayer: () => {},
-    startGame: startGameMock
+    startGame: startGameMock,
+    endGame: endGameMock
   };
   const defaultProps = {
     G: G,
@@ -34,6 +36,7 @@ describe('<Navigation>', function () {
 
   afterEach(() => {
     startGameMock.mockReset();
+    endGameMock.mockReset();
   });
 
   it('should start the game', () => {
@@ -45,6 +48,23 @@ describe('<Navigation>', function () {
     expect(startButton.text()).toContain("Start Game");
     startButton.simulate('click', { preventDefault: jest.fn() });
     expect(startGameMock).toHaveBeenCalled();
+  });
+
+  it('should be able to end the game when player is admin', () => {
+    const component = shallow(<Navigation {...defaultProps} />);
+    const endGameButton = component.find('.end-game-button');
+
+    expect(endGameButton.text()).toContain("End Game");
+    endGameButton.simulate('click', { preventDefault: jest.fn() });
+    expect(endGameMock).toHaveBeenCalled();
+  });
+
+  it('should not be able to end the game when player is not admin', () => {
+    const props = { ...defaultProps, playerID: '1'};
+    const component = shallow(<Navigation {...props}/>);
+
+    const endGameButton = component.find('.end-game-button');
+    expect(endGameButton.length).toBe(0);
   });
 
   it('should not start the game when players are less than minimum required players', () => {
