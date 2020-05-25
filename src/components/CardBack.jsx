@@ -5,8 +5,8 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import InputGroup from "react-bootstrap/InputGroup";
 import FormControl from "react-bootstrap/FormControl";
-import { API_PORT } from "../constants";
-import { isEmpty, isNil } from "lodash";
+import {API_PORT, GAME_NAME} from "../constants";
+import {isEmpty, isNil} from "lodash";
 
 class CardBack extends React.Component {
   constructor(props) {
@@ -45,7 +45,14 @@ class CardBack extends React.Component {
     });
     const response = await fetch(request);
     const responseBody = await response.json();
-    localStorage.setItem(`player-${responseBody.playerId}`, responseBody.credentials);
+    const secretStore = localStorage.getItem(`${GAME_NAME}-${responseBody.gameId}`);
+    let credentials;
+    if(secretStore) {
+      credentials = { ...(JSON.parse(secretStore)), [responseBody.playerId]: responseBody.credentials };
+    } else {
+      credentials = { [responseBody.playerId]: responseBody.credentials };
+    }
+    localStorage.setItem(`${GAME_NAME}-${responseBody.gameId}`, JSON.stringify(credentials));
     this.props.browserHistory.push(`/${responseBody.gameId}/${responseBody.playerId}`);
   };
 

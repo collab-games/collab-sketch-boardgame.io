@@ -1,7 +1,7 @@
 import React from 'react';
 import { Client } from 'boardgame.io/react';
 import {SocketIO} from "boardgame.io";
-import { SERVER_PORT } from '../constants';
+import {GAME_NAME, SERVER_PORT} from '../constants';
 import CollabSketch from "../game/Game";
 import CollabSketchBoard from "../board/Board";
 import './App.css'
@@ -22,10 +22,16 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         const { params } = props.match;
-        const credentials = localStorage.getItem(`player-${params.playerId}`);
+        const credentials = localStorage.getItem(`${GAME_NAME}-${params.gameId}`);
+        let secret;
+        if(!credentials) {
+            this.props.history.push(`/${params.gameId}`);
+        } else {
+            secret = JSON.parse(credentials)[params.playerId];
+        }
         this.state = {
             ...params,
-            credentials,
+            secret,
         };
     }
 
@@ -33,7 +39,7 @@ class App extends React.Component {
         return (
           <div className="player-container">
             <ErrorBoundary>
-              <CollabSketchClient gameID={this.state.gameId} credentials={this.state.credentials}
+              <CollabSketchClient gameID={this.state.gameId} credentials={this.state.secret}
                                   playerID={this.state.playerId + ''}/>
             </ErrorBoundary>
           </div>

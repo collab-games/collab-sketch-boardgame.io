@@ -1,4 +1,4 @@
-import { DEFAULT_NUM_OF_PLAYERS, DEFAULT_NUM_OF_ROUNDS, GameState } from '../constants'
+import {GAME_NAME, GameState, DEFAULT_NUM_OF_PLAYERS, DEFAULT_NUM_OF_ROUNDS} from '../constants'
 import isEmpty from 'lodash/isEmpty';
 import size from 'lodash/size';
 import { ActivePlayers } from "boardgame.io/dist/esm/core";
@@ -65,7 +65,7 @@ const onTurnBegin = (G, ctx)  => {
 };
 
 const CollabSketch = {
-  name: 'collab-sketch',
+  name: GAME_NAME,
 
   setup: (ctx) => ({
     players: {},

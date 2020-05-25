@@ -6,7 +6,7 @@ import Button from "react-bootstrap/Button";
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 
-import { API_PORT } from '../constants';
+import {API_PORT, GAME_NAME} from '../constants';
 
 class CardFront extends React.Component {
   constructor(props) {
@@ -30,7 +30,7 @@ class CardFront extends React.Component {
     });
     const response = await fetch(request);
     const responseBody = await response.json();
-    localStorage.setItem(`player-${responseBody.playerId}`, responseBody.credentials);
+    localStorage.setItem(`${GAME_NAME}-${responseBody.gameId}`, JSON.stringify({ [responseBody.playerId]: responseBody.credentials }));
     this.props.browserHistory.push(`/${responseBody.gameId}/${responseBody.playerId}`);
   };
 
