@@ -32,7 +32,7 @@ class WaitingRoom extends React.Component {
 
   adminName() {
     const { G : { players } } = this.props;
-    return players ? players[0].game.name : 'admin';
+    return players && players[0] ? players[0].game.name : 'admin';
   }
 
   waitingInfo() {
