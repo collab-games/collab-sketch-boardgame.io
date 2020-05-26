@@ -27,7 +27,7 @@ class Lobby extends React.Component {
     return (
       <div>
         <nav className="navbar navigation">
-          <NavbarBrand>Collab Sketch</NavbarBrand>
+          <NavbarBrand href="/">Collab Sketch</NavbarBrand>
         </nav>
         <div className="turn-in-card">
           <ReactCardFlip isFlipped={isCardFlipped}>

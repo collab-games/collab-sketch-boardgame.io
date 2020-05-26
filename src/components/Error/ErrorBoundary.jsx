@@ -20,7 +20,7 @@ class ErrorBoundary extends React.Component {
     return (
       <div>
         <nav className="navbar navigation">
-          <NavbarBrand>Collab Sketch</NavbarBrand>
+          <NavbarBrand href="/">Collab Sketch</NavbarBrand>
         </nav>
         <div className="error-content">
           <h1>Oops something went wrong!</h1>

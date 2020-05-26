@@ -13,6 +13,7 @@ describe("<Lobby>", () => {
     const wrapper = shallow(<Lobby match={match} />);
     expect(wrapper.find('nav').exists()).toBeTruthy();
     expect(wrapper.find('nav').text()).toContain("Collab Sketch");
+    expect(wrapper.find('NavbarBrand').props().href).toBe("/");
   });
 
   it("should render create game block", () => {

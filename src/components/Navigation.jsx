@@ -101,7 +101,7 @@ class Navigation extends React.Component {
     const { playerID, G: { state } } = this.props;
       return (
         <nav className="navbar navigation">
-          <NavbarBrand>Collab Sketch</NavbarBrand>
+          <NavbarBrand href="/">Collab Sketch</NavbarBrand>
           {state === GameState.STARTED && this.renderTimer()}
           <Form inline>
             {state === GameState.STARTED && this.renderInvite()}
