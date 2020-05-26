@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactCardFlip from 'react-card-flip';
 import CardFront from "./CardFront";
-import './Lobby.css';
+import './Lobby.scss';
 import CardBack from "./CardBack";
 import NavbarBrand from "react-bootstrap/NavbarBrand";
 

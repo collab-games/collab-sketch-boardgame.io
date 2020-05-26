@@ -1,0 +1,43 @@
+.turn-in-card {
+    width: 28vw;
+    margin: 5vw auto auto;
+
+    & .player-name-container {
+        line-height: 3;
+    }
+
+    & .player-name-container span, input {
+        color: #00205b;
+        font-size: 1.5rem;
+    }
+
+    & .player-name.error {
+        color: #00205b;
+        font-size: 1.5rem;
+        border: red 2px solid;
+    }
+
+    & .create-room-btn, .join-room-btn {
+        width: 12vw;
+        font-size: 1.8rem;
+        font-weight: bold;
+        font-color: #00205b;
+    }
+
+    & .create-room-btn, .create-room-btn:disabled, .create-room-btn:hover, .create-room-btn:active {
+        background-color: #84bd00;
+        border-color: #84bd00;
+        color: #00205b;
+        opacity: 1;
+    }
+
+    & .join-room-btn, .join-room-btn:disabled, .join-room-btn:hover, .join-room-btn:active {
+        background-color: #efdf00;
+        border-color: #efdf00;
+        color: #00205b;
+        opacity: 1;
+    }
+}
+
+
+

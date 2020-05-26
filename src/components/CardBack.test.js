@@ -31,12 +31,6 @@ describe('<CardBack>', function () {
     expect(card.find(Button).text()).toContain("Join Room");
   });
 
-  it('should render disabled buttons by default', () => {
-    const wrapper = shallow(<CardBack />);
-    const joinRoomButton = wrapper.find(Button).at(0);
-    expect(joinRoomButton.props().disabled).toBeTruthy();
-  });
-
   it('should enable buttons on change of room code', () => {
     const wrapper = shallow(<CardBack />);
     const roomCodeInput = wrapper.find(FormControl);
