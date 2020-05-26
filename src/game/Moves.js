@@ -145,6 +145,7 @@ export const joinGame = {
 };
 
 const updateCurrentWord = (G, word) => {
+  G.words.all.splice(G.words.all.indexOf(word), 1);
   G.words= { ...G.words, current: word, selection: []};
   G.canvasOne = { snapshot: {}, svg: "", chars: firstWord(word).length };
   G.canvasTwo = { snapshot: {}, svg: "", chars: secondWord(word).length };

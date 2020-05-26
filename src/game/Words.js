@@ -3,6 +3,7 @@ import random from "lodash/random";
 import clone from "lodash/clone";
 
 export const uniqueWordsFor = (numOfRounds, numOfPlayers) => {
+  let dictionaryWords = process.env.WORDS ? JSON.parse(process.env.WORDS) : dictionaryWords;
   let count = (numOfRounds * numOfPlayers) > dictionaryWords.length ? dictionaryWords.length : numOfRounds * numOfPlayers;
   let uniqueNumbers = [];
   let uniqueWords = [];
@@ -23,9 +24,8 @@ export const secondWord = words => words.split(' ').length === 2 ? words.split('
 export const pickRandomWord = words => {
   const all = clone(words);
   const index = random(all.length - 1);
-  const selected = all.splice(index, 1)[0];
-  return { selected, rest: all };
-}
+  return { selected: all[index], rest: all };
+};
 
 export const nextWordsFrom = (gameWords) => {
   const allWords = clone(gameWords);
@@ -48,4 +48,4 @@ export const pickRandomWords = (gameWords) => {
     all = rest;
   }
   return { selected: pickedWords, rest: all };
-}
+};
