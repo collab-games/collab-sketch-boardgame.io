@@ -3,14 +3,14 @@ import random from "lodash/random";
 import clone from "lodash/clone";
 
 export const uniqueWordsFor = (numOfRounds, numOfPlayers) => {
-  let dictionaryWords = process.env.WORDS ? JSON.parse(process.env.WORDS) : dictionaryWords;
-  let count = (numOfRounds * numOfPlayers) > dictionaryWords.length ? dictionaryWords.length : numOfRounds * numOfPlayers;
+  let allWords = process.env.WORDS ? JSON.parse(process.env.WORDS) : dictionaryWords;
+  let count = (numOfRounds * numOfPlayers) > allWords.length ? allWords.length : numOfRounds * numOfPlayers;
   let uniqueNumbers = [];
   let uniqueWords = [];
   while(count > 0) {
-    let index = random( dictionaryWords.length - 1);
+    let index = random( allWords.length - 1);
     if(!(index in uniqueNumbers)) {
-      uniqueWords.push(dictionaryWords[index]);
+      uniqueWords.push(allWords[index]);
       uniqueNumbers.push(index);
       count--;
     }
