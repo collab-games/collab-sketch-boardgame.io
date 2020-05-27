@@ -3,17 +3,24 @@
     max-height: 35vh;
     overflow-y: scroll;
     margin-top: 10px;
+    font-size: 1.2rem;
     border: #caccd1 solid 1px;
 
     & .current {
         font-weight: bold;
-        font-size: 16px;
+        font-size: 1.3rem;
     }
 
     & .players-list__header {
+        font-size: 1.3rem;
         text-align: center;
         background-color: #a51890;
         color: #f5f5f5;
+    }
+
+    & .icon {
+        width: 1.5rem;
+        height: 1.5rem;
     }
 }
 

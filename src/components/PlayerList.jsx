@@ -3,6 +3,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 import * as R from 'ramda';
 import PropTypes from 'prop-types';
 import UIfx from 'uifx';
+import {FaTrophy} from 'react-icons/fa';
 import './PlayerList.scss';
 import { GameState } from "../constants";
 
@@ -62,7 +63,7 @@ class PlayerList extends React.Component {
   render() {
     return (
       <ListGroup className="players-list">
-        <ListGroup.Item variant="primary" className="players-list__header"> &#9733; &#9733; Leader Board &#9733; &#9733; </ListGroup.Item>
+        <ListGroup.Item variant="primary" className="players-list__header"> <FaTrophy className="icon"/> Leader Board <FaTrophy className="icon"/> </ListGroup.Item>
         {this.renderPlayers()}
       </ListGroup>
     );

@@ -1,13 +1,9 @@
 .quote {
-    width: 680px;
+    width: 60rem;
     margin: 50px auto 50PX;
-    padding-left: 50px;
+    padding-left: 4rem;
     padding-top: 80px;
     padding-bottom: 80px;
-}
-
-.testimonial-quote {
-    font-size: 16px;
 }
 
 .testimonial-quote blockquote {
@@ -18,28 +14,19 @@
 
     background: none;
     font-family: Georgia, serif;
-    font-size: 1.5em;
+    font-size: 2rem;
     font-style: italic;
-    line-height: 1.4 !important;
     margin: 0;
     position: relative;
     text-shadow: 0 1px white;
     z-index: 600;
-}
-
-.testimonial-quote blockquote * {
-    box-sizing: border-box;
-}
-
-.testimonial-quote blockquote p {
     color: #52565e;;
-    line-height: 1.4 !important;
 }
 
 .testimonial-quote blockquote p:first-child:before {
     content: '\201C';
     color: #81bedb;
-    font-size: 7.5em;
+    font-size: 7.5rem;
     font-weight: 700;
     opacity: .3;
     position: absolute;
@@ -50,14 +37,12 @@
 }
 
 .testimonial-quote cite {
-    color: gray;
     display: block;
-    font-size: .8em;
 }
 
 .testimonial-quote cite span {
-    color: #52565e;;
-    font-size: 1em;
+    color: #52565e;
+    font-size: 1.5rem;
     font-style: normal;
     font-weight: 700;
     letter-spacing: 1px;
@@ -70,12 +55,12 @@
 }
 
 .testimonial-quote .quote-container {
-    padding-left: 160px;
+    padding-left: 10rem;
 }
 
 .testimonial-quote.right .quote-container {
     padding-left: 0;
-    padding-right: 160px;
+    padding-right: 10rem;
 }
 
 .testimonial-quote.right cite {

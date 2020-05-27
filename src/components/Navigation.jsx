@@ -12,6 +12,7 @@ import SelectionTimer from "./SelectionTimer";
 import TurnTimer from "./TurnTimer";
 import Form from "react-bootstrap/Form";
 import Popover from "react-bootstrap/Popover";
+import {FaPlayCircle} from 'react-icons/fa'
 import ShareGame from "./ShareGame";
 
 class Navigation extends React.Component {
@@ -68,7 +69,14 @@ class Navigation extends React.Component {
             : <Tooltip id="start-game-hint"> Minimum 3 players required!</Tooltip> }
           delay={{ show: 100, hide: 1000 }}
         >
-          <Button disabled={!this.canStartGame()} variant="warning" className="nav-button" onClick={this.startGame}>Start Game</Button>
+          <Button
+            disabled={!this.canStartGame()}
+            variant="warning"
+            className="nav-button"
+            onClick={this.startGame}
+          >
+            Start Game <FaPlayCircle className="icon" />
+          </Button>
         </OverlayTrigger>
       );
   }

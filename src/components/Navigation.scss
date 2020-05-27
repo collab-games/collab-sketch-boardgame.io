@@ -4,6 +4,7 @@
 
 .navigation .navbar-brand,
 .navigation .navbar-text {
+  line-height: 3rem;
   font-weight: bold;
   font-size: 1.5rem;
   padding: 0 0 0 2.5rem;
@@ -14,6 +15,12 @@
 }
 
 .navigation {
+
+  & .icon {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
   & .form-inline {
     & .nav-button, .nav-button:hover, .nav-button:active {
       background-color: #efdf00;
