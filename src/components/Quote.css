@@ -11,7 +11,7 @@
     border: 0;
     margin: 0;
     padding: 0;
-
+    line-height: 1.4 !important;
     background: none;
     font-family: Georgia, serif;
     font-size: 2rem;
@@ -26,7 +26,7 @@
 .testimonial-quote blockquote p:first-child:before {
     content: '\201C';
     color: #81bedb;
-    font-size: 7.5rem;
+    font-size: 7.5em;
     font-weight: 700;
     opacity: .3;
     position: absolute;
