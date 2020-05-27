@@ -1,6 +1,23 @@
 .turn-in-card {
-    width: 28vw;
+    width: 36rem;
     margin: 5vw auto auto;
+
+    & .card-row, .card-back-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    & .card-back-row {
+        justify-content: flex-end;
+    }
+
+    & .icon {
+        width: 2rem;
+        height: 2rem;
+    }
 
     & .player-name-container {
         line-height: 3;
@@ -8,18 +25,18 @@
 
     & .player-name-container span, input {
         color: #00205b;
-        font-size: 1.5rem;
+        font-size: 1.4rem;
     }
 
     & .player-name.error {
         color: #00205b;
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         border: red 2px solid;
     }
 
     & .create-room-btn, .join-room-btn {
-        width: 12vw;
-        font-size: 1.8rem;
+        width: 16rem;
+        font-size: 1.5rem;
         font-weight: bold;
         font-color: #00205b;
     }

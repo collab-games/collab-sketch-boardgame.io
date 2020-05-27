@@ -72,8 +72,7 @@ class CardBack extends React.Component {
       <Card>
         <Card.Img variant="top" src="/starry_night.jpg"/>
         <Card.Body>
-          <Row>
-            <Col>
+          <Row className="card-back-row">
               <InputGroup className="mb-3">
                 <InputGroup.Prepend className="player-name-container">
                   <InputGroup.Text id="basic-addon3">
@@ -87,18 +86,15 @@ class CardBack extends React.Component {
                   onChange={this.onInputChange}
                 />
               </InputGroup>
-            </Col>
           </Row>
-          <Row>
-            <Col md={{ span: 2, offset: 6 }}>
+          <Row className="card-back-row">
               <Button
                   className="join-room-btn"
                   variant="warning"
                   size="lg"
                   onClick={this.onJoinRoomClick}>
-                Join Room <IoIosLogIn size={32}/>
+                Join Room <IoIosLogIn className="icon" />
               </Button>
-            </Col>
           </Row>
         </Card.Body>
       </Card>

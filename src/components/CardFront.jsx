@@ -64,8 +64,7 @@ class CardFront extends React.Component {
       <Card>
         <Card.Img variant="top" src="/starry_night.jpg"/>
         <Card.Body>
-          <Row>
-            <Col>
+          <Row className="card-row">
             <InputGroup className="mb-3">
               <InputGroup.Prepend className="player-name-container">
                 <InputGroup.Text id="basic-addon3">
@@ -80,27 +79,22 @@ class CardFront extends React.Component {
                 placeholder="Your Nickname"
               />
             </InputGroup>
-            </Col>
           </Row>
-          <Row>
-            <Col>
+          <Row className="card-row">
               <Button
                   className="create-room-btn"
                   variant="success"
                   size="lg"
                   onClick={this.onCreateRoomClick}>
-                Create Room <IoIosAddCircle size={32}/>
+                Create Room <IoIosAddCircle className="icon" />
               </Button>
-            </Col>
-            <Col>
               <Button
                   className="join-room-btn"
                   variant="warning"
                   size="lg"
                   onClick={this.onJoinRoomClick}>
-                Join Room <IoIosLogIn size={32}/>
+                Join Room <IoIosLogIn className="icon" />
               </Button>
-            </Col>
           </Row>
         </Card.Body>
       </Card>

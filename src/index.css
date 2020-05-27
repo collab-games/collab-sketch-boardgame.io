@@ -11,3 +11,53 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* ----------- Non-Retina Screens ----------- */
+@media screen
+and (min-device-width: 1000px)
+and (max-device-width: 1200px)
+and (-webkit-min-device-pixel-ratio: 1) {
+  html, body {
+    font-size: 9px;
+    line-height: 12px;
+  }
+}
+
+@media screen
+and (min-device-width: 1200px)
+and (max-device-width: 1400px)
+and (-webkit-min-device-pixel-ratio: 1) {
+  html, body {
+    font-size: 10px;
+    line-height: 15px;
+  }
+}
+
+@media screen
+and (min-device-width: 1400px)
+and (max-device-width: 1600px)
+and (-webkit-min-device-pixel-ratio: 1) {
+  html, body {
+    font-size: 11px;
+    line-height: 16px;
+  }
+}
+
+@media screen
+and (min-device-width: 1600px)
+and (max-device-width: 1800px)
+and (-webkit-min-device-pixel-ratio: 1) {
+  html, body {
+    font-size: 13px;
+    line-height: 18px;
+  }
+}
+
+@media screen
+and (min-device-width: 1800px)
+and (-webkit-min-device-pixel-ratio: 1) {
+  html, body {
+    font-size: 14px;
+    line-height: 21px;
+  }
+}
