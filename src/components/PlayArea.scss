@@ -1,0 +1,30 @@
+.board {
+    border-collapse: collapse;
+    font-family: monospace;
+    display: flex;
+    margin-left: 10px;
+
+    & .canvas-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        height: 93vh;
+    }
+
+    & .word {
+        position: relative;
+        font-size: 1.5rem;
+        font-weight: bold;
+        height: 5vh;
+        padding-top: 1rem;
+    }
+}
+
+.sidebar {
+    height: 85vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}

@@ -5,7 +5,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import PlayerList from "../components/PlayerList";
 import ChatBox from "../components/ChatBox";
-import './PlayArea.css';
+import './PlayArea.scss';
 import CanvasOne from "./Canvas/CanvasOne";
 import CanvasTwo from "./Canvas/CanvasTwo";
 import { choosingPlayerIdFrom, isChoosingStage, isChoosingPlayer } from "../game/Players";

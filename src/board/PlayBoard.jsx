@@ -18,9 +18,7 @@ class PlayBoard extends React.Component {
   render() {
     const { G, ctx, playerID, isActive, moves } = this.props;
     return (
-      <div>
         <PlayArea G={G} ctx={ctx} playerID={playerID} isActive={isActive} moves={moves}/>
-      </div>
     )
   }
 }

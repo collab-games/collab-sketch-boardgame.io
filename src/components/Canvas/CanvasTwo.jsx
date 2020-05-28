@@ -50,7 +50,7 @@ class CanvasTwo extends React.Component {
   render() {
     const { G, moves } = this.props;
     return (
-      <div>
+      <div className="canvas-container">
         { !isChoosingStage(G.players) && this.renderSecondWord() }
         {this.isCanvasTwoArtist() && <Grid
           snapshot={G.canvasTwo['snapshot']}

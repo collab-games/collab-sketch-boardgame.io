@@ -5,6 +5,7 @@ import LeaderBoard from "./LeaderBoard";
 import PlayBoard from "./PlayBoard";
 import WaitingRoom from "../components/WaitingRoom";
 import Navigation from "../components/Navigation";
+import "./Board.css";
 
 class CollabSketchBoard extends React.Component {
   static propTypes = {
@@ -61,7 +62,9 @@ class CollabSketchBoard extends React.Component {
           gameID={this.props.gameID}
           isActive={this.props.isActive}
         />
-        {this.renderBoard()}
+        <div className="content">
+          {this.renderBoard()}
+        </div>
       </div>
     );
   }

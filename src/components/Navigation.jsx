@@ -11,9 +11,8 @@ import {isChoosingStage} from "../game/Players";
 import SelectionTimer from "./SelectionTimer";
 import TurnTimer from "./TurnTimer";
 import Form from "react-bootstrap/Form";
-import Popover from "react-bootstrap/Popover";
-import {FaPlayCircle} from 'react-icons/fa'
-import ShareGame from "./ShareGame";
+import {FaPlayCircle} from 'react-icons/fa';
+import {IoMdClose} from 'react-icons/io';
 
 class Navigation extends React.Component {
   static propTypes = {
@@ -83,19 +82,14 @@ class Navigation extends React.Component {
 
   renderEndGame() {
     return (
-        <Button variant="warning" className="nav-button end-game-button" onClick={this.endGame}>End Game</Button>
+        <Button
+          variant="warning"
+          className="nav-button end-game-button"
+          onClick={this.endGame}
+        >
+          End Game <IoMdClose className="icon" />
+        </Button>
     );
-  }
-
-  renderInvite() {
-    const popover = <Popover id="popover-basic">
-        <Popover.Content>
-          <ShareGame gameID={this.props.gameID} size={20} />
-        </Popover.Content>
-      </Popover>;
-    return <OverlayTrigger overlay={popover} trigger="click" placement="left">
-      <Button variant="warning" className="nav-button">Invite</Button>
-    </OverlayTrigger>
   }
 
   renderTimer() {
@@ -112,7 +106,6 @@ class Navigation extends React.Component {
           <NavbarBrand href="/">Collab Sketch</NavbarBrand>
           {state === GameState.STARTED && this.renderTimer()}
           <Form inline>
-            {state === GameState.STARTED && this.renderInvite()}
             {state === GameState.WAITING && this.isAdmin(playerID) && this.renderStartGame()}
             {state === GameState.STARTED && this.isAdmin(playerID) && this.renderEndGame()}
           </Form>

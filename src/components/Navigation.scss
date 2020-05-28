@@ -1,5 +1,6 @@
 .navigation {
     background-color: #a51890;
+    height: 5vh;
 }
 
 .navigation .navbar-brand,
@@ -30,5 +31,9 @@
       text-align: center;
       margin: 0 5px;
     }
+  }
+
+  & .end-game-button {
+    z-index: 1200;
   }
 }

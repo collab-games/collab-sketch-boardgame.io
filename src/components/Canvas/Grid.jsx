@@ -37,12 +37,12 @@ class Grid extends React.Component {
     return (
       <div className="canvas">
         <LC.LiterallyCanvasReactComponent
-          toolbarPosition='bottom'
+          toolbarPosition='left'
           imageURLPrefix="/img"
           onInit={this.initFunc}
           imageSize={{
-            width: 750,
-            height: 700,
+            width: "100%",
+            height: "100%",
           }}
         />
       </div>
