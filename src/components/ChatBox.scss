@@ -10,13 +10,17 @@
 .sc-chat-window.opened {
     right:0;
     position: inherit;
-    width: auto;
+    width: 100%;
     box-shadow: none;
     border-radius: 0;
     height: 50vh;
     border-left: #caccd1 solid 1px;
     border-top: #caccd1 solid 1px;
-    padding-top: 10px;
+
+    & .sc-message-list {
+        padding: 0;
+        height: 100%;
+    }
 }
 
 .sc-header--close-button {
@@ -24,7 +28,7 @@
 }
 
 .sc-message {
-    width: auto;
+    width: 100%;
 }
 
 .sc-user-input--file-icon-wrapper {
@@ -32,10 +36,6 @@
 }
 
 .sc-header {
-    min-height: 1px;
-    background: #a51890;
-    border-radius: 0;
-    padding: 0;
     display: none;
 }
 
@@ -55,13 +55,14 @@
 }
 
 .sc-message--content.sent .sc-message--text {
-    width: 16vw;
-    max-width: 16vw;
+    width: 100%;
+    max-width: 100%;
     background: none;
     color: black;
     padding: 2px 2px;
     font-family: monospace;
     font-size: 1rem;
+    word-wrap: anywhere;
 }
 
 .sc-user-input--text {

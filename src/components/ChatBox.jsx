@@ -1,6 +1,6 @@
 import React from 'react';
 import { Launcher } from 'react-chat-window';
-import './ChatBox.css';
+import './ChatBox.scss';
 import PropTypes from "prop-types";
 
 
