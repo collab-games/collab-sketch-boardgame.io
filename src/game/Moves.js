@@ -92,20 +92,19 @@ const addScore = (players, currentPlayerId, value, G) => {
     const everybodyGuessed = activeGuessingPlayers.every(player => player.turn.hasGuessed);
 
     if (everybodyGuessed) {
-        const drawingPlayerBonus = (activeGuessingPlayers.length) * 5;
-        drawingPlayers(G).forEach((player) => player.game.score += drawingPlayerBonus);
         showWordInChat(G);
-        const message = { ...value, data: { text: `Everybody has guessed it correct [+${drawingPlayerBonus}]` } };
-        G.chatMessages = [...G.chatMessages, message];
     }
 };
 
 const showWordInChat = (G) => {
     const artistsNames = drawingPlayers(G).map((player) => player.game.name);
+    const correctGuessedPlayers = guessingPlayers(G).filter((player) => player.turn.hasGuessed);
+    const drawingPlayerBonus = correctGuessedPlayers.length * 5;
+    drawingPlayers(G).forEach((player) => player.game.score += drawingPlayerBonus);
     const message = {
       author: 'me',
       data: {
-        text: `${artistsNames.join(' and ')} were drawing ${G.words.current}.`
+        text: `${artistsNames.join(' and ')} were drawing ${G.words.current}.[+${drawingPlayerBonus}]`
       },
       type: 'text'
     };
@@ -120,12 +119,16 @@ const endTurnIfAllGuessed = (players, ctx) => {
     }
 };
 
+const isCorrect = (guessedWord, actualWord) => {
+  return actualWord.replace(/\s/g, "").toUpperCase() === guessedWord.replace(/\s/g, "").toUpperCase();
+};
+
 export const guessArt = {
   move: (G, ctx, value) => {
     const playerId = ctx.playerID;
     const split = value.data.text.split(':');
     const guess = split[1].trim();
-    if (G.words && guess === G.words.current) {
+    if (G.words && isCorrect(guess, G.words.current)) {
       if (!G.players[playerId]['turn']['hasGuessed']) {
         addScore(G.players, playerId, value, G);
         endTurnIfAllGuessed(G.players, ctx);
