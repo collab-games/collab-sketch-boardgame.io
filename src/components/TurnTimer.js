@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Alarm} from "react-bootstrap-icons";
+import {BsAlarm} from "react-icons/bs";
 import UIfx from 'uifx';
-import 'react-circular-progressbar/dist/styles.css';
 import './Timer.css';
 
 class TurnTimer extends React.Component {
@@ -55,7 +54,7 @@ class TurnTimer extends React.Component {
     if (this.state.timer > 0) {
       return (
         <div className="count-down-timer">
-          <Alarm color="#efdf00" size={20} />
+          <BsAlarm color="#efdf00" size={20} />
           <span className="time">
             {this.state.timer}
           </span>

@@ -1,0 +1,55 @@
+.canvas-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  height: 93vh;
+
+  & .canvas {
+    display: block;
+    width: 40vw;
+    height: 85vh;
+  }
+
+  & #canvasOne {
+    position: relative;
+    width: 100%;
+    height: inherit;
+    border: 2px solid #caccd1;
+  }
+
+  & #canvasTwo {
+    position: relative;
+    width: 100%;
+    height: inherit;
+    border: 2px solid #caccd1;
+  }
+
+  & span[title='Line width'] {
+    visibility: hidden;
+  }
+
+  & span[title='Line width']:after {
+    visibility: visible;
+    position: relative;
+    top: 0;
+    left: 0;
+    content: "Size";
+  }
+
+  & span[title='Eraser width'] {
+    visibility: hidden;
+  }
+
+  & span[title='Eraser width']:after {
+    visibility: visible;
+    position: relative;
+    top: 0;
+    left: 0;
+    content: "Size";
+  }
+
+  & span.ptro-info {
+    display: none;
+  }
+}

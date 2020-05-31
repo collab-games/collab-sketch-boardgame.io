@@ -2,7 +2,7 @@ import React from 'react';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Tooltip from "react-bootstrap/Tooltip";
 import {CopyToClipboard} from "react-copy-to-clipboard/lib/Component";
-import {Union} from "react-bootstrap-icons";
+import {BsUnion} from "react-icons/bs";
 import PropTypes from 'prop-types';
 import './ShareGame.scss';
 
@@ -41,7 +41,7 @@ class ShareGame extends React.Component {
               text={gameUrl}
               onCopy={this.onCopyToClipboard}
             >
-              <Union size={size} color="#495057" />
+              <BsUnion size={size} color="#495057" />
             </CopyToClipboard>
           </OverlayTrigger>
         </div>

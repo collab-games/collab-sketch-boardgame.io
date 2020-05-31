@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from 'enzyme';
 import CanvasOne from "./CanvasOne";
 import ReadOnlyCanvas from "./ReadOnlyCanvas";
-import Grid from "./Grid";
+import Canvas from "./Canvas";
 import {repeat} from "lodash";
 
 describe('<CanvasOne>', function () {
@@ -12,7 +12,7 @@ describe('<CanvasOne>', function () {
       '1': {turn: {action: 'drawCanvasOne'}, game: {name: 'John'}},
       '2': {turn: {action: 'drawCanvasTwo'}, game: {}}
     },
-    canvasOne: {snapshot: {}, svg: "", chars: 5},
+    canvasOne: {snapshot: null, svg: "", chars: 5},
     word: 'hello world'
   };
 
@@ -43,7 +43,7 @@ describe('<CanvasOne>', function () {
       <CanvasOne isActive={true} playerID='1' G={G} ctx={ctx} moves={moves} />
     );
 
-    const canvasGrid = component.find(Grid);
+    const canvasGrid = component.find(Canvas);
     expect(canvasGrid.exists()).toBeTruthy();
     expect(canvasGrid.props().snapshot).toEqual(G.canvasOne.snapshot)
     expect(canvasGrid.props().updateSnapshot).toEqual(moves.updateSnapshotForCanvasOne);
@@ -54,7 +54,7 @@ describe('<CanvasOne>', function () {
       <CanvasOne isActive={true} playerID='2' G={G} ctx={ctx} moves={moves} />
     );
 
-    const canvasGrid = component.find(Grid);
+    const canvasGrid = component.find(Canvas);
     expect(canvasGrid.exists()).toBeFalsy();
   });
 

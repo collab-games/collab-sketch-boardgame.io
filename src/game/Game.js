@@ -84,8 +84,8 @@ const CollabSketch = {
       selection: [],
       current: '',
     },
-    canvasOne: { snapshot: {}, svg: "", chars: 0 },
-    canvasTwo: { snapshot: {}, svg: "", chars: 0 },
+    canvasOne: { snapshot: null, svg: "", chars: 0 },
+    canvasTwo: { snapshot: null, svg: "", chars: 0 },
     chatMessages: [],
   }),
 

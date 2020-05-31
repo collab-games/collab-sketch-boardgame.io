@@ -1,8 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {Alarm} from "react-bootstrap-icons";
+import {BsAlarm} from 'react-icons/bs';
 import UIfx from "uifx";
-import 'react-circular-progressbar/dist/styles.css';
 import './Timer.css';
 
 class SelectionTimer extends React.Component {
@@ -71,7 +70,7 @@ class SelectionTimer extends React.Component {
     if (this.state.timer > 0) {
       return (
         <div className="count-down-timer">
-          <Alarm size={20} color="#efdf00" />
+          <BsAlarm size={20} color="#efdf00" />
           <span className="time">
             {this.state.timer}
           </span>

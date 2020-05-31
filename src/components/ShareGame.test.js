@@ -2,7 +2,7 @@ import React from "react";
 import { shallow } from "enzyme";
 import ShareGame from "./ShareGame";
 import {CopyToClipboard} from "react-copy-to-clipboard/lib/Component";
-import {Union} from "react-bootstrap-icons";
+import {BsUnion} from "react-icons/bs";
 
 
 describe('<ShareGame>', function () {
@@ -17,7 +17,7 @@ describe('<ShareGame>', function () {
     const copyToClipboard = component.find(CopyToClipboard);
     expect(copyToClipboard.props().text).toContain('xfxs34');
 
-    expect(component.find(Union).exists()).toBeTruthy();
+    expect(component.find(BsUnion).exists()).toBeTruthy();
   });
 
 });

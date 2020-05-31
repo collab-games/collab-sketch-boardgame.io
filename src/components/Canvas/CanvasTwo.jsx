@@ -1,10 +1,10 @@
 import React from "react";
-import Grid from "./Grid";
 import ReadOnlyCanvas from "./ReadOnlyCanvas";
 import PropTypes from "prop-types";
 import repeat from "lodash/repeat";
 import isEmpty from "lodash/isEmpty";
 import { isChoosingStage, secondCanvasPlayerIdFrom } from "../../game/Players";
+import Canvas from "./Canvas";
 
 class CanvasTwo extends React.Component {
 
@@ -52,11 +52,7 @@ class CanvasTwo extends React.Component {
     return (
       <div className="canvas-container">
         { !isChoosingStage(G.players) && this.renderSecondWord() }
-        {this.isCanvasTwoArtist() && <Grid
-          snapshot={G.canvasTwo['snapshot']}
-          updateSnapshot={moves.updateSnapshotForCanvasTwo}
-          id={1}
-        />}
+        {this.isCanvasTwoArtist() && <Canvas snapshot={G.canvasTwo.snapshot} updateSnapshot={moves.updateSnapshotForCanvasTwo} /> }
         {!this.isCanvasTwoArtist() && <ReadOnlyCanvas
           svgText={G.canvasTwo['svg']}
           artistName={this.artistName()}
