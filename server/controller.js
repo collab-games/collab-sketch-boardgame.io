@@ -3,6 +3,7 @@ import request from "superagent";
 import {INTERNAL_API_PORT} from "../src/constants";
 import CollabSketch from "../src/game/Game";
 import koaBody from "koa-body";
+import { DEFAULT_NUM_OF_PLAYERS} from "../src/constants";
 
 const router = new Router();
 
@@ -18,7 +19,7 @@ router.post('/create', koaBody(), async ctx => {
   const r = await request
     .post(`http://localhost:${INTERNAL_API_PORT}/games/${CollabSketch.name}/create`)
     .send({
-      numPlayers: 10,
+      numPlayers: DEFAULT_NUM_OF_PLAYERS,
     });
 
   const gameId = r.body.gameID;

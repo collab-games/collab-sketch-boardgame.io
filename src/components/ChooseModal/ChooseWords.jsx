@@ -13,6 +13,7 @@ class ChooseWords extends React.Component {
     const { words, chooseWord } = this.props;
     return (
       <div className="choose-word">
+        <p className="choose-word__header">Choose Word</p>
         <div className="choose-word__words">
           { words.map((word, index) =>
                 <Button variant="success" key={index} className="choose-word__word"

@@ -14,58 +14,73 @@
 }
 
 .choose-word {
-    min-height: 600px;
-    margin-right: 250px;
-    height: auto;
+  min-height: 600px;
+  margin-right: 250px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  & .choose-word__header {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 2rem;
+    border-bottom: #fff solid 2px;
+  }
+
+  & .choose-word__words {
+    width: 80%;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
 
-   & .choose-word__words {
-     width: 80%;
-     display: flex;
-     flex-direction: row;
-     justify-content: space-around;
-     align-items: center;
-     flex-wrap: wrap;
-
-     & .choose-word__word {
-       background-color: #84bd00;
-       border: #84bd00 solid 1px;
-       margin-bottom: 25px;
-       border-radius: 25px;
-       font-size: 1.5rem;
-       color: #00205b;
-     }
-   }
+    & .choose-word__word {
+      background-color: #84bd00;
+      border: #84bd00 solid 1px;
+      margin-bottom: 25px;
+      border-radius: 25px;
+      font-size: 1.5rem;
+      color: #00205b;
+    }
+  }
 }
 
 .choose-player {
-    min-height: 600px;
-    margin-right: 250px;
-    height: auto;
+  min-height: 600px;
+  margin-right: 250px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  & .choose-player__header {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 2rem;
+    border-bottom: #fff solid 2px;
+  }
+
+  & .choose-player__players {
+    width: 80%;
     display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
+    flex-direction: row;
+    justify-content: space-around;
     align-items: center;
+    flex-wrap: wrap;
 
-    & .choose-player__players {
-      width: 80%;
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      align-items: center;
-      flex-wrap: wrap;
-
-      & .choose-player__player {
-        background-color: #efdf00;
-        border: #efdf00 solid 1px;
-        margin-bottom: 25px;
-        border-radius: 25px;
-        font-size: 1.5rem;
-        color: #00205b;
-      }
+    & .choose-player__player {
+      background-color: #efdf00;
+      border: #efdf00 solid 1px;
+      margin-bottom: 25px;
+      border-radius: 25px;
+      font-size: 1.5rem;
+      color: #00205b;
     }
-
+  }
 }
