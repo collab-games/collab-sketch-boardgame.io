@@ -6,6 +6,11 @@
     background-color: #ffffff;
 }
 
+.svg-container img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
 .read-only-canvas__artist-name {
     position: absolute;
     color: white;

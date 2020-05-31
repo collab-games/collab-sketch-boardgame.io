@@ -9,9 +9,7 @@ import './PlayArea.scss';
 import CanvasOne from "./Canvas/CanvasOne";
 import CanvasTwo from "./Canvas/CanvasTwo";
 import { choosingPlayerIdFrom, isChoosingStage, isChoosingPlayer } from "../game/Players";
-import Toaster from "./Toaster";
 import ChooseModal from "./ChooseModal/ChooseModal";
-import {isEmpty} from "lodash";
 
 class PlayArea extends React.Component {
   static propTypes = {
@@ -39,13 +37,15 @@ class PlayArea extends React.Component {
   }
 
   showToast() {
-    const { G: {players, settings}, playerID } = this.props;
+    const { G: {players }, playerID } = this.props;
 
     if(isChoosingPlayer(players, playerID)) {
       return null;
     } else if(isChoosingStage(players)) {
       const message = `${players[choosingPlayerIdFrom(players)].game.name} is choosing a word and co-artist`;
-      return (<Toaster message={message} delay={settings.selectionPeriod}/>);
+      return (<p className="notification">
+        {message}
+      </p>);
     }
     return null;
   }
@@ -71,7 +71,7 @@ class PlayArea extends React.Component {
       <Container fluid={true}>
         <Row>
           <Col md={{span: 10}}>
-            <div>
+            <div className="main">
               { this.showToast() }
               { this.showChoosingModal() }
               <div className='board'>
