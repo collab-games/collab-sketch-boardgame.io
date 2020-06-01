@@ -78,9 +78,13 @@ class LeaderBoard extends React.Component {
       <div className="leader-board-container">
         <div className="leader-board">
           <Winner name={winner.game.name} />
-          <LeaderBoardHeader/>
-          <ColumnHeader/>
-          <Players players={players} />
+          <div className="leader-board-body">
+            <LeaderBoardHeader/>
+            <ColumnHeader/>
+            <div className="players">
+              <Players players={players} />
+            </div>
+          </div>
         </div>
       </div>
     );
