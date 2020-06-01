@@ -16,6 +16,8 @@ describe('<CardBack>', function () {
     expect(card.find(InputGroup).exists()).toBeTruthy();
     expect(card.find(InputGroup).find(InputGroup.Text).text()).toContain("Room Code");
     expect(card.find(InputGroup).find(FormControl).exists()).toBeTruthy();
+    expect(card.find(InputGroup).find(FormControl).props().autoFocus).toBeTruthy();
+    expect(card.find(InputGroup).find(FormControl).props().maxLength).toBe(20);
 
     expect(card.find(Button).text()).toContain("Join Room");
   });

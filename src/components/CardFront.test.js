@@ -16,6 +16,8 @@ describe('<CardFront>', function () {
     playerNameInput.simulate('change', { currentTarget: { value: 'Alexander' } });
     const createRoomButton = wrapper.find(Button).at(0);
     const joinRoomButton = wrapper.find(Button).at(1);
+    expect(playerNameInput.props().autoFocus).toBeTruthy();
+    expect(playerNameInput.props().maxLength).toBe(20);
     expect(createRoomButton.props().disabled).toBeFalsy();
     expect(joinRoomButton.props().disabled).toBeFalsy();
   });

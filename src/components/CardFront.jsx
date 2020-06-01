@@ -72,11 +72,13 @@ class CardFront extends React.Component {
                 </InputGroup.Text>
               </InputGroup.Prepend>
               <FormControl
+                autoFocus
                 className={`player-name ${inputError?"error":""}`}
-                id="basic-url"
+                id="card-front"
                 aria-describedby="basic-addon3"
                 onChange={this.onPlayerNameChange}
                 placeholder="Your Nickname"
+                maxLength={20}
               />
             </InputGroup>
           </Row>

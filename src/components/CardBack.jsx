@@ -80,10 +80,12 @@ class CardBack extends React.Component {
                   </InputGroup.Text>
                 </InputGroup.Prepend>
                 <FormControl
+                  autoFocus
                   className={`player-name ${inputError?"error":""}`}
-                  id="basic-url"
+                  id="card-back"
                   aria-describedby="basic-addon3"
                   onChange={this.onInputChange}
+                  maxLength={20}
                 />
               </InputGroup>
           </Row>
