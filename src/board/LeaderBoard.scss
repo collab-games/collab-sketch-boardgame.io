@@ -1,0 +1,107 @@
+.leader-board-container {
+    background: linear-gradient(rgba(66, 152, 181, 0.6), rgba(66, 152, 181, 0.5)), url("/leader-board-bg.jpg");
+    height: 95vh;
+
+    & .leader-board {
+        height: 95vh;
+        display: flex;
+        justify-content: start;
+        flex-direction: column;
+        align-items: center;
+
+        & .winner {
+            padding-top: 5vh;
+            padding-bottom: 2vh;
+            display: flex;
+            justify-content: center;
+
+            & h2 {
+                font-family: "Montserrat", sans-serif;
+                color: white;
+                font-weight: bold;
+                background-color: rgba(0, 0, 0, 0.8);
+            }
+        }
+
+        & .leader-board-body {
+            width: 40vw;
+        }
+    }
+}
+
+.leader-board-body {
+
+    & .leader-board__title {
+        height: 4rem;
+        background: rgba(165, 25, 144, 0.85);
+        border-radius: 0.5rem 0.5rem 0 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        & h2 {
+            margin: 0;
+            color: #fefefe;
+            font-size: 2rem;
+            font-family: "Montserrat", sans-serif;
+            font-weight:bold;
+        }
+    }
+
+    & .leader-board__header {
+        display: flex;
+        align-items: center;
+        background: rgba(254, 254, 254, 0.9);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+        height: 3rem;
+
+        & h4 {
+            width: 15vw;
+            font-size: 1.5rem;
+            font-family: "Montserrat", sans-serif;
+            font-weight:bold;
+            text-align: center;
+        }
+
+        & h4.rank {
+            width: 10vw;
+        }
+    }
+
+    & .leader-board__players {
+        width: 40vw;
+        max-height: 50vh;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+
+        & .leader-board__player {
+            display: flex;
+            align-items: center;
+            background: #fefefe;
+            height: 3rem;
+
+            & h4 {
+                font-family: "Montserrat", sans-serif;
+                width: 15vw;
+                text-align: center;
+            }
+
+            & h4.rank {
+                width: 10vw;
+            }
+        }
+
+        & .leader-board__player:nth-of-type(odd) {
+            background: rgba(254, 254, 254, 0.9);
+        }
+
+        & .leader-board__player:nth-of-type(even) {
+            background: rgba(240, 240, 240, 0.9);
+        }
+
+        & .leader-board__player:last-child {
+            border-radius: 0 0 0.5rem 0.5rem;
+        }
+    }
+}

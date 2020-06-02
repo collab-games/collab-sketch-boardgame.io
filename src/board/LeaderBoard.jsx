@@ -1,13 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import "./LeaderBoard.css";
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import UIfx from 'uifx';
+import "./LeaderBoard.scss";
 
-const LeaderBoardHeader = () => {
+const LeaderBoardTitle = () => {
   return (
-    <div className="leader-board-header">
+    <div className="leader-board__title">
       <h2>Leaderboard</h2>
     </div>
   )
@@ -22,41 +20,36 @@ const Winner = ({ name }) => {
 };
 
 const Players = ({ players }) => {
-  return Object.values(players)
-      .sort((p1, p2) => p2.game.score - p1.game.score)
-      .map((player, index) =>
-        <User key={index} rank={index+1} username={player.game.name} score={player.game.score} />)
-};
 
-const ColumnHeader = () => {
+  const playerList = Object.values(players)
+    .sort((p1, p2) => p2.game.score - p1.game.score)
+    .map((player, index) =>
+      <Player key={index} rank={index+1} username={player.game.name} score={player.game.score} />)
+
   return (
-    <Row className="col-header">
-      <Col xs={2}>
-        <h4>#</h4>
-      </Col>
-      <Col>
-        <h4>Name</h4>
-      </Col>
-      <Col>
-        <h4>Score</h4>
-      </Col>
-    </Row>
+    <div className="leader-board__players">
+      {playerList}
+    </div>
   )
 };
 
-const User = ({ rank, username, score }) => {
+const LeaderBoardHeader = () => {
   return (
-    <Row className="users">
-      <Col xs={2} className="rank">
-        <h4>{ rank }</h4>
-      </Col>
-      <Col>
-        <h4>{ username }</h4>
-      </Col>
-      <Col>
-        <h4>{ score }</h4>
-      </Col>
-    </Row>
+    <div className="leader-board__header">
+        <h4 className="rank">#</h4>
+        <h4>Name</h4>
+        <h4>Score</h4>
+    </div>
+  )
+};
+
+const Player = ({ rank, username, score }) => {
+  return (
+    <div className="leader-board__player">
+      <h4 className="rank">{rank}</h4>
+      <h4>{username}</h4>
+      <h4>{score}</h4>
+    </div>
   )
 };
 
@@ -79,11 +72,9 @@ class LeaderBoard extends React.Component {
         <div className="leader-board">
           <Winner name={winner.game.name} />
           <div className="leader-board-body">
+            <LeaderBoardTitle/>
             <LeaderBoardHeader/>
-            <ColumnHeader/>
-            <div className="players">
-              <Players players={players} />
-            </div>
+            <Players players={players} />
           </div>
         </div>
       </div>
