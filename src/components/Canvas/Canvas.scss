@@ -3,11 +3,12 @@
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
+  padding-bottom: 1vh;
 
   & .canvas {
     display: block;
     width: 40vw;
-    height: 85vh;
+    height: 88vh;
   }
 
   & #canvas {

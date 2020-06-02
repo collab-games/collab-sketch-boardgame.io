@@ -2,7 +2,7 @@
     border-collapse: collapse;
     font-family: monospace;
     display: flex;
-    margin-left: 10px;
+    padding-left: 1rem;
 
     & .word {
         position: relative;
@@ -14,7 +14,7 @@
 }
 
 .main {
-    height: 93vh;
+    height: 95vh;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -30,9 +30,10 @@
 }
 
 .sidebar {
-    height: 93vh;
+    height: 93.5vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
+    padding-top: 1vh;
 }

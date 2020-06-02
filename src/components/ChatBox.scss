@@ -10,8 +10,15 @@
     padding-right: 0.5rem;
     padding-left: 0.5rem;
     height: 46vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    //& p:first-child {
+    //  flex: 1 1 auto;
+    //}
 
     & .chat-box__message__player, .chat-box__message__system {
       word-wrap: anywhere;
