@@ -23,38 +23,24 @@ describe("<ChatBox>", () => {
   it("should render chatbox with no messages", () => {
     const G = { chatMessages: [] };
     const wrapper = shallow(<ChatBox  G={G} currentPlayer={currentPlayer} isPlayerGuessing={true} moves={{guessArt}} />);
-    expect(wrapper.find(Launcher).exists()).toBeTruthy();
-    expect(wrapper.find(Launcher).props().messageList).toEqual([]);
+    expect(wrapper.find('input').exists()).toBeTruthy();
+    expect(wrapper.find('p').exists()).toBeFalsy();
   });
 
   it("should send message via guessArt", () => {
     const G = { chatMessages: [ {} ] };
-    const message = {
-      type: 'text',
-      data: { text: 'hello' },
-      author: 'me'
-    };
-    const expectedMessage = {
-      type: 'text',
-      data: { text: 'bond: hello' },
-      author: 'me'
-    };
+    const expectedMessage = 'collab sketch';
     const wrapper = shallow(<ChatBox currentPlayer={currentPlayer} G={G} isPlayerGuessing={true} moves={{guessArt}} />);
-    expect(wrapper.find(Launcher).exists()).toBeTruthy();
-    wrapper.find(Launcher).props().onMessageWasSent(message);
+    wrapper.find('input').simulate('change', {target: {value: 'collab sketch'}});
+    wrapper.find('input').simulate('keypress', {key: 'Enter'});
     expect(guessArt).toHaveBeenCalledWith(expectedMessage);
   });
 
   it("should send not send message if player isn't guessing", () => {
     const G = { chatMessages: [ {} ] };
-    const message = {
-      type: 'text',
-      data: { text: 'hello' },
-      author: 'me'
-    };
     const wrapper = shallow(<ChatBox currentPlayer={currentPlayer} G={G} isPlayerGuessing={false} moves={{guessArt}} />);
-    expect(wrapper.find(Launcher).exists()).toBeTruthy();
-    wrapper.find(Launcher).props().onMessageWasSent(message);
+    wrapper.find('input').simulate('change', {target: {value: 'collab sketch'}});
+    wrapper.find('input').simulate('keypress', {key: 'Enter'});
     expect(guessArt).not.toHaveBeenCalled();
   });
 });

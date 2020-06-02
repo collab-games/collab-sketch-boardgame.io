@@ -1,6 +1,13 @@
 import isNull from "lodash/isNull";
 import {GameState} from "../constants";
-import {isCoArtistSelected, makeCoArtist, newPlayer, nextActivePlayersFrom, updatePlayers} from "./Players";
+import {
+  isCoArtistSelected,
+  makeCoArtist,
+  newPlayer,
+  nextActivePlayersFrom,
+  playerNameFrom,
+  updatePlayers
+} from "./Players";
 import isEmpty from "lodash/isEmpty";
 import {firstWord, secondWord} from "./Words";
 
@@ -73,7 +80,7 @@ const drawingPlayers = (G) => {
   return Object.values(G.players).filter(player => player.turn.action !== 'guess');
 };
 
-const addScore = (players, currentPlayerId, value, G) => {
+const addScore = (players, currentPlayerId, G) => {
     let activeGuessingPlayers = guessingPlayers(G);
     const currentGuessPosition = activeGuessingPlayers
       .map(player => player.turn.guessPosition)
@@ -85,9 +92,9 @@ const addScore = (players, currentPlayerId, value, G) => {
     players[currentPlayerId].turn.guessPosition = currentGuessPosition + 1;
 
     const currentPlayerName = players[currentPlayerId].game.name;
-    const message = { ...value, data: { text: `${currentPlayerName} has guessed it correct [+${score}]` } };
+    const message = { text: `${currentPlayerName} has guessed it correct [+${score}]`, author: '', systemGenerated: true };
     G.players[currentPlayerId]['turn']['hasGuessed'] = true;
-    G.chatMessages = [...G.chatMessages, message];
+    G.chatMessages.push(message);
 
     const everybodyGuessed = activeGuessingPlayers.every(player => player.turn.hasGuessed);
 
@@ -102,13 +109,11 @@ const showWordInChat = (G) => {
     const drawingPlayerBonus = correctGuessedPlayers.length * 5;
     drawingPlayers(G).forEach((player) => player.game.score += drawingPlayerBonus);
     const message = {
-      author: 'me',
-      data: {
-        text: `${artistsNames.join(' and ')} were drawing ${G.words.current}.[+${drawingPlayerBonus}]`
-      },
-      type: 'text'
+      text: `${artistsNames.join(' and ')} were drawing ${G.words.current}.[+${drawingPlayerBonus}]`,
+      author: '',
+      systemGenerated: true
     };
-    G.chatMessages = [...G.chatMessages, message];
+    G.chatMessages.push(message);
 };
 
 const endTurnIfAllGuessed = (players, ctx) => {
@@ -126,15 +131,15 @@ const isCorrect = (guessedWord, actualWord) => {
 export const guessArt = {
   move: (G, ctx, value) => {
     const playerId = ctx.playerID;
-    const split = value.data.text.split(':');
-    const guess = split[1].trim();
+    const guess = value.trim();
     if (G.words && isCorrect(guess, G.words.current)) {
       if (!G.players[playerId]['turn']['hasGuessed']) {
-        addScore(G.players, playerId, value, G);
+        addScore(G.players, playerId, G);
         endTurnIfAllGuessed(G.players, ctx);
       }
     } else {
-      G.chatMessages = [...G.chatMessages, value];
+      const message = { text: value, author: playerNameFrom(playerId, G.players), systemGenerated: false };
+      G.chatMessages.push(message);
     }
   },
   client: false
@@ -176,7 +181,7 @@ export const chooseWord = {
 export const choosePlayer = {
   move: (G, ctx, coArtistId) => {
     if(ctx.playerID !== coArtistId) {
-      G.players[coArtistId] = makeCoArtist(G.players[coArtistId])
+      G.players[coArtistId] = makeCoArtist(G.players[coArtistId]);
       if(isSelectionComplete(G)) {
         initRound(G, ctx);
       }

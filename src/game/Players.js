@@ -66,6 +66,8 @@ const coArtistIdFrom = (players) => findKey(players, player => player.turn.coArt
 
 export const playerNames = players => Object.entries(players).map( ([key, player]) => ({ playerId: key, playerName: player.game.name }));
 
+export const playerNameFrom = (playerId, players) => players[playerId].game.name;
+
 export const makeCoArtist = (player) => ({ ...player, turn: { ...player.turn, coArtist: true }});
 
 export const isCoArtistSelected = players => some(Object.values(players), player => player.turn.coArtist)

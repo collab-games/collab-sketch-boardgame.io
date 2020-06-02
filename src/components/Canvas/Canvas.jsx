@@ -22,7 +22,7 @@ class Canvas extends React.Component {
 
   componentDidMount() {
     Painterro({
-      id: 'canvasOne',
+      id: 'canvas',
       activeFillColor: '#00ff00',
       activeFillColorAlpha: 1,
       defaultTool: 'brush',
@@ -44,7 +44,7 @@ class Canvas extends React.Component {
   render() {
     return (
       <div className="canvas">
-        <div id="canvasOne">
+        <div id="canvas">
         </div>
       </div>
     );

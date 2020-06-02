@@ -1,5 +1,4 @@
 import React from 'react';
-import { Launcher } from 'react-chat-window';
 import './ChatBox.scss';
 import PropTypes from "prop-types";
 
@@ -14,25 +13,54 @@ class ChatBox extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      message: ''
+    };
+    this.changeInputValue = this.changeInputValue.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
   }
 
-  sendMessage(message) {
-    const { moves, currentPlayer, isPlayerGuessing } = this.props;
-    const updatedText = `${currentPlayer.game.name}: ${message.data.text}`;
-    const updatedMessage = Object.assign({}, message, {data: {text: updatedText}});
-    isPlayerGuessing && moves.guessArt(updatedMessage);
+  changeInputValue (e) {
+    this.setState({
+      message: e.target.value
+    });
+  }
+
+  sendMessage(event) {
+    if (event.key === 'Enter') {
+      const { message } = this.state;
+      const { moves, isPlayerGuessing } = this.props;
+      isPlayerGuessing && moves.guessArt(message);
+      this.setState({
+        message: ''
+      });
+    }
+  }
+
+  renderMessages() {
+    const renderMessage = (message, index) => {
+      if (message.systemGenerated) {
+        return <p key={index} className="chat-box__message__system">{message.text}</p>
+      }
+      return <p key={index} className="chat-box__message__player">
+        <span>{message.author}</span>
+        {message.text}
+      </p>
+    };
+    const { G: {chatMessages} } = this.props;
+    return chatMessages.map(renderMessage);
   }
 
   render() {
-    const { G } = this.props;
     return (
-      <Launcher
-        agentProfile={{}}
-        isOpen={true}
-        onMessageWasSent={(message) => this.sendMessage(message)}
-        messageList={G.chatMessages}
-        showEmoji={false}
-      />
+      <div className="chat-box">
+        <div className="chat-box__messages">
+          {this.renderMessages()}
+        </div>
+        <div className="chat-box__input">
+          <input value={this.state.message} placeholder="Guess here" onChange={this.changeInputValue} onKeyPress={this.sendMessage}/>
+        </div>
+      </div>
     );
   }
 }
