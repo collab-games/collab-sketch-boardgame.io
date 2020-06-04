@@ -41,6 +41,11 @@ class Canvas extends React.Component {
     }).show(this.props.snapshot);
   }
 
+  componentWillUnmount() {
+    const canvas = document.getElementById('canvas');
+    canvas.remove();
+  }
+
   render() {
     return (
       <div className="canvas">
