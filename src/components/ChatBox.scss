@@ -1,3 +1,5 @@
+@import "src/variables";
+
 .chat-box {
   height: 51vh;
   width: 100%;
@@ -24,9 +26,23 @@
       word-wrap: anywhere;
     }
 
+    & .chat-box__message__system {
+
+      & span.word {
+        color: $brand-color-primary;
+        font-variant: all-small-caps;
+      }
+
+      & span.score {
+        color: $brand-color-primary;
+        float: none;
+      }
+    }
+
     & .chat-box__message__player {
       & span {
         font-weight: bold;
+        font-variant: all-small-caps;
       }
       & span:after {
         content: ": ";

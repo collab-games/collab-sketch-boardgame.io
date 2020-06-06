@@ -1,6 +1,7 @@
 import React from 'react';
 import './ChatBox.scss';
 import PropTypes from "prop-types";
+import {MessageType} from "../constants";
 
 
 class ChatBox extends React.Component {
@@ -39,13 +40,20 @@ class ChatBox extends React.Component {
 
   renderMessages() {
     const renderMessage = (message, index) => {
-      if (message.systemGenerated) {
-        return <p key={index} className="chat-box__message__system">{message.text}</p>
+      if(message.type === MessageType.REVEAL) {
+        return <p key={index} className="chat-box__message__system">
+          {message.author} were drawing <span className="word">{message.text}</span> <span className="score"> [+{message.score}]</span>
+        </p>
+      } else if(message.type === MessageType.GUESSED) {
+        return <p key={index} className="chat-box__message__system">
+          <span className="author">{message.author}</span> has guessed it correct <span className="score">[+{message.score}]</span>
+        </p>
+      } else {
+        return <p key={index} className="chat-box__message__player">
+          <span>{message.author}</span>
+          {message.text}
+        </p>
       }
-      return <p key={index} className="chat-box__message__player">
-        <span>{message.author}</span>
-        {message.text}
-      </p>
     };
     const { G: {chatMessages} } = this.props;
     return chatMessages.map(renderMessage);

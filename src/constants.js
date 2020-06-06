@@ -9,6 +9,12 @@ export const GameState = {
     ENDED: 2
 };
 
+export const MessageType = {
+    GUESS: "guess",
+    GUESSED: "guessed",
+    REVEAL: "reveal"
+}
+
 export const MIN_PLAYERS_REQUIRED = 3;
 
 export const DEFAULT_NUM_OF_PLAYERS = 20;

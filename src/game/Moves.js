@@ -1,5 +1,5 @@
 import isNull from "lodash/isNull";
-import {GameState} from "../constants";
+import {GameState, MessageType} from "../constants";
 import {
   isCoArtistSelected,
   makeCoArtist,
@@ -92,7 +92,13 @@ const addScore = (players, currentPlayerId, G) => {
     players[currentPlayerId].turn.guessPosition = currentGuessPosition + 1;
 
     const currentPlayerName = players[currentPlayerId].game.name;
-    const message = { text: `${currentPlayerName} has guessed it correct [+${score}]`, author: '', systemGenerated: true };
+    const message = {
+      text:  '',
+      score: score,
+      author: currentPlayerName,
+      type: MessageType.GUESSED,
+      systemGenerated: true
+    };
     G.players[currentPlayerId]['turn']['hasGuessed'] = true;
     G.chatMessages.push(message);
 
@@ -109,8 +115,10 @@ const showWordInChat = (G) => {
     const drawingPlayerBonus = correctGuessedPlayers.length * 5;
     drawingPlayers(G).forEach((player) => player.game.score += drawingPlayerBonus);
     const message = {
-      text: `${artistsNames.join(' and ')} were drawing ${G.words.current}.[+${drawingPlayerBonus}]`,
-      author: '',
+      text:  G.words.current,
+      score: drawingPlayerBonus,
+      author: artistsNames.join(' and '),
+      type: MessageType.REVEAL,
       systemGenerated: true
     };
     G.chatMessages.push(message);
@@ -138,7 +146,12 @@ export const guessArt = {
         endTurnIfAllGuessed(G.players, ctx);
       }
     } else {
-      const message = { text: value, author: playerNameFrom(playerId, G.players), systemGenerated: false };
+      const message = {
+        text: value,
+        author: playerNameFrom(playerId, G.players),
+        type: MessageType.GUESS,
+        systemGenerated: false
+      };
       G.chatMessages.push(message);
     }
   },

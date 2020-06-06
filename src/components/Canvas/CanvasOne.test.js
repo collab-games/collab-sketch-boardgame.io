@@ -63,7 +63,7 @@ describe('<CanvasOne>', function () {
       <CanvasOne isActive={true} playerID='1' G={G} ctx={ctx} moves={moves} />
     );
 
-    expect(component.find('.word').text()).toEqual(G.word);
+    expect(component.find('.word').text()).toContain(G.word);
   });
 
   it('should render blanks if player is not canvas two artist', function () {
