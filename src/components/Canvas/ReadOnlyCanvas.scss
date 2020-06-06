@@ -1,3 +1,5 @@
+@import "src/variables";
+
 .svg-container {
     display: block;
     width: 40vw;
@@ -13,9 +15,8 @@
 
 .read-only-canvas__artist-name {
     position: absolute;
-    color: white;
-    background-color: #343a40;
-    opacity: 0.6;
+    color: $color-dark;
+    background-color: #aaaaaa;
     padding: 5px;
     border-bottom-right-radius: 5px;
     font-size: 1rem;

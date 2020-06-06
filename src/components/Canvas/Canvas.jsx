@@ -32,7 +32,7 @@ class Canvas extends React.Component {
       defaultEraserWidth: 5,
       onChange: this.updateCanvas,
       colorScheme: {
-        main: '#8db9ca',
+        main: '#aaaaaa',
         control: '#f5f5f5',
         activeControl: '#0d0735',
         toolControlNameColor: 'rgba(245,245,245,0.5)',

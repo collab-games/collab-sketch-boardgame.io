@@ -14,7 +14,7 @@ const LeaderBoardTitle = () => {
 const Winner = ({ name }) => {
   return (
     <div className="winner">
-      <h2>🎉Congratulations {name}🎉</h2>
+      <h2>🎉 Congratulations {name}🎉 </h2>
     </div>
   )
 };

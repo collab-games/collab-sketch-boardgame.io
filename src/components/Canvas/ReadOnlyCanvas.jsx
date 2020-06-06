@@ -1,10 +1,10 @@
 import React from "react";
-import "./ReadOnlyCanvas.css";
+import "./ReadOnlyCanvas.scss";
 
 const ReadOnlyCanvas = props => {
   return (
     <div>
-      { props.artistName ? <p className='read-only-canvas__artist-name'>{ props.artistName }</p> : null }
+      { props.artistName ? <p className='read-only-canvas__artist-name'>{`${props.artistName}'s drawing` }</p> : null }
       <div className="svg-container">
         <img src={props.svgText} />
       </div>

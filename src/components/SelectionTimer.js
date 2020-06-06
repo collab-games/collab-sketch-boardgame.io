@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {BsAlarm} from 'react-icons/bs';
+import {BsAlarmFill} from 'react-icons/bs';
 import UIfx from "uifx";
-import './Timer.css';
+import './Timer.scss';
 
 class SelectionTimer extends React.Component {
   static propTypes = {
@@ -70,7 +70,7 @@ class SelectionTimer extends React.Component {
     if (this.state.timer > 0) {
       return (
         <div className="count-down-timer">
-          <BsAlarm size={20} color="#efdf00" />
+          <BsAlarmFill size={20} color="#efdf00" />
           <span className="time">
             {this.state.timer}
           </span>

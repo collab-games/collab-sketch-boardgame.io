@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-import {BsAlarm} from "react-icons/bs";
+import {BsAlarmFill} from "react-icons/bs";
 import UIfx from 'uifx';
-import './Timer.css';
+import './Timer.scss';
 
 class TurnTimer extends React.Component {
   static propTypes = {
@@ -54,7 +54,7 @@ class TurnTimer extends React.Component {
     if (this.state.timer > 0) {
       return (
         <div className="count-down-timer">
-          <BsAlarm color="#efdf00" size={20} />
+          <BsAlarmFill color="#efdf00" size={20} />
           <span className="time">
             {this.state.timer}
           </span>

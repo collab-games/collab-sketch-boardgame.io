@@ -5,7 +5,7 @@ import LeaderBoard from "./LeaderBoard";
 import PlayBoard from "./PlayBoard";
 import WaitingRoom from "../components/WaitingRoom";
 import Navigation from "../components/Navigation";
-import "./Board.css";
+import "./Board.scss";
 
 class CollabSketchBoard extends React.Component {
   static propTypes = {

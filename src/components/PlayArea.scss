@@ -1,3 +1,5 @@
+@import "src/variables";
+
 .board {
     border-collapse: collapse;
     font-family: monospace;
@@ -14,7 +16,7 @@
 }
 
 .main {
-    height: 95vh;
+    height: $content-height;
     display: flex;
     flex-direction: column;
     justify-content: space-around;

@@ -1,9 +1,11 @@
+@import "src/variables";
+
 .leader-board-container {
-    background: linear-gradient(rgba(66, 152, 181, 0.6), rgba(66, 152, 181, 0.5)), url("/leader-board-bg.jpg");
-    height: 95vh;
+    background: linear-gradient(with-alpha(#ffffff, 0.5), with-alpha($brand-color-primary, 0.85)), url("/leader-board-bg.jpg");
+    height: $content-height;
 
     & .leader-board {
-        height: 95vh;
+        height: $content-height;
         display: flex;
         justify-content: start;
         flex-direction: column;
@@ -17,9 +19,10 @@
 
             & h2 {
                 font-family: "Montserrat", sans-serif;
-                color: white;
+                color: $brand-color-primary;
                 font-weight: bold;
-                background-color: rgba(0, 0, 0, 0.8);
+                background-color: with-alpha(white, 0.7);
+                border-radius: 1rem;
             }
         }
 
@@ -33,7 +36,7 @@
 
     & .leader-board__title {
         height: 4rem;
-        background: rgba(165, 25, 144, 0.85);
+        background: with-alpha($brand-color-primary, 0.85);
         border-radius: 0.5rem 0.5rem 0 0;
         display: flex;
         justify-content: center;
