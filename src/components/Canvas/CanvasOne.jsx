@@ -34,7 +34,10 @@ class CanvasOne extends React.Component {
   renderFirstWord() {
     const { G } = this.props;
     return <div className="word">
-      { this.isCanvasOneArtist() ? G.word : repeat('_ ', G.canvasOne['chars']) }
+      { this.isCanvasOneArtist()
+        ? <p>You're drawing <span className="reveal">{G.word}</span></p>
+        : <span className="conceal">{repeat('_ ', G.canvasOne['chars'])}</span>
+      }
     </div>;
   }
 

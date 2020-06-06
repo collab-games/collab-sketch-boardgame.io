@@ -8,10 +8,24 @@
 
     & .word {
         position: relative;
-        font-size: 1.5rem;
-        font-weight: bold;
-        padding-top: 1vh;
+        font-style: italic;
+        font-size: 1.2rem;
         height: 5vh;
+        padding-top: 1vh;
+
+        & span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            font-style: normal;
+        }
+
+        & span.reveal {
+            background-color: $brand-color-primary;
+            color: white;
+            padding: 0 5px;
+            border-radius: 5px;
+        }
+
     }
 }
 
@@ -26,7 +40,7 @@
         height: 4vh;
         font-size: 1.5rem;
         font-weight: bold;
-        color: #0077c8;
+        color: $brand-color-primary;
         padding: 0.5rem 1rem;
     }
 }
