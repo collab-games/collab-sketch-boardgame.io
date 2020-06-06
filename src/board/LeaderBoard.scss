@@ -1,7 +1,7 @@
 @import "src/variables";
 
 .leader-board-container {
-    background: linear-gradient(with-alpha(#ffffff, 0.5), with-alpha($brand-color-primary, 0.85)), url("/leader-board-bg.jpg");
+    background: linear-gradient(rgba(white, 0.85), rgba(white, 0.85)), url("/leader-board-bg.jpg");
     height: $content-height;
 
     & .leader-board {
@@ -21,13 +21,17 @@
                 font-family: "Montserrat", sans-serif;
                 color: $brand-color-primary;
                 font-weight: bold;
-                background-color: with-alpha(white, 0.7);
+                background-color: rgba(white, 0.7);
                 border-radius: 1rem;
             }
         }
 
         & .leader-board-body {
             width: 40vw;
+            border-radius: 0.5rem;
+            -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+            -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+            box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
         }
     }
 }
@@ -36,7 +40,7 @@
 
     & .leader-board__title {
         height: 4rem;
-        background: with-alpha($brand-color-primary, 0.85);
+        background-color: $brand-color-primary;
         border-radius: 0.5rem 0.5rem 0 0;
         display: flex;
         justify-content: center;
@@ -88,6 +92,7 @@
                 font-family: "Montserrat", sans-serif;
                 width: 15vw;
                 text-align: center;
+                font-weight: bold;
             }
 
             & h4.rank {

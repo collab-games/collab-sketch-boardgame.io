@@ -14,8 +14,4 @@ $border-color-primary: #caccd1;
 
 $z-index-override: 1200;
 
-@function with-alpha($color: #000000, $alpha: 1) {
-  @return rgba($color, $alpha)
-}
-
 $content-height: 95vh;
