@@ -59,6 +59,13 @@ class ChatBox extends React.Component {
     return chatMessages.map(renderMessage);
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if(prevProps !== this.props) {
+      const chatLog = document.querySelector('.chat-box__messages');
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+  }
+
   render() {
     return (
       <div className="chat-box">
