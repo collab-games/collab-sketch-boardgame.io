@@ -19,6 +19,8 @@
 
     & .chat-box__message__player, .chat-box__message__system {
       word-wrap: anywhere;
+      margin: 0;
+      padding: 0.2rem 0;
     }
 
     & .chat-box__message__system {
@@ -32,6 +34,10 @@
         color: $brand-color-primary;
         float: none;
       }
+    }
+
+    & .chat-box__message__player:nth-child(odd) {
+      background-color: #f3f4f7;
     }
 
     & .chat-box__message__player {
@@ -61,8 +67,8 @@
       height: 100%;
       border: solid 1px #caccd1;
       font-size: 1.2rem;
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
+      padding-left: 1rem;
+      padding-right: 1rem;
       background-color: #f3f4f7;
     }
 

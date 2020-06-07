@@ -62,10 +62,12 @@ class PlayerList extends React.Component {
 
   render() {
     return (
-      <ListGroup className="players-list">
-        <ListGroup.Item variant="primary" className="players-list__header"> <FaTrophy className="icon"/> Leader Board <FaTrophy className="icon"/> </ListGroup.Item>
-        {this.renderPlayers()}
-      </ListGroup>
+      <section id="leader-board">
+        <h2 className="players-list__header"> <FaTrophy className="icon"/> <span>Leader Board</span> <FaTrophy className="icon"/> </h2>
+        <ListGroup className="players-list">
+          {this.renderPlayers()}
+        </ListGroup>
+      </section>
     );
   }
 }
