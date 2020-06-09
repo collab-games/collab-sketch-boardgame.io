@@ -25,21 +25,21 @@ describe('<PlayerList>', function () {
 
   it('should render players list header', () => {
     const wrapper = shallow(<PlayerList players={{}}/>);
-    expect(wrapper.find(ListGroup.Item).at(0).text()).toContain('Leader Board');
+    expect(wrapper.find('section').find('h2').text()).toContain('Leader Board');
   });
 
   it('should render players', () => {
     const wrapper = shallow(<PlayerList players={players} currentPlayerId={'1'}/>);
-    expect(wrapper.find(ListGroup.Item).length).toEqual(4);
-    expect(wrapper.find(ListGroup.Item).at(1).text()).toContain('abc');
-    expect(wrapper.find(ListGroup.Item).at(2).text()).toContain('def');
-    expect(wrapper.find(ListGroup.Item).at(3).text()).toContain('bond');
+    expect(wrapper.find(ListGroup.Item).length).toEqual(3);
+    expect(wrapper.find(ListGroup.Item).at(0).text()).toContain('abc');
+    expect(wrapper.find(ListGroup.Item).at(1).text()).toContain('def');
+    expect(wrapper.find(ListGroup.Item).at(2).text()).toContain('bond');
 
-    expect(wrapper.find(ListGroup.Item).at(1).text()).toContain('30');
-    expect(wrapper.find(ListGroup.Item).at(2).text()).toContain('20');
-    expect(wrapper.find(ListGroup.Item).at(3).text()).toContain('10');
+    expect(wrapper.find(ListGroup.Item).at(0).text()).toContain('30');
+    expect(wrapper.find(ListGroup.Item).at(1).text()).toContain('20');
+    expect(wrapper.find(ListGroup.Item).at(2).text()).toContain('10');
 
-    expect(wrapper.find(ListGroup.Item).at(1).props().variant).toContain('success');
+    expect(wrapper.find(ListGroup.Item).at(0).props().variant).toContain('success');
   });
 
   it('should highLight current player', () => {
