@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import Painterro from 'painterro';
+import Painterro from '../../ext/collab-painterro';
 import "./Canvas.scss";
 
 class Canvas extends React.Component {

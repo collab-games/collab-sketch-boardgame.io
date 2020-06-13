@@ -27,7 +27,6 @@
     "lodash": "^4.17.15",
     "node-persist": "^3.0.5",
     "node-sass": "^4.14.1",
-    "painterro": "^1.0.35",
     "popper.js": "^1.16.1",
     "prop-types": "^15.7.2",
     "ramda": "^0.27.0",
