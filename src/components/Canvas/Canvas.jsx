@@ -12,6 +12,7 @@ class Canvas extends React.Component {
 
   constructor(props) {
     super(props);
+    this.canvasId = Math.floor((Math.random() * 1000) + 1);
     this.updateCanvas = this.updateCanvas.bind(this);
   }
 
@@ -22,7 +23,7 @@ class Canvas extends React.Component {
 
   componentDidMount() {
     Painterro({
-      id: 'canvas',
+      id: `canvas-${this.canvasId}`,
       activeFillColor: '#00ff00',
       activeFillColorAlpha: 1,
       defaultTool: 'brush',
@@ -42,14 +43,14 @@ class Canvas extends React.Component {
   }
 
   componentWillUnmount() {
-    const canvas = document.getElementById('canvas');
+    const canvas = document.getElementById(`canvas-${this.canvasId}`);
     canvas.remove();
   }
 
   render() {
     return (
       <div className="canvas">
-        <div id="canvas">
+        <div className="canvas-body" id={`canvas-${this.canvasId}`}>
         </div>
       </div>
     );
