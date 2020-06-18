@@ -12,7 +12,7 @@ class Canvas extends React.Component {
 
   constructor(props) {
     super(props);
-    this.canvasId = Math.floor((Math.random() * 1000) + 1);
+    this.painterro = null;
     this.updateCanvas = this.updateCanvas.bind(this);
   }
 
@@ -22,7 +22,7 @@ class Canvas extends React.Component {
   }
 
   componentDidMount() {
-    Painterro({
+     this.painterro = Painterro({
       id: `canvas-${this.canvasId}`,
       activeFillColor: '#00ff00',
       activeFillColorAlpha: 1,
@@ -39,12 +39,12 @@ class Canvas extends React.Component {
         toolControlNameColor: 'rgba(245,245,245,0.5)',
         hoverControl: '#52565e',
       }
-    }).show(this.props.snapshot);
+    })
+    this.painterro.show(this.props.snapshot);
   }
 
   componentWillUnmount() {
-    const canvas = document.getElementById(`canvas-${this.canvasId}`);
-    canvas.remove();
+    this.painterro.hide();
   }
 
   render() {
