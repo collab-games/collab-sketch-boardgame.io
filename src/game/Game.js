@@ -66,6 +66,7 @@ const onTurnBegin = (G, ctx)  => {
 
 const CollabSketch = {
   name: GAME_NAME,
+  disableUndo: true,
 
   setup: (ctx) => ({
     players: {},
