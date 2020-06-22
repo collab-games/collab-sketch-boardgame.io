@@ -13,7 +13,7 @@ import {GameState, MIN_PLAYERS_REQUIRED} from "../constants";
 import {isChoosingStage} from "../game/Players";
 import SelectionTimer from "./SelectionTimer";
 import TurnTimer from "./TurnTimer";
-import {getRound} from "../game/Game";
+import {getRound} from "../game/Round";
 import "./Navigation.scss";
 
 

@@ -11,6 +11,9 @@ describe('<Navigation>', function () {
   const startGameMock = jest.fn();
   const endGameMock = jest.fn();
   const G = {
+    settings: {
+      rounds: 20
+    },
     players: {
       '0': {turn: {action: 'choose'}, game: {}},
       '1': {turn: {action: 'waiting'}, game: {}},

@@ -1,42 +1,21 @@
-import {GAME_NAME, GameState, DEFAULT_NUM_OF_PLAYERS, DEFAULT_NUM_OF_ROUNDS} from '../constants'
+import {DEFAULT_NUM_OF_PLAYERS, DEFAULT_NUM_OF_ROUNDS, GAME_NAME, GameState} from '../constants'
 import isEmpty from 'lodash/isEmpty';
-import { ActivePlayers } from "boardgame.io/dist/esm/core";
+import {ActivePlayers} from "boardgame.io/dist/esm/core";
 import {
+  choosePlayer,
+  chooseWord,
+  endGame,
+  endSelection,
   endTurn,
   guessArt,
   joinGame,
   startGame,
   updateSnapshotForCanvasOne,
-  updateSnapshotForCanvasTwo,
-  choosePlayer,
-  chooseWord, endSelection, endGame
+  updateSnapshotForCanvasTwo
 } from "./Moves";
-import {
-  choosingPlayerIdFrom,
-  firstCanvasPlayerIdFrom,
-  nextActivePlayersForSelectionFrom,
-  secondCanvasPlayerIdFrom,
-  updatePlayers,
-} from "./Players";
-import {uniqueWordsFor, firstWord, secondWord, pickRandomWords} from "./Words";
-
-export const getRound = ctx => ctx.turn - 1;
-
-const initChooseStage = (words) => {
-  const { selected, rest } = pickRandomWords(words);
-
-  return {
-    words: {
-      all: rest,
-      selection: selected,
-      current: ''
-    },
-    turn: {
-      startTime: null,
-      selectionStartTime: Date.now(),
-    }
-  };
-};
+import {choosingPlayerIdFrom, firstCanvasPlayerIdFrom, secondCanvasPlayerIdFrom,} from "./Players";
+import {firstWord, secondWord, uniqueWordsFor} from "./Words";
+import {getRound, onRoundBegin} from "./Round";
 
 const stripSecret = (G, playerId) => {
   const { words, ...rest} = G;
@@ -51,18 +30,6 @@ const stripSecret = (G, playerId) => {
   } else {
     return rest;
   }
-};
-
-const onTurnBegin = (G, ctx)  => {
-  const nextActivePlayers = nextActivePlayersForSelectionFrom(G.players, ctx.numPlayers);
-  ctx.events.setActivePlayers({value: nextActivePlayers});
-  return {
-    ...G,
-    ...initChooseStage(G.words.all),
-    players: updatePlayers(G.players, nextActivePlayers),
-    canvasOne: { snapshot: {}, svg: "", chars: 0 },
-    canvasTwo: { snapshot: {}, svg: "", chars: 0 },
-  };
 };
 
 const CollabSketch = {
@@ -107,7 +74,7 @@ const CollabSketch = {
       turn: {
         onBegin: (G, ctx) => {
           console.log('Turn Started');
-          return onTurnBegin(G, ctx);
+          return onRoundBegin(G, ctx);
         },
         onEnd: (G, ctx) => {
           console.log("Turn Ended");

@@ -1,15 +1,9 @@
 import isNull from "lodash/isNull";
-import {GameState, MessageType} from "../constants";
-import {
-  isCoArtistSelected,
-  makeCoArtist,
-  newPlayer,
-  nextActivePlayersFrom,
-  playerNameFrom,
-  updatePlayers
-} from "./Players";
 import isEmpty from "lodash/isEmpty";
+import {GameState, MessageType} from "../constants";
+import {isCoArtistSelected, makeCoArtist, newPlayer, playerNameFrom} from "./Players";
 import {firstWord, secondWord} from "./Words";
+import {initRound} from "./Round";
 
 const isAdmin = (playerID) => playerID === '0';
 
@@ -173,13 +167,6 @@ const updateCurrentWord = (G, word) => {
 };
 
 const isSelectionComplete = (G) => isCoArtistSelected(G.players) && !isEmpty(G.words.current);
-
-const initRound = (G, ctx) => {
-  const nextActivePlayers = nextActivePlayersFrom(G.players, ctx.numPlayers);
-  G.players = updatePlayers(G.players, nextActivePlayers);
-  G.turn.startTime = Date.now();
-  ctx.events.setActivePlayers({value: nextActivePlayers});
-};
 
 export const chooseWord = {
   move: (G, ctx, word) => {
