@@ -1,18 +1,21 @@
 import React from "react";
 import NavbarBrand from "react-bootstrap/NavbarBrand";
-import {Button, NavItem} from "react-bootstrap";
+import {Button} from "react-bootstrap";
 import PropTypes from "prop-types";
 import size from "lodash/size";
-import {GameState, MIN_PLAYERS_REQUIRED} from "../constants";
-import "./Navigation.scss";
 import Tooltip from "react-bootstrap/Tooltip";
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import {isChoosingStage} from "../game/Players";
-import SelectionTimer from "./SelectionTimer";
-import TurnTimer from "./TurnTimer";
 import Form from "react-bootstrap/Form";
 import {FaPlayCircle} from 'react-icons/fa';
 import {IoMdClose} from 'react-icons/io';
+import {GiCheckeredFlag} from 'react-icons/gi';
+import {GameState, MIN_PLAYERS_REQUIRED} from "../constants";
+import {isChoosingStage} from "../game/Players";
+import SelectionTimer from "./SelectionTimer";
+import TurnTimer from "./TurnTimer";
+import {getRound} from "../game/Game";
+import "./Navigation.scss";
+
 
 class Navigation extends React.Component {
   static propTypes = {
@@ -100,12 +103,13 @@ class Navigation extends React.Component {
   }
 
   render() {
-    const { playerID, G: { state } } = this.props;
+    const { ctx, playerID, G: { state, settings } } = this.props;
       return (
         <nav className="navbar navigation">
           <NavbarBrand href="/">Collab Sketch</NavbarBrand>
           {state === GameState.STARTED && this.renderTimer()}
           <Form inline>
+            <div className="round"><GiCheckeredFlag className="icon" /> {`${getRound(ctx)}/${settings.rounds}`} </div>
             {state === GameState.WAITING && this.isAdmin(playerID) && this.renderStartGame()}
             {state === GameState.STARTED && this.isAdmin(playerID) && this.renderEndGame()}
           </Form>

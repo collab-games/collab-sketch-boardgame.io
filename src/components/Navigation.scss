@@ -21,6 +21,14 @@
   }
 
   & .form-inline {
+
+    & .round {
+      color: $brand-color-yellow;
+      font-weight: bold;
+      font-size: 1.4rem;
+      margin: 0 5px;
+    }
+
     & .nav-button, .nav-button:hover, .nav-button:active {
       background-color: $brand-color-yellow;
       color: $color-dark;

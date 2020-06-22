@@ -1,6 +1,5 @@
 import {GAME_NAME, GameState, DEFAULT_NUM_OF_PLAYERS, DEFAULT_NUM_OF_ROUNDS} from '../constants'
 import isEmpty from 'lodash/isEmpty';
-import size from 'lodash/size';
 import { ActivePlayers } from "boardgame.io/dist/esm/core";
 import {
   endTurn,
@@ -20,6 +19,8 @@ import {
   updatePlayers,
 } from "./Players";
 import {uniqueWordsFor, firstWord, secondWord, pickRandomWords} from "./Words";
+
+export const getRound = ctx => ctx.turn - 1;
 
 const initChooseStage = (words) => {
   const { selected, rest } = pickRandomWords(words);
@@ -72,8 +73,8 @@ const CollabSketch = {
     players: {},
     state: GameState.WAITING,
     settings: {
-      turnPeriod: 60,
-      selectionPeriod: 10,
+      turnPeriod: 90,
+      selectionPeriod: 20,
       rounds: DEFAULT_NUM_OF_ROUNDS,
     },
     turn: {
@@ -133,7 +134,7 @@ const CollabSketch = {
         },
       },
       endIf: (G, ctx) => {
-        if (ctx.turn === (G.settings.rounds * size(G.players) + 1)) {
+        if (getRound(ctx) === G.settings.rounds) {
           G.state = GameState.ENDED
         }
       },
