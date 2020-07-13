@@ -2,6 +2,7 @@ import React from 'react';
 import './ChatBox.scss';
 import PropTypes from "prop-types";
 import {MessageType} from "../constants";
+import isEmpty from "lodash/isEmpty";
 
 
 class ChatBox extends React.Component {
@@ -28,7 +29,7 @@ class ChatBox extends React.Component {
   }
 
   sendMessage(event) {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && !isEmpty(this.state.message.trim())) {
       const { message } = this.state;
       const { moves, isPlayerGuessing } = this.props;
       isPlayerGuessing && moves.guessArt(message);
@@ -56,7 +57,7 @@ class ChatBox extends React.Component {
       }
     };
     const { G: {chatMessages} } = this.props;
-    return chatMessages.map(renderMessage);
+    return Object.keys(chatMessages).sort().map((key, index) => renderMessage(chatMessages[key], index));
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {

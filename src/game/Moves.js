@@ -94,7 +94,7 @@ const addScore = (players, currentPlayerId, G) => {
       systemGenerated: true
     };
     G.players[currentPlayerId]['turn']['hasGuessed'] = true;
-    G.chatMessages.push(message);
+    G.chatMessages[Date.now()] = message;
 
     const everybodyGuessed = activeGuessingPlayers.every(player => player.turn.hasGuessed);
 
@@ -115,7 +115,7 @@ const showWordInChat = (G) => {
       type: MessageType.REVEAL,
       systemGenerated: true
     };
-    G.chatMessages.push(message);
+    G.chatMessages[Date.now()] = message;
 };
 
 const endTurnIfAllGuessed = (players, ctx) => {
@@ -146,7 +146,7 @@ export const guessArt = {
         type: MessageType.GUESS,
         systemGenerated: false
       };
-      G.chatMessages.push(message);
+      G.chatMessages[Date.now()] = message;
     }
   },
   client: false

@@ -55,7 +55,7 @@ const CollabSketch = {
     },
     canvasOne: { snapshot: null, svg: "", chars: 0 },
     canvasTwo: { snapshot: null, svg: "", chars: 0 },
-    chatMessages: [],
+    chatMessages: {},
   }),
 
   playerView: (G, ctx, playerId) => stripSecret(G, playerId),
